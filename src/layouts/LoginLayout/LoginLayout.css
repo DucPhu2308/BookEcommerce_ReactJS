@@ -1,0 +1,153 @@
+body{
+    margin:0;
+  }
+  .loginBox{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+  }
+  
+  .loginBoxBody{
+    width: 100%;
+    height:100%;
+    max-width: 800px;
+    min-width: 600px;
+  }
+  .loginBoxBodyName{
+    width:100%;
+    height:100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .loginBoxBodyName img{
+    width: 50%;
+    height: auto;
+    margin-bottom: 20px;
+  }
+  
+  .loginBoxBodyForm{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+  }
+  .loginBoxImage {
+    position: relative;
+  }
+  /* make .loginBoxImage backgound on small screen*/
+  @media (max-width: 768px) {
+    .loginBoxImage {
+      display: none;
+    }
+    .loginBoxBodyForm{
+      width: 100%;
+    }
+  }
+  
+  .loginBoxBodyFormTitle{
+    width:100%;
+    height:auto;
+    text-align: center;
+    padding-top:10px;
+  }
+  .loginBoxBodyFormTitle span{
+    font-size: 25px;
+    font-weight: bold;
+    color: #333;
+    font-family: system-ui;
+    
+  }
+  .loginBoxBody form{
+    width:50%;
+    height:auto;
+    background-color: rgb(243, 243, 243);
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 100px rgba(0, 0, 0, 0.1);
+  }
+  .inputBox{
+    padding:10px 40px;
+  }
+  
+  .inputBox input{
+    width: 100%;
+    height: 35px;
+    border-radius: 2px;
+    border: none;
+    background-color: rgb(195, 195, 195);
+  }
+  .inputBox input:focus{
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  }
+  .inputBox label{
+    font-size: 15px;
+    font-weight: 700;
+    color: #333;
+    font-family: system-ui;
+  }
+  .inputBoxError{
+    padding:0 40px;
+    text-align: center;
+    /* display: none; */
+  }
+  .inputBoxError span{
+    color: red;
+    font-size: 15px;
+    font-weight: 700;
+    font-family: system-ui;
+  }
+  
+  .loginBoxBodyFormButton{
+    padding:10px 40px;
+    text-align: center;
+  }
+  
+  .loginBoxBodyFormButton button{
+    width: 40%;
+    height: 35px;
+    border-radius: 15px;
+    border: none;
+    background-color: #333;
+    color: #fff;
+    font-size: 15px;
+    font-family: initial;
+    cursor: pointer;
+  }
+  .loginBoxBodyFormLink{
+    text-align: center;
+  }
+  .loginBoxBodyFormLink a{
+    text-decoration: none;
+    color: #333;
+    font-size: 15px;
+    font-family: system-ui;
+    font-weight: 700;
+  }
+  .loginBoxBodyFormLink a:hover{
+    color: #0e20ea;
+    text-decoration: underline;
+  }
+  .endform{
+    padding-bottom:30px;
+  }
+  .endform p{
+    margin:0;
+    font-weight: bold;
+    font-family: system-ui;
+    font-size: 15px;
+  }
+  
+  .loginBoxPara{
+    padding:40px 0;
+    font-size: 15px;
+    font-family: system-ui;
+    font-weight: 700;
+    color: #333;
+  
+  }
