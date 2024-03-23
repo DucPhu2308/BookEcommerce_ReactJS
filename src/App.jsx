@@ -5,8 +5,10 @@ import MyBooks from './pages/User/MyBooks/MyBooks'
 import AddBook from './pages/User/AddBook/AddBook'
 import DetailBook from './pages/User/DetailBook/DetailBook'
 import AddChapter from './pages/User/AddChapter/AddChapter'
+import InfoUser from './pages/User/InfoUser/InfoUser'
 import './App.css'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
+
 
 
 function App() {
@@ -21,6 +23,7 @@ function App() {
           <Route path="/add-book" element={<AddBook />} />
           <Route path="/detail-book" element={<DetailBook />} />
           <Route path="/add-chapter" element={<AddChapter />} />
+          <Route path="/infoUser" element={<InfoUser />} />
         </Routes>
       </BrowserRouter>
   )
