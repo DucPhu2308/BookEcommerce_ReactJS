@@ -1,0 +1,60 @@
+.card {
+    margin: 0 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    padding: 20px 0;
+    position: relative;
+    font-family: Arial;
+    flex: 1;
+}
+
+.card-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    padding-left: 20px;
+}
+
+.rank-1 {
+    display: flex;
+    flex-direction: row;
+    border: rgba(0, 0, 0, 0.1);
+    padding-left: 5px;
+    margin-bottom: 10px;
+}
+.rank-1 .item-image {
+    width: 100px;
+    height: auto;
+    margin-right: 20px;
+}
+.rank-1-info .item-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.rank-item {
+    border: rgba(0, 0, 0, 0.1) solid 1px;
+    padding: 10px 10px;
+}
+.rank-number {
+    font-size: 20px;
+    font-weight: bold;
+    margin-right: 22px;
+}
+.rank-item .view-number {
+    float: right;
+    font-style: italic;
+    font-size: smaller;
+}
+.rank-1 .medal-icon {
+    /* make it stick to top */
+    position: relative;
+    top: -35px;
+}
+.medal-icon {
+    width: 24px;
+    height: auto;
+    margin-right: 10px;
+}
