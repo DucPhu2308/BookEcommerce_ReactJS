@@ -120,17 +120,15 @@
     display:flex;
     flex-direction: column;
 }
-.header_nav_select_body{
-    position:absolute;
-    top:35px;
-    text-align: left;
-    display: none;
-}
+
 .header_nav_select_title{
     width:30px;
     height:20px;
     cursor: pointer;
     z-index: 5;
+    display:flex;
+    flex-direction: row;
+    
 }
 .header_nav_select span{
     font-size: 15px;
@@ -140,44 +138,68 @@
     text-transform: lowercase;
     margin-left:5px;
 }
-.header_nav_select_rect::after{
-    border-width:10px 20px;
-    border-style: solid;
-    border-color: transparent transparent #fff transparent;
-    content: " ";
-    position: relative;
-    top:-15px;
+.header_nav_select_title i{
+    margin:3px 0 0 3px;
 }
-.header_nav_select_box{
-    height: 60px;
-    width: 145px;
-    background-color: #ffff;
-    position: relative;
-    border-radius: 5px;
-    top: -7px;
-    right:10px;
-    box-shadow: 0 0 10px #a29e9e
-}
-.header_nav_select_box ul{
-    list-style: none;
+
+.header_nav_user{
+    margin-top:8px;
     display: flex;
-    flex-direction: column;
-    padding-left:0;
-    margin:0;
-}
-.header_nav_select_box ul li{
-    margin: 5px 0;
-    padding: 0 10px;
-    border-bottom: 1px solid #a09c99;
+    justify-content: space-around;
     cursor: pointer;
 }
-.header_nav_select_box ul li:hover{
-    background-color: #d3d0cc;
+.header_nav_user i{
+    margin-left:3px;
 }
-.header_nav_select_box a{
-    text-decoration: none;
-    color: #000;
-    font-size: 12px;
-    font-weight: 600;
-    font-family: sans-serif;
+
+
+
+
+
+.rotate {
+    animation: rotate 0.5s forwards;
+}
+.rev_rotate {
+    animation: rev_rotate 0.5s forwards;
+}
+@keyframes rotate {
+   
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(-180deg);
+    } 
+}
+@keyframes rev_rotate {
+    0% {
+        transform: rotate(-180deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
+    
+}
+
+.fade_in {
+    animation: fade_in 0.5s forwards;
+}
+.fade_down {
+    animation: fade_down 0.5s forwards;
+}
+@keyframes fade_in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+@keyframes fade_down {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
 }

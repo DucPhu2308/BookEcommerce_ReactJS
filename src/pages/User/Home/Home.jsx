@@ -5,9 +5,10 @@ import DefaultLayout from "@/layouts/DefaultLayout/DefaultLayout";
 import NavigationBar from "@/components/User/NavigationBar/NavigationBar";
 import SeenBookItem from '@/components/User/SeenBookItem/SeenBookItem'
 import './Home.css';
-import HotBookItem from '../../../components/User/HotBookItem/HotBookItem';
+
 import RankingList from "./RankingList/RankingList";
 import "./Home.css";
+import HotBookList from "./HotBookList/HotBookList";
 
 
 
@@ -62,48 +63,7 @@ const UserHome = () => {
           <NavigationBar />
           {/* Truyện hot trong ngày */}
           <div className="container_nav_1">
-            <div className="container_nav_1_title">
-              <span>Truyện hot trong ngày</span>
-            </div>
-            <div className="container_nav_1_listBooks">
-              <div className="container_nav_1_listBooks_box">
-                <ul>
-                  {listBooks.map((book) => (
-                    <li key={book.id}>
-                      <a href="#">
-                        <HotBookItem book={book} />
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-            <div className="container_nav_1_listBooks_button">
-              <div className="btn_nav_1_listBooks left">
-                <span> {"<"} </span>
-
-              </div>
-              <div className="btn_nav_1_listBooks right">
-                <span>{">"}</span>
-
-              </div>
-            </div>
-            <div className="container_nav_1_listBooks_circles">
-              <ul>
-                <li>
-                  <div className="circle been"></div>
-                </li>
-                <li>
-                  <div className="circle"></div>
-                </li>
-                <li>
-                  <div className="circle"></div>
-                </li>
-              </ul>
-            </div>
-            <div className="btn_nav_1_listBooks right">
-              <span>{">"}</span>
-            </div>
+            <HotBookList />
           </div>
 
           <div className="container_nav_2">

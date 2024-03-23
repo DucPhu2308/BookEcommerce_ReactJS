@@ -1,9 +1,11 @@
+
 import './Header.css';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import logo from '@/assets/images/logo.png';
+import ItemUserSuccessLogin from './ItemUserSuccessLogin/ItemUserSuccessLogin';
 
 function Header() {
-     return( 
+    return( 
      <nav className="header">
         <div className="header_container">
             <ul>
@@ -26,14 +28,21 @@ function Header() {
                     </div>
                     
                 </li>
-                <li>
+
+                {/* phần user đăng nhập thành công */}
+                
+                <ItemUserSuccessLogin />
+
+                {/* Phần user vãng lai */}
+                
+                {/* <li>
                     <div className="header_nav">
                         <ul>
                             <li><Link to="/login">Đăng nhập</Link></li>
                             <li><Link to="/register">Đăng ký</Link></li>
                         </ul>
                     </div>
-                </li>
+                </li> */}
             </ul>  
         </div>
     </nav>
