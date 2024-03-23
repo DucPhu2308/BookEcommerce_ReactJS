@@ -1,16 +1,17 @@
 import './LoginLayout.css';
 import loginImage from '@/assets/images/imageLogin.png';
 import logo from '@/assets/images/logo.png';
+import PropTypes from 'prop-types';
 
 const LoginLayout = ({children}) => {
     return (
-        <div class="loginContainer">
-            <div class="loginBox">
-                <div class="loginBoxImage">
+        <div className="loginContainer">
+            <div className="loginBox">
+                <div className="loginBoxImage">
                     <img src={loginImage} alt="Login Image"/>
                 </div>
-                <div class="loginBoxBody">
-                    <div class="loginBoxBodyName">
+                <div className="loginBoxBody">
+                    <div className="loginBoxBodyName">
                         <img src={logo} alt="Logo"/>
                     </div>
                     {children}
@@ -19,5 +20,9 @@ const LoginLayout = ({children}) => {
         </div>
     );
 }
+
+LoginLayout.propTypes = {
+    children: PropTypes.node.isRequired,
+};
 
 export default LoginLayout;

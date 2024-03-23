@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 import logo from '@/assets/images/logo.png';
 
 function Header() {
-     return <nav className="header">
+     return( 
+     <nav className="header">
         <div className="header_container">
             <ul>
                 <li>
@@ -15,7 +16,9 @@ function Header() {
                     <div className="header_search">
                         <input type="text" name="search" placeholder="Search..."/>
                         <div className="header_search_icon">
-                            
+                            <button>
+                                <i className="fas fa-search"></i>
+                            </button>
                         </div>
 
                         <div className="header_search_keybox">
@@ -34,6 +37,7 @@ function Header() {
             </ul>  
         </div>
     </nav>
-};
+    );
+}
 
 export default Header;
