@@ -1,20 +1,21 @@
 import { useEffect } from "react";
 
-import BookItem from "@/components/User/BookItem/BookItem";
+
 import DefaultLayout from "@/layouts/DefaultLayout/DefaultLayout";
 import NavigationBar from "@/components/User/NavigationBar/NavigationBar";
-import SeenBookItem from '@/components/User/SeenBookItem/SeenBookItem'
+import RankingList from "./RankingList/RankingList";
+import HotBookList from "./HotBookList/HotBookList";
+import UpdateBookList from "./UpdateBook_SeenBookList/UpdateBookList/UpdateBookList";
+import SeenBookList from "./UpdateBook_SeenBookList/SeenBookList/SeenBookList";
+
+
+
 import './Home.css';
 
-import RankingList from "./RankingList/RankingList";
-import "./Home.css";
-import HotBookList from "./HotBookList/HotBookList";
 
 
 
 
-const colNumber = 2;
-const maxSeenBooks = 3;
 
 const listBooks = [
   {
@@ -68,50 +69,9 @@ const UserHome = () => {
 
           <div className="container_nav_2">
             {/* Truyện mới cập nhật */}
-            <div className="container_nav_2_listBooks">
-              <div className="container_nav_2_listBooks_title">
-                <span className="SeeUpdate">Truyện mới cập nhật</span>
-                <a href="#" className="SeeTotal">
-                  Xem tất cả {">>"}
-                </a>
-              </div>
-              <table>
-                {/* display list in colNumber column */}
-                {listBooks.map((book, index) => {
-                  if (index % colNumber === 0) {
-                    return (
-                      <tr key={index}>
-                        <td>
-                          <BookItem book={book} />
-                        </td>
-                        {index + 1 < listBooks.length && (
-                          <td>
-                            <BookItem book={listBooks[index + 1]} />
-                          </td>
-                        )}
-                      </tr>
-                    );
-                  }
-                })}
-              </table>
-            </div>
+            <UpdateBookList />
             {/* Truyện đã xem */}
-            <div className="container_nav_2_seenBooks">
-              <div className="container_nav_2_seenBooks_title">
-                <span>Truyện đã xem</span>
-              </div>
-
-              <ul>
-                {/* display to maxSeenBooks */}
-                {listBooks.slice(0, maxSeenBooks).map((book) => (
-                  <li key={book.id}>
-                    <SeenBookItem book={book} />
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-
+            <SeenBookList />
           </div>
           {/* Truyện đã xem */}
 
@@ -119,8 +79,6 @@ const UserHome = () => {
             <RankingList title="Đọc nhiều" list={listBooks} />
             <RankingList title="Đề cử nhiều" list={listBooks} />
             <RankingList title="Thịnh hành" list={listBooks} />
-
-
           </div>
         </div>
 

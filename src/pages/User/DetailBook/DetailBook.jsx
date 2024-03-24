@@ -1,5 +1,6 @@
 import DefaultLayout from "../../../layouts/DefaultLayout/DefaultLayout";
 import "./DetailBook.css";
+import imageAccount from "../../../assets/images/account.png";
 
 const DetailBook = () => {
     return (
@@ -56,13 +57,16 @@ const DetailBook = () => {
                             </div>
                             <div className="container_bookDetail_nav_1_displayBook_comment_form">
                                 <div className="container_bookDetail_nav_1_displayBook_comment_form_img">
-                                    <img src="download.png" alt="account" />
+                                    <img src={imageAccount} alt="account" />
                                 </div>
-                                <form action="">
-                                    <textarea name="" id="" ></textarea>
-                                </form>
-
-
+                                <div className="container_bookDetail_nav_1_displayBook_comment_form_box">
+                                    <form action="">
+                                        <textarea placeholder="Viết bình luận của bạn...."></textarea>
+                                    </form>
+                                    <button>
+                                        <i className="fas fa-paper-plane"></i>
+                                    </button>
+                                </div>
                             </div>
 
                             <div className="container_bookDetail_nav_1_displayBook_comment_form_listComments">

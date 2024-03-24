@@ -155,6 +155,7 @@
     font-family: sans-serif;
     border: 2px solid #f0e9e9;
     border-radius: 3px;
+    resize: none;
 }
 .container_addBook_nav_form_box_body_item_input textarea:focus{
     outline: none;

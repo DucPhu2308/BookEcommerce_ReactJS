@@ -1,7 +1,17 @@
+import { useEffect } from 'react'
 import DefaultLayout from '../../../layouts/DefaultLayout/DefaultLayout'
 import './AddBook.css'
 
 const AddBook = () => {
+    useEffect(() => {
+        const script = document.createElement("script");
+        script.src = "/src/pages/User/AddBook/script.js";
+        document.body.appendChild(script);
+
+        return () => {
+        document.body.removeChild(script);
+    };
+    }, [])
     return (
         <DefaultLayout>
             <div className="container_addBook_body">

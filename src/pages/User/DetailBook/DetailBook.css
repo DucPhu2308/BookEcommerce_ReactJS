@@ -139,7 +139,7 @@
 .container_bookDetail_nav_1_displayBook_body{
     width:100%;
     height:800px;
-    border: 1px solid #333;
+    border: 1px solid #a29f9f;
     box-shadow: 0 0 10px 5px #b1aeae;
 }
 .container_bookDetail_nav_1_displayBook_body_tittle{
@@ -191,6 +191,7 @@
     font-family: sans-serif;
 }
 .container_bookDetail_nav_1_displayBook_comment_form{
+    height:120px;
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -198,7 +199,7 @@
 }
 
 .container_bookDetail_nav_1_displayBook_comment_form_img{
-    width: 200px;
+    width: 20%;
     height: 100%;
 }
 .container_bookDetail_nav_1_displayBook_comment_form_img img{
@@ -207,17 +208,46 @@
     border-radius: 50%;
     margin: 20px 50px;
 }
-
-.container_bookDetail_nav_1_displayBook_comment_form textarea{
-    width: 300%;
-    height: 120px;
-    border: 2px solid #333;
+.container_bookDetail_nav_1_displayBook_comment_form_box{
+    width: 75%;
+    padding:5px 0 0 10px;
+    background-color: #fff;
+    border:2px solid #bbb5b5;
+    display:flex;
     border-radius: 5px;
-    font-size: 20px;
-    font-family: sans-serif;
 }
 
+.container_bookDetail_nav_1_displayBook_comment_form_box form{
+    height:100%;
+    width:100%;
+}
+.container_bookDetail_nav_1_displayBook_comment_form_box textarea{
+    width:100%;
+    height: 100%;
+    border:none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-family: sans-serif;
+    resize: none;
+    padding:0
+}
+.container_bookDetail_nav_1_displayBook_comment_form textarea:focus{
+    outline: none;
+}
+.container_bookDetail_nav_1_displayBook_comment_form_box textarea::placeholder{
+    font-size: 15px;
 
+}
+.container_bookDetail_nav_1_displayBook_comment_form_box button{
+    height:40px;
+    width:40px;
+    border:none;
+    background-color: #fff;
+    cursor: pointer;
+}
+.container_bookDetail_nav_1_displayBook_comment_form_box button:hover{
+    background-color: #f8f6f6c5;
+}
 .container_bookDetail_nav_1_displayBook_comment_form_listComments_item{
     background-color: #f2f2f2;
     margin-top: 10px;

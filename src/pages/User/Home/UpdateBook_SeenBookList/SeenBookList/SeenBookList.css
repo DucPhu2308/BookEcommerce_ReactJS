@@ -1,0 +1,39 @@
+.container_nav_2_seenBooks{
+    width:30%;
+    height:100%;
+    margin-left:20px;
+    background-color: #f9f9f9;
+    box-shadow: 0 0 10px #d3cccc;
+    border: 3px solid #d3cccc;
+    border-radius: 5px;
+}
+@media screen and (max-width: 1200px) {
+    .container_nav_2_seenBooks{
+        display: none;
+    } 
+}
+.container_nav_2_seenBooks_title{
+    position: relative;
+    top: 10px;
+    left: 20px;
+}
+.container_nav_2_seenBooks_title span{
+    font-size: 20px;
+    color: #000;
+    font-weight: bold;
+    font-family: Arial;
+}
+
+
+.container_nav_2_seenBooks ul{
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    padding-left:0;
+    margin:30px 20px 0 20px;
+     
+}
+.container_nav_2_seenBooks a{
+    text-decoration: none;
+    color: #000;
+}

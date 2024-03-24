@@ -1,0 +1,82 @@
+.container_nav_2_listBooks{
+    width:70%;
+    height:auto;
+    background-color: rgb(255, 255, 255);
+    border: 3px solid #d3cccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px #d3cccc;
+}
+.container_nav_2_listBooks_title{
+    position: relative;
+    top: 10px;
+    left: 20px;
+    display:flex;
+    justify-content: space-between;
+} 
+.SeeUpdate{
+    font-size: 20px;
+    color: #000;
+    font-weight: bold;
+    font-family: Arial;
+}
+.SeeTotal {
+    font-size: 15px;
+    color: #000;
+    font-weight: bold;
+    font-family: Arial;
+    cursor: pointer;
+    margin-right:5%;
+    text-decoration: none;
+}
+.SeeTotal:hover{
+    text-decoration: underline;
+}
+
+
+.container_nav_2_listBooks table{
+    width:100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    margin-left:50px;
+}
+.container_nav_2_listBooks a{
+    text-decoration: none;
+    color: #000;
+}
+@media screen and (max-width: 1200px) {
+    .container_nav_2_listBooks{
+        margin-left:15%;
+    }
+    .container_nav_2_listBooks table{
+        margin-left:25%;
+    }
+
+    table {
+        width: 100%;
+        
+    }
+
+    
+
+    td {
+        display: block;
+        text-align: right;
+    }
+
+    td:before {
+        content: attr(data-label);
+        float: left;
+        font-weight: bold;
+        
+    }
+    
+}
+
+.container_nav_2_listBooks table td{
+    padding: 10px;
+    text-align: center;
+    font-size: 15px;
+    color: #000;
+    font-weight: bold;
+    font-family: Arial;
+}
