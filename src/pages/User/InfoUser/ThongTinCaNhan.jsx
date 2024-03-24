@@ -7,17 +7,21 @@ const ThongTinCaNhan = () => {
                 <form >
                     <div className="container_user_page_body_function_right_box_form_item">
                         <label>Username</label>
+                        <input type="text" />
                     </div>
 
                     <div className="container_user_page_body_function_right_box_form_item">
                         <label>Email</label>
+                        <input type="text" />
                     </div>
 
                     <div className="container_user_page_body_function_right_box_form_item">
                         <label>Họ</label>
+                        <input type="text" />
                     </div>
                     <div className="container_user_page_body_function_right_box_form_item">
                         <label>Tên</label>
+                        <input type="text" />
                     </div>
                     <div className="container_user_page_body_function_right_box_form_item">
                         <label>Giới thiệu</label>

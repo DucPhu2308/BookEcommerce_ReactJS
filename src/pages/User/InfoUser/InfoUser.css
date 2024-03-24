@@ -95,6 +95,7 @@
 
 /* Dùng chung component */
 .container_user_page_body_function_right_box{
+    margin-top: 10px;
     width:90%;
     height:100%;
     border-radius:5px;
