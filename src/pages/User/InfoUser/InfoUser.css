@@ -92,3 +92,62 @@
     width:75%;
     height:auto;
 }
+
+/* Dùng chung component */
+.container_user_page_body_function_right_box{
+    margin-top: 10px;
+    width:90%;
+    height:100%;
+    border-radius:5px;
+    border:1px solid #333;
+    background-color: #fff;
+
+}
+.container_user_page_body_function_right_box_form_item{
+    display:flex;
+    flex-direction: column;
+    padding:10px 20px;
+    line-height: 1.5;
+}
+.container_user_page_body_function_right_box_form_item label{
+    font-size: 16px;
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.container_user_page_body_function_right_box_form_item input{
+    height:30px;
+    border-radius: 5px;
+    border: 1px solid #333;
+    padding: 0 10px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    background-color: #f5f5f5;
+
+}
+.container_user_page_body_function_right_box_form_item input:focus{
+    outline: none;
+}
+.container_user_page_body_function_right_box_form_item textarea{
+    border-radius: 5px;
+    border: 1px solid #333;
+    padding: 10px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    height:120px;
+    resize: none;
+    background-color: #f5f5f5;
+}
+.container_user_page_body_function_right_box_form_item textarea:focus{
+    outline: none;
+}
+
+.container_user_page_body_function_right_box_form_item button{
+    width:120px;
+    height:35px;
+    border-radius: 10px;
+    border:none;
+    background-color: #333;
+    color:#fff;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+}

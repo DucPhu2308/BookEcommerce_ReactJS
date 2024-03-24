@@ -1,41 +1,41 @@
 
 import './Header.css';
-// import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import logo from '@/assets/images/logo.png';
 import ItemUserSuccessLogin from './ItemUserSuccessLogin/ItemUserSuccessLogin';
 
 function Header() {
-    return( 
-     <nav className="header">
-        <div className="header_container">
-            <ul>
-                <li>
-                    <div className="header_logo">
-                        <img src={logo} alt="Logo"/>
-                    </div>
-                </li>
-                <li>
-                    <div className="header_search">
-                        <input type="text" name="search" placeholder="Search..."/>
-                        <div className="header_search_icon">
-                            <button>
-                                <i className="fas fa-search"></i>
-                            </button>
+    return (
+        <nav className="header">
+            <div className="header_container">
+                <ul>
+                    <li>
+                        <div className="header_logo">
+                            <Link to="/"><img src={logo} alt="Logo" /></Link>
+                        </div>
+                    </li>
+                    <li>
+                        <div className="header_search">
+                            <input type="text" name="search" placeholder="Search..." />
+                            <div className="header_search_icon">
+                                <button>
+                                    <i className="fas fa-search"></i>
+                                </button>
+                            </div>
+
+                            <div className="header_search_keybox">
+                            </div>
                         </div>
 
-                        <div className="header_search_keybox">
-                        </div>
-                    </div>
-                    
-                </li>
+                    </li>
 
-                {/* phần user đăng nhập thành công */}
-                
-                <ItemUserSuccessLogin />
+                    {/* phần user đăng nhập thành công */}
 
-                {/* Phần user vãng lai */}
-                
-                {/* <li>
+                    <ItemUserSuccessLogin />
+
+                    {/* Phần user vãng lai */}
+
+                    {/* <li>
                     <div className="header_nav">
                         <ul>
                             <li><Link to="/login">Đăng nhập</Link></li>
@@ -43,9 +43,9 @@ function Header() {
                         </ul>
                     </div>
                 </li> */}
-            </ul>  
-        </div>
-    </nav>
+                </ul>
+            </div>
+        </nav>
     );
 }
 

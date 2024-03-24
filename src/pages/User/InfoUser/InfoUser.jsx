@@ -1,7 +1,96 @@
 import DefaultLayout from '../../../layouts/DefaultLayout/DefaultLayout';
 import './InfoUser.css';
 import accountImage from '../../../assets/images/account.png';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import ThongTinCaNhan from './ThongTinCaNhan';
+// left menu
+const Menu = ({ onSelect }) => {
+    return (
+        <ul>
+            <li>
+                <button onClick={() => onSelect("Lịch sử nạp")}>
+                    <i className="fas fa-history"></i>
+                    Lịch sử nạp
+                </button>
+            </li>
+
+            <li>
+                <button onClick={() => onSelect("Lịch sử mua")}>
+                    <i className="fas fa-history"></i>
+                    Lịch sử mua
+                </button>
+            </li>
+
+            <li>
+                <button onClick={() => onSelect("Thông tin cá nhân")}>
+                    <i className="fas fa-user"></i>
+                    Thông tin cá nhân
+                </button>
+            </li>
+
+            <li>
+                <button onClick={() => onSelect("Truyện theo dõi")}>
+                    <i className="fas fa-book"></i>
+                    Truyện theo dõi
+                </button>
+            </li>
+
+            <li>
+                <button onClick={() => onSelect("Truyện đã đăng")}>
+                    <i className="fas fa-book"></i>
+                    Truyện đã đăng
+                </button>
+            </li>
+
+            <li>
+                <button onClick={() => onSelect("Bình luận")}>
+                    <i className="fa fa-comment"></i>
+                    Bình luận
+                </button>
+            </li>
+
+            <li>
+                <button onClick={() => onSelect("Thông báo")}>
+                    <i className="fas fa-bell"></i>
+                    Thông báo
+                </button>
+            </li>
+
+            <li>
+                <button onClick={() => onSelect("Đổi mật khẩu")}>
+                    <i className="fas fa-key"></i>
+                    Đổi mật khẩu
+                </button>
+            </li>
+
+            <li>
+                <button onClick={() => onSelect("Đăng xuất")}>
+                    <i className="fas fa-sign-out-alt"></i>
+                    Đăng xuất
+                </button>
+            </li>
+        </ul>
+    );
+};
+
+const Form = ({ selectedItem }) => {
+    let form;
+    switch (selectedItem) {
+        case "Thông tin cá nhân":
+            form = <ThongTinCaNhan />;
+            break;
+    }
+    return (
+        <div>
+            {form}
+        </div>
+    );
+};
+
+
 const InfoUser = () => {
+    const [selectedItem, setSelectedItem] = useState(null);
     return (
         <DefaultLayout>
             <div className="container_user_page">
@@ -24,71 +113,12 @@ const InfoUser = () => {
                     </div>
                     <div className="container_user_page_body_function">
                         <div className="container_user_page_body_function_left">
-                            <ul>
-                                <li><a href="#">
-                                    <button>
-                                        <i className="fas fa-history"></i>
-                                        <span>Lịch sử nạp</span>
-                                    </button>
-                                </a></li>
-
-                                <li><a href="#">
-                                    <button>
-                                        <i className="fas fa-history"></i>
-                                        <span>Lịch sử mua</span>
-                                    </button>
-
-                                </a></li>
-                                <li><a href="#">
-                                    <button>
-                                        <i className="fas fa-user"></i>
-                                        <span>Thông tin cá nhân</span>
-                                    </button>
-                                </a></li>
-                                <li><a href="#">
-                                    <button>
-                                        <i className="fas fa-book"></i>
-                                        <span>Truyện theo dõi</span>
-                                    </button>
-
-                                </a></li>
-
-                                <li><a href="#">
-                                    <button>
-                                        <i className="fas fa-book"></i>
-                                        <span>Truyện đã đăng</span>
-                                    </button>
-                                </a></li>
-                                <li><a href="#">
-                                    <button>
-                                        <i className="fa fa-comment"></i>
-                                        <span>Bình luận</span>
-                                    </button>
-                                </a></li>
-                                <li><a href="#">
-                                    <button>
-                                        <i className="fas fa-bell"></i>
-                                        <span>Thông báo</span>
-                                    </button>
-                                </a></li>
-                                <li><a href="#">
-                                    <button>
-                                        <i className="fas fa-key"></i>
-                                        <span>Đổi mật khẩu</span>
-                                    </button>
-                                </a></li>
-                                <li><a href="#">
-                                    <button>
-                                        <i className="fas fa-sign-out-alt"></i>
-                                        <span>Đăng xuất</span>
-                                    </button>
-                                </a></li>
-
-                            </ul>
+                            <div style={{ display: 'flex' }}>
+                                <Menu onSelect={setSelectedItem} />
+                            </div>
                         </div>
-                        <div className="container_user_page_body_function_right">
-
-
+                        <div class="container_user_page_body_function_right">
+                            <Form selectedItem={selectedItem} />
                         </div>
                     </div>
                 </div>
