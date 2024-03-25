@@ -80,6 +80,9 @@ const Form = ({ selectedItem }) => {
         case "Thông tin cá nhân":
             form = <ThongTinCaNhan />;
             break;
+        // default:
+        //     form = <ThongTinCaNhan />;
+        //     break;
     }
     return (
         <div>
