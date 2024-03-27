@@ -1,13 +1,14 @@
 import { useEffect } from "react";
 import "./ItemUserSuccessLogin.css"
 import accountImage from "@/assets/images/account.png"
+import { Link } from 'react-router-dom';
 
 const ItemUserSuccessLogin = () => {
     useEffect(() => {
         const script = document.createElement("script");
         script.src = "/src/components/User/Header/ItemUserSuccessLogin/script.js";
         document.body.appendChild(script);
-    
+
         return () => {
             document.body.removeChild(script);
         };
@@ -42,10 +43,10 @@ const ItemUserSuccessLogin = () => {
                 </div>
                 <div className="header_nav_user_box">
                     <ul>
-                        <li><a href="#">
+                        <li> <Link to="/infoUser">
                             <span>
                                 <i className="fas fa-user"></i>
-                                Trang cá nhân</span></a></li>
+                                Trang cá nhân</span></Link></li>
                         <li><a href="#">
                             <span>
                                 <i className="fas fa-cog"></i>
@@ -56,7 +57,7 @@ const ItemUserSuccessLogin = () => {
                                 Đăng xuất</span></a></li>
                     </ul>
                 </div>
-            </li>
+            </li >
         </>
 
     )

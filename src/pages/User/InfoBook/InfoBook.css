@@ -100,7 +100,7 @@
 .container_info_book_body_description_left{
     width: 70%;
     height:100%;
-   
+    margin-left: 200px;
 }
 
 .container_info_book_body_description_left_item_long_desc{

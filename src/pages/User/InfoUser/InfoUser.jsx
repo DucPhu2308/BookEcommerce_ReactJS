@@ -92,6 +92,10 @@ const Form = ({ selectedItem }) => {
             break;
         case "Đổi mật khẩu":
             form = <ChangePassword />;
+
+        // default:
+        //     form = <ThongTinCaNhan />;
+        //     break;
     }
     return (
         <div>
