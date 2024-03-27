@@ -1,6 +1,7 @@
 
 import BookItem from "@/components/User/BookItem/BookItem";
 import './UpdateBookList.css';
+import Reveal from "../../../../../components/utils/Reveal";
 
 const colNumber = 2;
 const listBooks = [
@@ -47,11 +48,15 @@ const UpdateBookList = () => {
                     return (
                       <tr key={index}>
                         <td>
-                          <BookItem book={book} />
+                          <Reveal>
+                            <BookItem book={book} />
+                          </Reveal>
                         </td>
                         {index + 1 < listBooks.length && (
                           <td>
-                            <BookItem book={listBooks[index + 1]} />
+                            <Reveal>
+                              <BookItem book={listBooks[index + 1]} />
+                            </Reveal>
                           </td>
                         )}
                       </tr>

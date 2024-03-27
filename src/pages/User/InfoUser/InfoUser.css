@@ -88,6 +88,9 @@
     font-weight: bold;
     font-family: Arial, Helvetica, sans-serif;
 }
+.activeButton{
+    background-color:rgb(166, 171, 171) !important;
+}
 .container_user_page_body_function_right{
     width:75%;
     height:auto;
@@ -150,4 +153,12 @@
     color:#fff;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 16px;
+}
+
+
+.container_user_page_body_function_right_box_change_password{
+    width:90%;
+    height:auto;
+    border:1px solid #333;
+    border-radius:5px;
 }

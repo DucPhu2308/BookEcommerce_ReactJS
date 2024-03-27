@@ -7,9 +7,6 @@ import ItemListLoveBook from "./ItemListLoveBook";
 
 
 
-
-
-
 const InfoBook = () => {
 
     useEffect(() => {
@@ -51,7 +48,7 @@ const InfoBook = () => {
                     <div className="container_info_book_body_description">
                         <div className="container_info_book_body_description_left">
                             <div className="container_info_book_body_description_left_item_long_desc">
-                                <span>Long desc alksgjalskjgslakgjlsak gjslakgjnsflksadjflksadjglskadjglsakdgjsalkdgjsalkgdsgjlsa jgklsgjslkagjsalgjslakgjsgklsagsalkjgslag</span>
+                                <span>Long desc </span>
                             </div>
 
                             <div className="container_info_book_body_description_left_list_genre">

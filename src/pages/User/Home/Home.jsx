@@ -9,8 +9,8 @@ import UpdateBookList from "./UpdateBook_SeenBookList/UpdateBookList/UpdateBookL
 import SeenBookList from "./UpdateBook_SeenBookList/SeenBookList/SeenBookList";
 
 
-
 import './Home.css';
+
 
 
 
@@ -60,34 +60,41 @@ const UserHome = () => {
   return (
     <>
       <DefaultLayout>
+
         <div className="container_body">
           <NavigationBar />
           {/* Truyện hot trong ngày */}
+
           <div className="container_nav_1">
             <HotBookList />
           </div>
 
+
+
           <div className="container_nav_2">
             {/* Truyện mới cập nhật */}
+            
             <UpdateBookList />
+            
             {/* Truyện đã xem */}
+          
             <SeenBookList />
+            
+            
+
           </div>
-          {/* Truyện đã xem */}
+
+
+
 
           <div className="container_nav_3">
-            <RankingList title="Đọc nhiều" list={listBooks} />
-            <RankingList title="Đề cử nhiều" list={listBooks} />
-            <RankingList title="Thịnh hành" list={listBooks} />
+            
+              <RankingList title="Đọc nhiều" list={listBooks} />
+              <RankingList title="Đề cử nhiều" list={listBooks} />
+              <RankingList title="Thịnh hành" list={listBooks} />
+            
           </div>
         </div>
-
-
-
-
-
-
-
 
 
 

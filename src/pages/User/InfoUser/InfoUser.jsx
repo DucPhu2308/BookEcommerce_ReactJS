@@ -1,15 +1,25 @@
 import DefaultLayout from '../../../layouts/DefaultLayout/DefaultLayout';
 import './InfoUser.css';
 import accountImage from '../../../assets/images/account.png';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import ThongTinCaNhan from './ThongTinCaNhan';
+import ChangePassword from './ChangePassword';
 // left menu
 const Menu = ({ onSelect }) => {
+    useEffect(() => {
+        const script = document.createElement("script");
+        script.src = "/src/pages/User/InfoUser/script.js";
+        document.body.appendChild(script);
+
+        return () => {
+            document.body.removeChild(script);
+        };
+    }, []);
     return (
         <ul>
             <li>
-                <button onClick={() => onSelect("Lịch sử nạp")}>
+                <button className='activeButton' onClick={() => onSelect("Lịch sử nạp")}>
                     <i className="fas fa-history"></i>
                     Lịch sử nạp
                 </button>
@@ -80,6 +90,8 @@ const Form = ({ selectedItem }) => {
         case "Thông tin cá nhân":
             form = <ThongTinCaNhan />;
             break;
+        case "Đổi mật khẩu":
+            form = <ChangePassword />;
     }
     return (
         <div>
@@ -117,7 +129,7 @@ const InfoUser = () => {
                                 <Menu onSelect={setSelectedItem} />
                             </div>
                         </div>
-                        <div class="container_user_page_body_function_right">
+                        <div className="container_user_page_body_function_right">
                             <Form selectedItem={selectedItem} />
                         </div>
                     </div>
