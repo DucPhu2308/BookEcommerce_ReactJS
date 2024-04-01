@@ -44,6 +44,7 @@
     font-size: 12px;
     font-weight: 600;
     font-family: sans-serif;
+    text-transform: none;
 }
 
 
@@ -68,20 +69,28 @@
 }
 .header_nav_user_box li{
     margin: 0;
-    padding: 5px 20px;
+    padding: 5px 20px 5px 10px;
     border-bottom: 1px solid #a09c99;
     cursor: pointer;
+    display: flex;
 }
 .header_nav_user_box li:hover{
     background-color: #d3d0cc;
 }
 .header_nav_user_box a{
     text-decoration: none;
+    color: #000;
+    
 }
 .header_nav_user_box span{
     font-size: 15px;
     color: #000;
     font-weight: bold;
     font-family: Arial;
-    text-transform: lowercase;
+    text-transform: none;
+    
+}
+
+.header_nav_user_box i{
+    margin-right:10px;
 }

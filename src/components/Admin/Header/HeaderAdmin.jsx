@@ -1,5 +1,6 @@
 import logo from '@/assets/images/logo.png';
 import './HeaderAdmin.css'
+import logoAdmin from '@/assets/images/account.png';
 
 function HeaderAdmin() {
     return (
@@ -13,14 +14,13 @@ function HeaderAdmin() {
                                 <span>Admin</span>
                             </div>
                         </div>
-
                     </li>
 
                     <li>
                         <div className="header_admin_action">
                             <div className="header_admin_nav">
-                                <img src="/user/download.png" alt="user" />
-                                <span>username</span>
+                                <img src={logoAdmin} alt="user" />
+                                <span>Username</span>
                             </div>
                             <div className="header_admin_exit">
                                 <button>

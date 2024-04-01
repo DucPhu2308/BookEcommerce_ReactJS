@@ -27,6 +27,9 @@
     display:flex;
     align-items: center;
     justify-content: left;
+    border:none;
+    transition: 0.3s;
+    cursor: pointer;
 }
 .left_admin_container_option:hover{
     background-color: rgba(61, 55, 55, 0.207);

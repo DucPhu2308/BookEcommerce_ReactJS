@@ -1,18 +1,17 @@
 import HeaderAdmin from "../../components/Admin/Header/HeaderAdmin";
 import LeftAdmin from "../../components/Admin/Left/LeftAdmin";
+import './DefaultLayoutAdmin.css';
+import  { useState } from 'react';
 
 
-
-
-function DefaultLayoutAdmin({ children }) {
+const DefaultLayoutAdmin=({ children })=> {
+  
   return (
     <div>
       <HeaderAdmin />
-      <LeftAdmin />
-      <div className="container">
+      <div className="container-admin">
         {children}
       </div>
-      {/* <FooterAdmin /> */}
     </div>
   );
 }

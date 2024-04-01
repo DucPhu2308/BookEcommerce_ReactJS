@@ -26,8 +26,8 @@ const ItemUserSuccessLogin = () => {
                         <div className="header_nav_select_rect"></div>
                         <div className="header_nav_select_box">
                             <ul>
-                                <li><a href="write.html">Viết bài</a></li>
-                                <li><a href="manage.html">Quản lý bài viết</a></li>
+                                <li><Link to="#">Viết bài</Link></li>
+                                <li><Link to="#">Quản lý bài viết</Link></li>
                             </ul>
                         </div>
                     </div>
@@ -43,18 +43,18 @@ const ItemUserSuccessLogin = () => {
                 </div>
                 <div className="header_nav_user_box">
                     <ul>
-                        <li> <Link to="/infoUser">
+                        <li><Link to="/infoUser">
                             <span>
-                                <i className="fas fa-user"></i>
+                            <i className="fas fa-user"></i>
                                 Trang cá nhân</span></Link></li>
-                        <li><a href="#">
+                        <li>
                             <span>
                                 <i className="fas fa-cog"></i>
-                                Cài đặt</span></a></li>
-                        <li><a href="#">
+                                Cài đặt</span></li>
+                        <li>
                             <span>
                                 <i className="fas fa-sign-out-alt"></i>
-                                Đăng xuất</span></a></li>
+                                Đăng xuất</span></li>
                     </ul>
                 </div>
             </li >
