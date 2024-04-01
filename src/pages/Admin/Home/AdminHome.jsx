@@ -7,6 +7,7 @@ import { useState } from 'react';
 
 
 import PropTypes from 'prop-types';
+import ManageGenre from "../ManageGenre/ManageGenre";
 
 const Form = ({ selectItem }) => {
     // Component code here
@@ -23,7 +24,7 @@ const Form = ({ selectItem }) => {
             form = <div>Quản lý bình luận</div>;
             break;
         case "Quản lý thể loại":
-            form = <div>Quản lý thể loại</div>;
+            form = <ManageGenre />;
             break;
         case "Quản lý báo cáo":
             form = <div>Quản lý báo cáo</div>;
