@@ -1,0 +1,102 @@
+.container_admin_grant_permission {
+    
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+.container_admin_grant_permission_body{
+    width:80%;
+    height: 100%;
+    background-color: #fff;
+    margin-top:40px;
+    box-shadow: 0 0 5px #f2f2f2;
+    border:2px solid #cfc0c0;
+    border-radius: 5px;
+}
+
+.container_admin_grant_permission_body_title{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height:50px;
+}
+.container_admin_grant_permission_body_title_paga{
+    width:200px;
+    height: 95%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom:3px solid #333;
+}
+.container_admin_grant_permission_body_title_paga span{
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    font-family:sans-serif;
+
+}
+.container_admin_grant_permission_body_item{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgb(0, 0, 0);
+    padding: 20px 10px;
+}
+.container_admin_grant_permission_body_item table{
+    
+    width:100%;
+    height: 100%;
+    background-color: #f2f2f2;
+}
+.container_admin_grant_permission_body_item table tr{
+    height:50px;
+    background-color: #f2f2f2;
+}
+.container_admin_grant_permission_body_item table tr th{
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    font-family:sans-serif;
+
+}
+
+.container_admin_grant_permission_body_item table tr td{
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    font-family:sans-serif;
+    background-color: #cecbcb99;
+    border-radius:5px;
+}
+.table_body{
+    overflow-y: auto;
+
+}
+.col_1{
+    width: 15%;
+}
+.col_2{
+    width: 25%;
+}
+.container_admin_grant_permission_body_item table tr td button{
+    width: 60px;
+    height: 35px;
+    border:none;
+    background-color: #333;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    font-family:sans-serif;
+    border-radius:5px;
+    margin-left:3px;
+    cursor: pointer;
+}
+.container_admin_grant_permission_body_item table tr td button:hover{
+    background-color: #f2f2f2;
+    color: #333;
+}

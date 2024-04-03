@@ -6,6 +6,7 @@ const ManageGenre = () => {
 
     const [addGenre, setAddGenre] = useState(false);
     const [saveGenre, setSaveGenre] = useState(false);
+    const [updateGenre, setUpdateGenre] = useState(false);
 
     const handleAddGenre = () => {
         setAddGenre(!addGenre);
@@ -29,6 +30,8 @@ const ManageGenre = () => {
             `)
         }
         setAddGenre(false);
+        setSaveGenre(false);
+
     }
     , [saveGenre])
 
@@ -42,12 +45,13 @@ const ManageGenre = () => {
                         <button id="saveItem">
                             <i class="fas fa-save"></i>
                         </button>
-                        <button>
+                        <button> 
                             <i class="fas fa-times"></i>
                         </button>
                     </td>
                 </tr>
             `)
+            
         }
     }
     , [addGenre])
@@ -57,23 +61,60 @@ const ManageGenre = () => {
         if (btnSaveGenre) {
             btnSaveGenre.addEventListener('click', () => {
                 setSaveGenre(true);
+                setAddGenre(false);
                 
             })
             
+            if(saveGenre) {
+                document.querySelector('.container_admin_option_content_table table tr:first-child').remove();
+            }
         }
     }
     , [addGenre])
 
+    
+
+
+    const handleUpdate = () => {
+        setUpdateGenre(!updateGenre);
+    }
+
     useEffect(() => {
-        if (addGenre) {
-            document.querySelector('.container_admin_option_content_table table tr:first-child td input').focus();
+        if (updateGenre) {
+            document.querySelector('.container_admin_option_content_table table tr:first-child td span').innerHTML = `<input type="text" placeholder="Nhập tên thể loại"/>`;
+            document.querySelector('.option_content_table_btn_action').innerHTML = `
+                <button id="updateItem">
+                    <i class="fas fa-save"></i>
+                </button>
+                <button>
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
         }
-    })
+    }, [updateGenre])
+
+    useEffect(() => {
+        const btnUpdateGenre = document.getElementById('updateItem');
+        if (btnUpdateGenre) {
+            btnUpdateGenre.addEventListener('click', () => {
+                setUpdateGenre(false);
+                setSaveGenre(true);
+            })
+            if(saveGenre) {
+                document.querySelector('.container_admin_option_content_table table tr:first-child td span').innerHTML = document.querySelector('.container_admin_option_content_table table tr:first-child td input').value;
+                document.querySelector('.option_content_table_btn_action').innerHTML = `
+                    <button>
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button>
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                `;
+            }
+        }
+    }, [updateGenre])
 
     
-
-    
-
     return (
         <div className="container_admin_option">
             <div className="container_admin_option_body">
@@ -97,7 +138,7 @@ const ManageGenre = () => {
                             <tr>
                                 <td><span>Thể loại 1</span></td>
                                 <td className="option_content_table_btn_action">
-                                    <button>
+                                    <button onClick={handleUpdate}>
                                         <i className="fas fa-edit"></i>
                                     </button>
                                     <button>

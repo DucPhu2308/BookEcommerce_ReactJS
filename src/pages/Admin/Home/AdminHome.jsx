@@ -2,12 +2,10 @@ import LeftAdmin from "../../../components/Admin/Left/LeftAdmin";
 import DefaultLayoutAdmin from "../../../layouts/DefaultLayoutAdmin/DefaultLayoutAdmin"
 import ManageUser from "../ManageUser/ManageUser";
 import { useState } from 'react';
-
-
-
-
 import PropTypes from 'prop-types';
 import ManageGenre from "../ManageGenre/ManageGenre";
+import DashBoard from "../DashBoard/DashBoard";
+import GrantPermission from "../GrantPermission/GrantPermission";
 
 const Form = ({ selectItem }) => {
     // Component code here
@@ -26,14 +24,11 @@ const Form = ({ selectItem }) => {
         case "Quản lý thể loại":
             form = <ManageGenre />;
             break;
-        case "Quản lý báo cáo":
-            form = <div>Quản lý báo cáo</div>;
-            break;
         case "Cấp quyền":
-            form = <div>Cấp quyền</div>;
+            form = <GrantPermission />;
             break;
-        case "Thống kê doanh thu":
-            form = <div>Thống kê doanh thu</div>;
+        case "Theo dõi doanh thu":
+            form = <DashBoard />;
             break;
         // default:
         //     form = <ManageUser />;

@@ -9,8 +9,8 @@ const AddBook = () => {
         document.body.appendChild(script);
 
         return () => {
-        document.body.removeChild(script);
-    };
+            document.body.removeChild(script);
+        };
     }, [])
     return (
         <DefaultLayout>
