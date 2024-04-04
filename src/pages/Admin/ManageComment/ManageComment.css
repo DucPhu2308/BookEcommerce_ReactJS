@@ -1,10 +1,10 @@
-.container_admin_manage_book{
+.container_admin_manage_comment{
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
-.container_admin_manage_book_body{
+.container_admin_manage_comment_body{
     width:80%;
     height: 100%;
     background-color: #fff;
@@ -13,14 +13,14 @@
     border:2px solid #cfc0c0;
     border-radius: 5px;
 }
-.container_admin_manage_book_body_title{
+.container_admin_manage_comment_body_title{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
     height:50px;
 }
-.container_admin_manage_book_body_title_paga{
+.container_admin_manage_comment_body_title_paga{
     width:160px;
     height: 95%;
     display: flex;
@@ -28,13 +28,13 @@
     align-items: center;
     border-bottom:3px solid #333;
 }
-.container_admin_manage_book_body_title_paga span{
+.container_admin_manage_comment_body_title_paga span{
     font-size: 16px;
     font-weight: bold;
     color: #333;
     font-family:sans-serif;
 }
-.container_admin_manage_book_body_table{
+.container_admin_manage_comment_body_table{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -42,24 +42,24 @@
     border-top: 1px solid rgb(0, 0, 0);
     padding: 20px 10px;
 }
-.container_admin_manage_book_body_table table{
+.container_admin_manage_comment_body_table table{
     width:100%;
     height: 100%;
     background-color: #f2f2f2;
     
 }
-.container_admin_manage_book_body_table table tr{
+.container_admin_manage_comment_body_table table tr{
     height:50px;
     background-color: #f2f2f2;
 }
-.container_admin_manage_book_body_table table tr th{
+.container_admin_manage_comment_body_table table tr th{
     text-align: center;
     font-size: 16px;
     font-weight: bold;
     color: #333;
     font-family:sans-serif;
 }
-.container_admin_manage_book_body_table table tr td{
+.container_admin_manage_comment_body_table table tr td{
     text-align: center;
     font-size: 14px;
     font-weight: bold;
@@ -67,27 +67,22 @@
     font-family:sans-serif;
     background-color: #cecbcb99;
 }
-.container_admin_manage_book_body_table table tr td img{
-    width: 70px;
-    height: 80px;
-    margin-left:3px;
-    border-radius: 3px;
-}
-.container_admin_manage_book_body_table table tr td button{
+.container_admin_manage_comment_body_table table tr td button{
     width:50px;
     height:30px;
     color:#fff;
     background-color: #333;
-    border: none;
-    border-radius: 5px;
+    border:none;
+    border-radius:5px;
+    cursor: pointer;
     margin-left:3px;
 }
-.container_admin_manage_book_body_table table tr td button:hover{
-    background-color: #555;
+.container_admin_manage_comment_body_table table tr td button:hover{
+    background-color: #6f6868ad;
 }
-.col_2_1{
-    width: 25%;
+.col1{
+    width: 10%;
 }
-.col_1_1{
-    width: 5%;
+.col2{
+    width: 15%;
 }

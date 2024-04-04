@@ -6,6 +6,8 @@ import PropTypes from 'prop-types';
 import ManageGenre from "../ManageGenre/ManageGenre";
 import DashBoard from "../DashBoard/DashBoard";
 import GrantPermission from "../GrantPermission/GrantPermission";
+import ManageComment from "../ManageComment/ManageComment";
+import ManageBook from "../ManageBook/ManageBook";
 
 const Form = ({ selectItem }) => {
     // Component code here
@@ -16,10 +18,10 @@ const Form = ({ selectItem }) => {
             form = <ManageUser />;
             break;
         case "Quản lý truyện":
-            form = <div>Quản lý truyện</div>;
+            form = <ManageBook/>;
             break;
         case "Quản lý bình luận":
-            form = <div>Quản lý bình luận</div>;
+            form = <ManageComment />;
             break;
         case "Quản lý thể loại":
             form = <ManageGenre />;
@@ -30,9 +32,9 @@ const Form = ({ selectItem }) => {
         case "Theo dõi doanh thu":
             form = <DashBoard />;
             break;
-        // default:
-        //     form = <ManageUser />;
-        //     break;
+        default:
+            form = <ManageBook />;
+            break;
         
     }
     return (
