@@ -1,120 +1,103 @@
-
 import './ManageGenre.css'
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+
+const listGenre = [
+    {
+        id: 1,
+        name: 'Thể loại 1'
+    },
+    {
+        id: 2,
+        name: 'Thể loại 2'
+    },
+];
 
 const ManageGenre = () => {
-
-    const [addGenre, setAddGenre] = useState(false);
-    const [saveGenre, setSaveGenre] = useState(false);
     const [updateGenre, setUpdateGenre] = useState(false);
+    const [inputValue, setInputValue] = useState('');
+    const [addGenre, setAddGenre] = useState(false);
+    const [genre, setGenre] = useState(listGenre);
+    const [editingGenre, setEditingGenre] = useState(null); 
+    const [addInputValue, setAddInputValue] = useState('');
+
+    const handleUpdateGenre = (id) => {
+        setUpdateGenre(!updateGenre);
+        setEditingGenre(id); 
+    }
 
     const handleAddGenre = () => {
         setAddGenre(!addGenre);
-    }
-
-    useEffect(() => {
-        if (saveGenre) {
-            const input = document.querySelector('.container_admin_option_content_table table tr:first-child td input').value;
-            document.querySelector('.container_admin_option_content_table table').insertAdjacentHTML('beforeend', `
-                <tr>
-                    <td><span>${input}</span></td>
-                    <td class="option_content_table_btn_action">
-                        <button>
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <button>
-                            <i class="fas fa-trash-alt"></i>
-                        </button>
-                    </td>
-                </tr>
-            `)
+        setAddInputValue('');
+        if (addInputValue === '') {
+            setAddGenre(true);
         }
+        else {
+            const newGenre = {
+                id: genre.length + 1,
+                name: addInputValue
+            };
+            setGenre([...genre, newGenre]);
+        }
+
+    }
+    const handleChangeAddInput = (event) => {
+        setAddInputValue(event.target.value);
+
+    }
+    const handleCancelAddGenre = () => {
         setAddGenre(false);
-        setSaveGenre(false);
-
     }
-    , [saveGenre])
 
-    useEffect(() => {
 
+    const handleSaveGenre = () => {
+        const updatedGenres = genre.map(item => {
+            if (item.id === editingGenre) {
+                return { ...item, name: inputValue }; 
+            }
+            return item;
+        });
+        setGenre(updatedGenres); 
+        setEditingGenre(null); 
+        setUpdateGenre(false); 
+    }
+    const handleCancelSaveGenre = () => {
+        setEditingGenre(null); 
+        setUpdateGenre(false); 
+    }
+
+    const handleChangeInput = (event) => {
+        setInputValue(event.target.value);
+    }
+
+    const handleDeleteGenre = (id) => {
+        const updatedGenres = genre.filter(item => item.id !== id);
+        setGenre(updatedGenres); 
+    }
+
+
+
+
+
+    const renderAddGenre = () => {
         if (addGenre) {
-            document.querySelector('.container_admin_option_content_table table').insertAdjacentHTML('afterbegin', `
+            return (
                 <tr>
-                    <td><input type="text" placeholder="Nhập tên thể loại"/></td>
-                    <td class="option_content_table_btn_action">
-                        <button id="saveItem">
-                            <i class="fas fa-save"></i>
+                    <td>
+                        <input type="text" placeholder="Nhập tên thể loại" value={addInputValue} onChange={handleChangeAddInput} />
+                    </td>
+                    <td className="option_content_table_btn_action">
+                        <button onClick={handleAddGenre}>
+                            <i className="fas fa-save"></i>
                         </button>
-                        <button> 
-                            <i class="fas fa-times"></i>
+                        <button onClick={handleCancelAddGenre}>
+                            <i className="fas fa-times"></i>
                         </button>
                     </td>
                 </tr>
-            `)
-            
+            );
         }
     }
-    , [addGenre])
 
-    useEffect(() => {
-        const btnSaveGenre = document.getElementById('saveItem');
-        if (btnSaveGenre) {
-            btnSaveGenre.addEventListener('click', () => {
-                setSaveGenre(true);
-                setAddGenre(false);
-                
-            })
-            
-            if(saveGenre) {
-                document.querySelector('.container_admin_option_content_table table tr:first-child').remove();
-            }
-        }
-    }
-    , [addGenre])
-
-    
-
-
-    const handleUpdate = () => {
-        setUpdateGenre(!updateGenre);
-    }
-
-    useEffect(() => {
-        if (updateGenre) {
-            document.querySelector('.container_admin_option_content_table table tr:first-child td span').innerHTML = `<input type="text" placeholder="Nhập tên thể loại"/>`;
-            document.querySelector('.option_content_table_btn_action').innerHTML = `
-                <button id="updateItem">
-                    <i class="fas fa-save"></i>
-                </button>
-                <button>
-                    <i class="fas fa-times"></i>
-                </button>
-            `;
-        }
-    }, [updateGenre])
-
-    useEffect(() => {
-        const btnUpdateGenre = document.getElementById('updateItem');
-        if (btnUpdateGenre) {
-            btnUpdateGenre.addEventListener('click', () => {
-                setUpdateGenre(false);
-                setSaveGenre(true);
-            })
-            if(saveGenre) {
-                document.querySelector('.container_admin_option_content_table table tr:first-child td span').innerHTML = document.querySelector('.container_admin_option_content_table table tr:first-child td input').value;
-                document.querySelector('.option_content_table_btn_action').innerHTML = `
-                    <button>
-                        <i class="fas fa-edit"></i>
-                    </button>
-                    <button>
-                        <i class="fas fa-trash-alt"></i>
-                    </button>
-                `;
-            }
-        }
-    }, [updateGenre])
-
-    
     return (
         <div className="container_admin_option">
             <div className="container_admin_option_body">
@@ -123,10 +106,10 @@ const ManageGenre = () => {
                         <span>Quản lý thể loại</span>
                     </div>
                     <div className="container_admin_option_title_search">
-                        <input type="text" placeholder="Tìm kiếm"/>
-                            <button>
-                                <i className="fas fa-search"></i>
-                            </button>
+                        <input type="text" placeholder="Tìm kiếm" />
+                        <button>
+                            <i className="fas fa-search"></i>
+                        </button>
                     </div>
                 </div>
                 <div className="container_admin_option_content">
@@ -135,37 +118,52 @@ const ManageGenre = () => {
                     </div>
                     <div className="container_admin_option_content_table">
                         <table>
-                            <tr>
-                                <td><span>Thể loại 1</span></td>
-                                <td className="option_content_table_btn_action">
-                                    <button onClick={handleUpdate}>
-                                        <i className="fas fa-edit"></i>
-                                    </button>
-                                    <button>
-                                        <i className="fas fa-trash-alt"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td><span>Thể loại 1</span></td>
-                                <td className="option_content_table_btn_action">
-                                    <button>
-                                        <i className="fas fa-edit"></i>
-                                    </button>
-                                    <button>
-                                        <i className="fas fa-trash-alt"></i>
-                                    </button>
-                                </td>
-                            </tr>
+                            {renderAddGenre()}
+                            {genre.map(item => (
+                                <tr key={item.id}>
+                                    <td>
+                                        {editingGenre === item.id ? ( 
+                                            <input
+                                                type="text"
+                                                value={inputValue}
+                                                onChange={handleChangeInput}
+                                            />
+                                        ) : (
+                                            <span>{item.name}</span>
+                                        )}
+                                    </td>
+                                    <td className="option_content_table_btn_action">
+                                        {editingGenre === item.id ? ( 
+                                            <>
+                                                <button onClick={handleSaveGenre}>
+                                                    <i className="fas fa-save"></i>
+                                                </button>
+                                                <button onClick={handleCancelSaveGenre}>
+                                                    <i className="fas fa-times"></i>
+                                                </button>
+                                            </>
+
+                                        ) : (
+                                            <>
+                                                <button onClick={() => handleUpdateGenre(item.id)}> 
+                                                    <i className="fas fa-edit"></i>
+                                                </button>
+                                                <button onClick={() => handleDeleteGenre(item.id)}>
+                                                    <i className="fas fa-trash-alt"></i>
+                                                </button>
+                                            </>
+
+                                        )}
+
+                                    </td>
+                                </tr>
+                            ))}
                         </table>
                     </div>
-
                 </div>
             </div>
-
         </div>
-    )
-
+    );
 }
 
 export default ManageGenre
@@ -174,65 +172,3 @@ export default ManageGenre
 
 
 
-
-// const [addGenre, setAddGenre] = useState(false);
-//     const [saveGenre, setSaveGenre] = useState(false);
-
-//     const input= document.querySelector('.container_admin_option_content_table table tr:first-child td input');
-
-//     // Lưu thể loại mới
-//     const btnSaveGenre = document.getElementById('saveItem');
-//     if (btnSaveGenre) {
-//         btnSaveGenre.addEventListener('click', () => {
-//             setSaveGenre(true);
-            
-//         })
-//     }
-
-
-//     useEffect(() => {
-//         if (saveGenre) {
-//             // Lấy giá trị input
-//             const input = document.querySelector('.container_admin_option_content_table table tr:first-child td input').value;
-//             // Thêm thể loại mới vào bảng
-//             document.querySelector('.container_admin_option_content_table table').insertAdjacentHTML('beforeend', `
-//                 <tr>
-//                     <td><span>${input}</span></td>
-//                     <td class="option_content_table_btn_action">
-//                         <button>
-//                             <i class="fas fa-edit"></i>
-//                         </button>
-//                         <button>
-//                             <i class="fas fa-trash-alt"></i>
-//                         </button>
-//                     </td>
-//                 </tr>
-//             `)
-//         }
-//     }, [saveGenre])
-
-
-
-
-//     // Thêm cột thêm thể loại ở đầu bảng 
-//     const handleAddGenre = () => {
-//         setAddGenre(!addGenre);
-//     }
-
-//     useEffect(() => {
-//         if (addGenre) {
-//             document.querySelector('.container_admin_option_content_table table').insertAdjacentHTML('afterbegin', `
-//             <tr>
-//             <td><input type="text" placeholder="Nhập tên thể loại"/></td>
-//             <td class="option_content_table_btn_action">
-//                 <button id="saveItem">
-//                     <i class="fas fa-save"></i>
-//                 </button>
-//                 <button>
-//                     <i class="fas fa-times"></i>
-//                 </button>
-//             </td>
-//         </tr>
-//             `)
-//         }
-//     })
