@@ -3,8 +3,14 @@ import './InfoUser.css';
 import accountImage from '../../../assets/images/account.png';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import ThongTinCaNhan from './ThongTinCaNhan';
-import ChangePassword from './ChangePassword';
+import ChangeInfo from './ChangeInfo/ChangeInfo';
+import ChangePassword from './ChangePassword/ChangePassword';
+import HistoryBuy from './HistoryBuy/HistoryBuy';
+import HistoryTrans from './HistoryTrans/HistoryTrans';
+import SubcribeBook from './SubcribeBook/SubcribeBook';
+import OwnBook from './OwnBook/OwnBook';
+import Comment from './Comment/Comment';
+import Notification from './Notification/Notification'
 // left menu
 const Menu = ({ onSelect }) => {
     useEffect(() => {
@@ -88,14 +94,34 @@ const Form = ({ selectedItem }) => {
     let form;
     switch (selectedItem) {
         case "Thông tin cá nhân":
-            form = <ThongTinCaNhan />;
+            form = <ChangeInfo />;
             break;
         case "Đổi mật khẩu":
             form = <ChangePassword />;
-
-        // default:
-        //     form = <ThongTinCaNhan />;
-        //     break;
+            break;
+        case "Lịch sử mua":
+            form = <HistoryBuy />;
+            break;
+        case "Lịch sử nạp":
+            form = <HistoryTrans />;
+            break;
+        case "Truyện theo dõi":
+            form = <SubcribeBook />;
+            break;
+        case "Truyện đã đăng":
+            form = <OwnBook />;
+            break;
+        case "Bình luận":
+            form = <Comment />;
+            break;
+        case "Thông báo":
+            form = <Notification />;
+            break;
+        case "Đăng xuất":
+            break;
+        default:
+            form = <HistoryTrans />;
+            break;
     }
     return (
         <div>
@@ -134,7 +160,9 @@ const InfoUser = () => {
                             </div>
                         </div>
                         <div className="container_user_page_body_function_right">
-                            <Form selectedItem={selectedItem} />
+                            <div class="container_user_page_body_function_right_box">
+                                <Form selectedItem={selectedItem} />
+                            </div>
                         </div>
                     </div>
                 </div>
