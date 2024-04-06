@@ -1,0 +1,74 @@
+.container_user_history_trans_title{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height:50px;
+    border-bottom: 1px solid rgb(0, 0, 0);
+}
+.container_user_history_trans_title_paga{
+    width:160px;
+    height: 95%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom:3px solid #333;
+}
+.container_user_history_trans_title_paga span{
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    font-family:sans-serif;
+}
+
+.container_user_history_trans_body_table{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgb(0, 0, 0);
+}
+
+.container_user_history_trans_body_table table{
+    width:100%;
+    height: 100%;
+    background-color: #f2f2f2;
+}
+.container_user_history_trans_body_table table tr{
+    height:50px;
+    background-color: #f2f2f2;
+}
+.container_user_history_trans_body_table table tr th{
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    font-family:sans-serif;
+}
+.container_user_history_trans_body_table table tr td{
+    text-align: center;
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+    font-family:sans-serif;
+    background-color: #cecbcb99;
+}
+.container_user_history_trans_body_table table tr td button{
+    width:50px;
+    height:30px;
+    color:#fff;
+    background-color: #333;
+    border:none;
+    border-radius:5px;
+    cursor: pointer;
+    margin-left:3px;
+}
+.container_user_history_trans_body_table table tr td button:hover{
+    background-color: #6f6868ad;
+}
+.history_trans_col1{
+    width: 100px;
+}
+.history_trans_col2{
+    width: 100px;
+}
