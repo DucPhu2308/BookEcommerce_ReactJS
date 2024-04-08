@@ -73,14 +73,14 @@ const UserHome = () => {
 
           <div className="container_nav_2">
             {/* Truyện mới cập nhật */}
-            
+
             <UpdateBookList />
-            
+
             {/* Truyện đã xem */}
-          
+
             <SeenBookList />
-            
-            
+
+
 
           </div>
 
@@ -88,11 +88,11 @@ const UserHome = () => {
 
 
           <div className="container_nav_3">
-            
-              <RankingList title="Đọc nhiều" list={listBooks} />
-              <RankingList title="Đề cử nhiều" list={listBooks} />
-              <RankingList title="Thịnh hành" list={listBooks} />
-            
+
+            <RankingList title="Đọc nhiều" list={listBooks} />
+            <RankingList title="Đề cử nhiều" list={listBooks} />
+            <RankingList title="Thịnh hành" list={listBooks} />
+
           </div>
         </div>
 

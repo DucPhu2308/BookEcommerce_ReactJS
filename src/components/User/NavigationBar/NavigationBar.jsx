@@ -1,29 +1,27 @@
 import "./NavigationBar.css";
-
+import { NavLink } from 'react-router-dom';
 function NavigationBar() {
   return (
 
     <div className="container_options">
       <ul>
         <li>
-          <button className="container_options_item">
-            <span>Trang chủ</span>
-          </button>
+          <NavLink to="/" activeClassName="active" >
+            Trang chủ
+          </NavLink>
         </li>
         <li>
-          <button className="container_options_item">
-            <span>Theo dõi</span>
-          </button>
+          <NavLink to="/SubcribeBook" activeClassName="active">
+            Theo dõi
+          </NavLink>
         </li>
         <li>
-          <button className="container_options_item">
-            <span>Lịch sử</span>
-          </button>
+          <NavLink to="/HistoryBook" activeClassName="active">
+            Lịch sử
+          </NavLink>
         </li>
         <li>
-          <button className="container_options_item">
-            <span>Thể loại</span>
-          </button>
+          <span>Thể loại</span>
         </li>
       </ul>
     </div>
