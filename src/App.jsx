@@ -11,27 +11,30 @@ import './App.css'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import AdminHome from './pages/Admin/Home/AdminHome'
 import Bank from './pages/Bank/Bank'
-
+import SubcribeBookPage from './pages/User/SubcribeBookPage/SubcribeBookPage'
+import HistoryBookPage from './pages/User/HistoryBookPage/HistoryBookPage'
 
 
 function App() {
 
   return (
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<UserHome />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/my-books" element={<MyBooks />} />
-          <Route path="/add-book" element={<AddBook />} />
-          <Route path="/detail-book" element={<DetailBook />} />
-          <Route path="/add-chapter" element={<AddChapter />} />
-          <Route path="/infoUser" element={<InfoUser />} />
-          <Route path="/infoBook" element={<InfoBook />} />
-          <Route path="/admin" element={<AdminHome/>}/>
-          <Route path="/bank" element={<Bank/>}/>
-        </Routes>
-      </BrowserRouter>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<UserHome />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/my-books" element={<MyBooks />} />
+        <Route path="/add-book" element={<AddBook />} />
+        <Route path="/detail-book" element={<DetailBook />} />
+        <Route path="/add-chapter" element={<AddChapter />} />
+        <Route path="/infoUser" element={<InfoUser />} />
+        <Route path="/infoBook" element={<InfoBook />} />
+        <Route path="/admin" element={<AdminHome />} />
+        <Route path="/bank" element={<Bank />} />
+        <Route path="/subcribebook" element={<SubcribeBookPage />} />
+        <Route path="/historybook" element={<HistoryBookPage />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 
