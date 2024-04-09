@@ -1,31 +1,47 @@
+import GenreApi from '../../../API/Admin/GenreApi';
 import './ManageGenre.css'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-const listGenre = [
-    {
-        id: 1,
-        name: 'Thể loại 1'
-    },
-    {
-        id: 2,
-        name: 'Thể loại 2'
-    },
-];
 
 const ManageGenre = () => {
     const [updateGenre, setUpdateGenre] = useState(false);
     const [inputValue, setInputValue] = useState('');
     const [addGenre, setAddGenre] = useState(false);
-    const [genre, setGenre] = useState(listGenre);
+    const [genre, setGenre] = useState([]);
     const [editingGenre, setEditingGenre] = useState(null); 
     const [addInputValue, setAddInputValue] = useState('');
+
+    useEffect(() => {
+        const fetchGenre = async () => {
+            try{
+                const response = await GenreApi.getAll();
+                setGenre(response.data);
+            }catch(error){
+                console.log(error);
+            }
+        }
+        fetchGenre();
+    }, []);
 
     const handleUpdateGenre = (id) => {
         setUpdateGenre(!updateGenre);
         setEditingGenre(id); 
     }
+    const handleAddGenre = async (event) => {
+        event.preventDefault();
+        // try {
+        //     const newGenre = {
+        //         name: addInputValue
+        //     };
+        //     const response = await GenreApi.addGenre(newGenre);
+        //     setGenre([...genre, response.data]);
+        //     setAddGenre(false);
+        //     setAddInputValue('');
+        // } catch (error) {
+        //     console.log(error);
+        // }
 
-    const handleAddGenre = () => {
+
         setAddGenre(!addGenre);
         setAddInputValue('');
         if (addInputValue === '') {
@@ -37,6 +53,12 @@ const ManageGenre = () => {
                 name: addInputValue
             };
             setGenre([...genre, newGenre]);
+            try {
+                const response = await GenreApi.addGenre(newGenre);
+                console.log(response);
+            } catch (error) {
+                console.log(error);
+            }
         }
 
     }
