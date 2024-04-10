@@ -1,7 +1,20 @@
+import AuthorApi from '../../../API/Admin/AuthorApi';
 import './GrantPermission.css';
-
+import {useState, useEffect} from 'react';
 
 const GrantPermission = () => {
+    const [data, setData] = useState([]);
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await AuthorApi.getAll();
+                setData(response.data);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        fetchData();
+    }, [data]);
     return (
         <div className="container_admin_grant_permission">
             <div className="container_admin_grant_permission_body">

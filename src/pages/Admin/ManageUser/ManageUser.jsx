@@ -1,36 +1,28 @@
 import BanUser from './BanUser/BanUser';
 import DetailUser from './DetailUser/DetailUser';
 import './ManageUser.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import AuthorApi from '../../../API/Admin/AuthorApi';
 
-const users = [
-    {
-        id: 1,
-        name: "Nguyễn Văn A",
-        username: "nguyenvana",
-        email: "abc@gmail.com",
-        address: "Hà Nội",
-        phone: "0123456789",
-    },
-    {
-        id: 2,
-        name: "Nguyễn Văn B",
-        username: "nguyenvanb",
-        email: "nguyenVanB@gmail.com",
-        address: "Hà Nội",
-        phone: "0123456789",
-    },
-    {
-        id: 3,
-        name: "Nguyễn Văn C",
-        username: "nguyenvanc",
-        email: "NguyenVanC@gmail.com",
-        address: "Hà Nội",
-        phone: "0123456789",
-    },
-]
 
 const ManageUser = () => {
+    const [users, setUsers] = useState([]);
+
+    useEffect(() => {
+        const fetchUsers = async () => {
+            try {
+                const response = await AuthorApi.getAllAuthor();
+                setUsers(response.data);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        fetchUsers();
+    });
+
+
+
+
     const [detailUser, setDetailUser] = useState(false);
     const [banUser, setBanUser] = useState(false);
     const handleClickDetailUser = () => {
@@ -45,6 +37,7 @@ const ManageUser = () => {
     if (banUser) {
         return <BanUser />
     }
+
 
 
     return (
