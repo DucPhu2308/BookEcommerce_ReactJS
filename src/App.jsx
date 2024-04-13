@@ -15,6 +15,7 @@ import SubcribeBookPage from './pages/User/SubcribeBookPage/SubcribeBookPage'
 import HistoryBookPage from './pages/User/HistoryBookPage/HistoryBookPage'
 
 
+
 function App() {
 
   return (
@@ -28,7 +29,7 @@ function App() {
         <Route path="/detail-book" element={<DetailBook />} />
         <Route path="/add-chapter" element={<AddChapter />} />
         <Route path="/infoUser" element={<InfoUser />} />
-        <Route path="/infoBook" element={<InfoBook />} />
+        <Route path="/infoBook/:id" element={<InfoBook />} />
         <Route path="/admin" element={<AdminHome />} />
         <Route path="/bank" element={<Bank />} />
         <Route path="/subcribebook" element={<SubcribeBookPage />} />

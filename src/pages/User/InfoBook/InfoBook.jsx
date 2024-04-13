@@ -1,13 +1,39 @@
-import { useEffect } from "react";
+import { useEffect ,useState} from "react";
 import DefaultLayout from "../../../layouts/DefaultLayout/DefaultLayout";
 import "./InfoBook.css";
 import ItemListChapter from "./ItemListChapter";
 import ItemListGenre from "./ItemListGenre";
 import ItemListLoveBook from "./ItemListLoveBook";
+import BookApi from "../../../API/User/BookApi";
 
-
+const bookList=[
+    {
+        id:1,
+        title:"Chapter 1",
+    },
+    {
+        id:2,
+        title:"Chapter 2",
+    },
+]
 
 const InfoBook = () => {
+    const [book, setBook] = useState({});
+    const id=window.location.pathname.split("/")[2];
+    const [listChapter,setListChapter]=useState([]);
+    useEffect(() => {
+        const fetchBook = async () => {
+            try {
+                const response = await BookApi.getBookById(id);
+                setBook(response.data);
+                setListChapter(response.data.chapters);
+                
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        fetchBook();
+    }, []);
 
     useEffect(() => {
         const script = document.createElement("script");
@@ -18,15 +44,17 @@ const InfoBook = () => {
             document.body.removeChild(script);
         };
     });
+    
+    
     return (
         <DefaultLayout>
             <div className="container_info_book">
                 <div className="container_info_book_body">
                     <div className="container_info_book_body_image_title_box">
                         <div className="container_info_book_body_image_title_left">
-                            <span className="title_bold">Title</span>
+                            <span className="title_bold">{book.title}</span>
                             <span>Luot xem</span>
-                            <span>Rate</span>
+                            <span>Rate: {book.avgRating}</span>
                             <span>Follow</span>
                         </div>
                         <div className="container_info_book_body_image_title_center">
@@ -34,11 +62,14 @@ const InfoBook = () => {
                         </div>
                         <div className="container_info_book_body_image_title_right">
                             <div className="container_info_book_body_image_title_right_author">
-                                <span>Author</span>
+                                <span>
+                                    Tác giả: {book.userOwn?.username}
+                                </span>
                             </div>
                             <div className="container_info_book_body_image_title_right_list_genre">
                                 <span>Genre</span>
                                 <div className="container_info_book_body_image_title_right_list_genre_body">
+                                    
                                     <ItemListGenre />
                                 </div>
                             </div>
@@ -48,7 +79,7 @@ const InfoBook = () => {
                     <div className="container_info_book_body_description">
                         <div className="container_info_book_body_description_left">
                             <div className="container_info_book_body_description_left_item_long_desc">
-                                <span>Long desc </span>
+                                <span>Long desc: {book.description} </span>
                             </div>
 
                             <div className="container_info_book_body_description_left_list_genre">
@@ -56,8 +87,8 @@ const InfoBook = () => {
                                     <div className="box_item_info_title">
                                         <span>Danh sách chương</span>
                                     </div>
-
-                                    <ItemListChapter />
+                                    
+                                    <ItemListChapter list={listChapter}/>
                                 </div>
                             </div>
                         </div>

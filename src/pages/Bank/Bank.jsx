@@ -2,21 +2,36 @@ import './Bank.css'
 import logoWeb from '../../assets/images/logo.png'
 import { useEffect, useState } from 'react';
 import BankApi from '../../API/User/BankApi';
-
+import { Link } from 'react-router-dom';
 const Bank = () => {
     const [bankList, setBankList] = useState([])
-    
-    useEffect(()=>{
-      const fetchBankList = async () =>{
-        try{
-          const response = await BankApi.getAll();
-          setBankList(response.data);
-        }catch(error){
-          console.log(error)
+    const [urlNCB, setUrlNCB] = useState('')
+
+
+
+    useEffect(() => {
+        const fetchBankList = async () => {
+            try {
+                const response = await BankApi.getAll();
+                setBankList(response.data);
+            } catch (error) {
+                console.log(error)
+            }
         }
-      }
-      fetchBankList();
-    },[]);
+        fetchBankList();
+
+
+        const fetchBankLink = async () => {
+            try {
+                const response = await BankApi.getPayment();
+                setUrlNCB(response.data.name);
+                console.log(response.data.name)
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        fetchBankLink();
+    }, []);
 
     return (
         <div className="container_pay_page">
@@ -40,13 +55,26 @@ const Bank = () => {
                         <div className="container_pay_page_body_form_box list_bank">
                             <div className="box_list_bank">
                                 {bankList.map((bank, index) => (
-                                    
-                                    <div className="box_list_bank_grid" key={index} >
-                                        <div className="box_list_bank_grid_row">
-                                            <img src={bank.logo} alt={bank.name} />
-                                        </div>
-                                    </div>
+                                    bank.shortName === "NCB" ? (
+                                        <>
+                                            <Link to={urlNCB}>
+                                                <div className="box_list_bank_grid" key={index}>
+                                                    <div className="box_list_bank_grid_row">
+                                                        <img src={bank.logo} alt={bank.name} />
+                                                    </div>
+                                                </div>
+                                            </Link>
+                                        </>
 
+                                    ) : (
+                                        <>
+                                            <div className="box_list_bank_grid" key={index}>
+                                                <div className="box_list_bank_grid_row">
+                                                    <img src={bank.logo} alt={bank.name} />
+                                                </div>
+                                            </div>
+                                        </>
+                                    )
                                 ))}
                             </div>
                         </div>
@@ -60,7 +88,7 @@ const Bank = () => {
                     </span>
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
 export default Bank;
