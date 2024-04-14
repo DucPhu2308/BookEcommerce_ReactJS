@@ -7,6 +7,7 @@ import DetailBook from './pages/User/DetailBook/DetailBook'
 import AddChapter from './pages/User/AddChapter/AddChapter'
 import InfoUser from './pages/User/InfoUser/InfoUser'
 import InfoBook from './pages/User/InfoBook/InfoBook'
+import BuyCoins from './pages/User/BuyCoins/BuyCoins'
 import './App.css'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import AdminHome from './pages/Admin/Home/AdminHome'
@@ -27,6 +28,7 @@ function App() {
           <Route path="/add-chapter" element={<AddChapter />} />
           <Route path="/infoUser" element={<InfoUser />} />
           <Route path="/infoBook" element={<InfoBook />} />
+          <Route path="/buy-coins" element={<BuyCoins />} />
 
           <Route path="/admin" element={<AdminHome/>}/>
         </Routes>
