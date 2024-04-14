@@ -1,0 +1,71 @@
+.container_user_change_info_title{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height:50px;
+    border-bottom: 1px solid rgb(0, 0, 0);
+}
+.container_user_change_info_title_paga{
+    width:160px;
+    height: 95%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom:3px solid #333;
+}
+.container_user_change_info_title_paga span{
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    font-family:sans-serif;
+}
+
+.container_user_change_info_item{
+    display:flex;
+    flex-direction: column;
+    padding:10px 20px;
+    line-height: 1.5;
+}
+.container_user_change_info_item label{
+    font-size: 16px;
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.container_user_change_info_item input{
+    height:30px;
+    border-radius: 5px;
+    border: 1px solid #333;
+    padding: 0 10px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    background-color: #f5f5f5;
+
+}
+.container_user_change_info_item input:focus{
+    outline: none;
+}
+.container_user_change_info_item textarea{
+    border-radius: 5px;
+    border: 1px solid #333;
+    padding: 10px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    height:120px;
+    resize: none;
+    background-color: #f5f5f5;
+}
+.container_user_change_info_item textarea:focus{
+    outline: none;
+}
+
+.container_user_change_info_item button{
+    width:120px;
+    height:35px;
+    border-radius: 10px;
+    border:none;
+    background-color: #333;
+    color:#fff;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+}
