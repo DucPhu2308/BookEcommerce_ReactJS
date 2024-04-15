@@ -7,6 +7,7 @@ import DetailBook from './pages/User/DetailBook/DetailBook'
 import AddChapter from './pages/User/AddChapter/AddChapter'
 import InfoUser from './pages/User/InfoUser/InfoUser'
 import InfoBook from './pages/User/InfoBook/InfoBook'
+import BuyCoins from './pages/User/BuyCoins/BuyCoins'
 import './App.css'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import AdminHome from './pages/Admin/Home/AdminHome'
@@ -34,6 +35,7 @@ function App() {
         <Route path="/bank" element={<Bank />} />
         <Route path="/subcribebook" element={<SubcribeBookPage />} />
         <Route path="/historybook" element={<HistoryBookPage />} />
+        <Route path="/buy-coins" element={<BuyCoins />} />
       </Routes>
     </BrowserRouter>
   )
