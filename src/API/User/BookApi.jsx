@@ -1,6 +1,5 @@
 import axiosClient from '../axiosClient';
 import { linkGetAllBook } from '../BaseURL';
-
 class BookApi {
     getAll = () => {
         const url = `${linkGetAllBook}/all`;
