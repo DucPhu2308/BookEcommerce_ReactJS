@@ -39,8 +39,8 @@ const SeenBookList = () => {
 
               <ul>
                 {/* display to maxSeenBooks */}
-                {listBooks.slice(0, maxSeenBooks).map((book) => (
-                  <li key={book.id}>
+                {listBooks.slice(0, maxSeenBooks).map((book, index) => (
+                  <li key={index}>
                     <SeenBookItem book={book} />
                   </li>
                 ))}

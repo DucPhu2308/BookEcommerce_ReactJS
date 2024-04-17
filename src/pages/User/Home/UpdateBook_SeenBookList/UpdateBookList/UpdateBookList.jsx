@@ -12,6 +12,7 @@ const UpdateBookList = () => {
     const fetchBooks = async () => {
       try {
         const response = await BookApi.getAll();
+        console.log(response.data);
         // lấy 10 sách cuối cùng trong mảng
         setListBooks(response.data.slice(-10));
       } catch (error) {

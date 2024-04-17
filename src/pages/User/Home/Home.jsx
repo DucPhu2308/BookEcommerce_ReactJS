@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 
-
 import DefaultLayout from "@/layouts/DefaultLayout/DefaultLayout";
 import NavigationBar from "@/components/User/NavigationBar/NavigationBar";
 import RankingList from "./RankingList/RankingList";
@@ -10,12 +9,6 @@ import SeenBookList from "./UpdateBook_SeenBookList/SeenBookList/SeenBookList";
 
 
 import './Home.css';
-
-
-
-
-
-
 
 const listBooks = [
   {
@@ -46,17 +39,6 @@ const listBooks = [
 ];
 
 const UserHome = () => {
-  // add Home.js logic here
-  useEffect(() => {
-    const script = document.createElement("script");
-    script.src = "/src/pages/User/Home/script.js";
-    document.body.appendChild(script);
-
-    return () => {
-      document.body.removeChild(script);
-    };
-  }, []);
-
   return (
     <>
       <DefaultLayout>
