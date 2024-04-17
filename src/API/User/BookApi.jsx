@@ -1,10 +1,11 @@
 import axiosClient from '../axiosClient';
+import { axiosPrivate } from '../axiosClient';
 import { linkGetAllBook } from '../BaseURL';
 
 class BookApi {
     getAll = () => {
-        const url = `${linkGetAllBook}/all`;
-        return axiosClient.get(url);
+        const url = 'book/all';
+        return axiosPrivate.get(url);
     }
     getBookById = (id) => {
         const url = `${linkGetAllBook}/${id}`;

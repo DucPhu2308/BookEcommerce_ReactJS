@@ -34,6 +34,7 @@ const HotBookList = () => {
     useEffect(() => {
         const script = document.createElement("script");
         script.src = "/src/pages/User/Home/HotBookList/script.js";
+        script.async = true;
         document.body.appendChild(script);
     
         return () => {
@@ -48,8 +49,8 @@ const HotBookList = () => {
             <div className="container_nav_1_listBooks">
                 <div className="container_nav_1_listBooks_box">
                     <ul>
-                        {listBooks.map((book) => (
-                            <li key={book.id}>
+                        {listBooks.map((book, index) => (
+                            <li key={index}>
                                 <a href="#">
                                     <HotBookItem book={book} />
                                 </a>

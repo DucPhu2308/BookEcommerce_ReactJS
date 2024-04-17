@@ -13,6 +13,11 @@ const ItemUserSuccessLogin = () => {
             document.body.removeChild(script);
         };
     }, []);
+
+    const handleLogout = () => {
+        localStorage.clear();
+        window.location.reload();
+    }
     return (
         <>
             <li>
@@ -52,7 +57,7 @@ const ItemUserSuccessLogin = () => {
                                 <i className="fas fa-cog"></i>
                                 Cài đặt</span></li>
                         <li>
-                            <span>
+                            <span onClick={handleLogout}>
                                 <i className="fas fa-sign-out-alt"></i>
                                 Đăng xuất</span></li>
                     </ul>
