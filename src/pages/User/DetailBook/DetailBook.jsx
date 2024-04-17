@@ -29,23 +29,16 @@ const DetailBook = () => {
                 </div>
                 <div className="container_bookDetail_nav_1">
                     <div className="container_bookDetail_nav_1_author">
-
-
                         <div className="container_bookDetail_nav_1_author_info">
                             <img src="download.png" alt="account" />
                             <span>Nguyễn Nhật Ánh</span>
                         </div>
-
                     </div>
                     <div className="container_bookDetail_nav_1_displayBook">
                         <div className="container_bookDetail_nav_1_displayBook_body">
-
                             <div className="container_bookDetail_nav_1_displayBook_body_tittle">
                                 <span>Chương: Title</span>
-
                             </div>
-
-
                         </div>
                         <div className="container_bookDetail_nav_1_displayBook_body_button">
                             <button className="dark">Tập trước</button>
@@ -72,10 +65,10 @@ const DetailBook = () => {
                             <div className="container_bookDetail_nav_1_displayBook_comment_form_listComments">
                                 <div className="container_bookDetail_nav_1_displayBook_comment_form_listComments_item">
                                     <div className="container_bookDetail_nav_1_displayBook_comment_form_listComments_item_img">
-                                        <img src="download.png" alt="account" />
+                                        <img src={imageAccount} alt="account" />
                                     </div>
                                     <div className="container_bookDetail_nav_1_displayBook_comment_form_listComments_item_content">
-                                        <span className="author">Nguyễn Nhật Ánh</span>
+                                        <span className="author">account</span>
                                         <span className="content">Chương hay quá</span>
                                     </div>
                                 </div>
