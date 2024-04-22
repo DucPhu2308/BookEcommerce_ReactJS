@@ -9,6 +9,7 @@ import SeenBookList from "./UpdateBook_SeenBookList/SeenBookList/SeenBookList";
 
 
 import './Home.css';
+import BookApi from "../../../API/User/BookApi";
 
 const listBooks = [
   {
@@ -39,6 +40,12 @@ const listBooks = [
 ];
 
 const UserHome = () => {
+  // load books
+  useEffect(() => {
+    BookApi.getTopNBooksSortByDate(10).then((res) => {
+      console.log(res.data);
+    });
+  }, []);
   return (
     <>
       <DefaultLayout>
@@ -50,9 +57,6 @@ const UserHome = () => {
           <div className="container_nav_1">
             <HotBookList />
           </div>
-
-
-
           <div className="container_nav_2">
             {/* Truyện mới cập nhật */}
 
@@ -61,14 +65,7 @@ const UserHome = () => {
             {/* Truyện đã xem */}
 
             <SeenBookList />
-
-
-
           </div>
-
-
-
-
           <div className="container_nav_3">
 
             <RankingList title="Đọc nhiều" list={listBooks} />

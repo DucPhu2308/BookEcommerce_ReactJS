@@ -11,5 +11,9 @@ class BookApi {
         const url = `${linkGetAllBook}/${id}`;
         return axiosClient.get(url);
     }
+    getTopNBooksSortByDate = (n) => {
+        const url = `book/list-by-date?num=${n}`;
+        return axiosClient.get(url);
+    }
 }
 export default new BookApi();
