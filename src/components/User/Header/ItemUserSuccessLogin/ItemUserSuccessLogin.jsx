@@ -42,7 +42,7 @@ const ItemUserSuccessLogin = () => {
             <li>
                 <div className="header_nav_user">
                     <img src={accountImage} alt="user" />
-                    <span>username
+                    <span>{JSON.parse(localStorage.getItem("user")).displayName}
                         <i className="fas fa-circle-chevron-down"></i>
                     </span>
                 </div>
