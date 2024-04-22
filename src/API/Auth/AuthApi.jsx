@@ -1,4 +1,3 @@
-import baseURL from "../BaseURL"
 import axiosClient from "../axiosClient"
 
 class AuthApi {

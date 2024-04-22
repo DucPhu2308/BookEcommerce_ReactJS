@@ -1,23 +1,22 @@
+import {axiosPrivate} from "../axiosClient";
 import axiosClient from "../axiosClient";
-import {linkGetAll,genre} from "../BaseURL";
-
 class GenreApi {
     getAll=()=>{
-        const url=linkGetAll;
+        const url='genre/all';
         return axiosClient.get(url);
     }
     addGenre=(data)=>{
-        const url=genre;
-        return axiosClient.post(url,data);
+        const url='genre';
+        return axiosPrivate.post(url,data);
     }
 
     updateGenre=(id,data)=>{
-        const url=`${genre}/${id}`;
-        return axiosClient.put(url,data);
+        const url=`genre/${id}`;
+        return axiosPrivate.put(url,data);
     }
     deleteGenre=(id)=>{
-        const url=`${genre}/${id}`;
-        return axiosClient.delete(url);
+        const url=`genre/${id}`;
+        return axiosPrivate.delete(url);
     }
     
 }

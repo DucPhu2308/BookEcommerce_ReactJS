@@ -4,12 +4,18 @@ import queryString from 'query-string';
 const BASE_URL = 'http://localhost:8080/api/v1/';
 const axiosClient = axios.create({
     baseURL: BASE_URL,
-    headers: {
-        'content-type': 'application/json',
-    },
-    paramsSerializer: params => queryString.stringify(params),
+    headers: { 'Content-Type': 'application/json' },
+    paramsSerializer: params => queryString.stringify(params)
 });
-
+axiosClient.interceptors.response.use((response) => {
+    if (response && response.data) {
+    return response.data;
+    }
+    return response;
+    }, (error) => {
+    // Handle errors
+    throw error;
+    });
 export default axiosClient;
 
 export const axiosPrivate = axios.create({

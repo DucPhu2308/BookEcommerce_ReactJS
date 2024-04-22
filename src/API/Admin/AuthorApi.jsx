@@ -1,11 +1,10 @@
 
-import axiosClient from '../axiosClient';
-import { linkGetAllAuthor } from '../BaseURL';
+import {axiosPrivate} from '../axiosClient';
 
 class Author {
     getAllAuthor = () => {
-        const url=linkGetAllAuthor;
-        return axiosClient.get(url);
+        const url = 'author/all';
+        return axiosPrivate.get(url);
     }
 }
 
