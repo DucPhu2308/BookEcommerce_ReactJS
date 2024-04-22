@@ -1,9 +1,10 @@
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import BookItem from "@/components/User/BookItem/BookItem";
 import './UpdateBookList.css';
 import Reveal from "../../../../../components/utils/Reveal";
 import BookApi from "../../../../../API/User/BookApi";
 import { useEffect, useState } from 'react';
+
 
 const colNumber = 2;
 const UpdateBookList = () => {
@@ -37,11 +38,11 @@ const UpdateBookList = () => {
             return (
               <tr key={index}>
                 <Link to={`/infoBook/${book.id}`}>
-                <td>
-                  <Reveal>
-                    <BookItem book={book} />
-                  </Reveal>
-                </td>
+                  <td>
+                    <Reveal>
+                      <BookItem book={book} />
+                    </Reveal>
+                  </td>
                 </Link>
 
                 {index + 1 < listBooks.length && (

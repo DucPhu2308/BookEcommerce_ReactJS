@@ -53,3 +53,33 @@
     font-weight: bold;
     font-family: Arial;
 }
+
+.sub_book_page_pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    list-style-type: none;
+}
+
+.sub_book_page_number_container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.sub_book_page_item {
+    margin: 0 5px; /* Khoảng cách giữa các mục trong container */
+}
+
+.sub_book_page_link {
+    text-decoration: none;
+    font-size: 20px;
+    background-color: #f9f9f9; 
+    box-shadow: 0 0 10px #d3cccc;
+    border: 3px solid #d3cccc;
+}
+
+
+.active {
+    font-weight: bold; /* Hiển thị số trang hiện tại nổi bật */
+    background-color: #d3cccc; /* Đổi màu nền cho số trang hiện tại */
+}
