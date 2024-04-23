@@ -7,7 +7,7 @@ import { useState } from 'react';
 
 const colNumber = 2;
 const UpdateBookList = ({list}) => {
-  const [listBooks, setListBooks] = useState(list);
+  
 
   return (
     <div className="container_nav_2_listBooks">
@@ -19,7 +19,7 @@ const UpdateBookList = ({list}) => {
       </div>
       <table>
         {/* display list in colNumber column */}
-        {listBooks.map((book, index) => {
+        {list.map((book, index) => {
           if (index % colNumber === 0) {
             return (
               <tr key={index}>
@@ -31,10 +31,10 @@ const UpdateBookList = ({list}) => {
                   </td>
                 </Link>
 
-                {index + 1 < listBooks.length && (
+                {index + 1 < list.length && (
                   <td>
                     <Reveal>
-                      <BookItem book={listBooks[index + 1]} />
+                      <BookItem book={list[index + 1]} />
                     </Reveal>
                   </td>
                 )}

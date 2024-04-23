@@ -11,35 +11,8 @@ import SeenBookList from "./UpdateBook_SeenBookList/SeenBookList/SeenBookList";
 import './Home.css';
 import BookApi from "../../../API/User/BookApi";
 
-/*
-const listBooks = [
-  {
-    id: 1,
-    title: "Truyện 1",
-    coverImage: "https://picsum.photos/200",
-  },
-  {
-    id: 2,
-    title: "Truyện 2",
-    coverImage: "https://placehold.jp/150x150.png",
-  },
-  {
-    id: 2,
-    title: "Truyện 2",
-    coverImage: "https://i.imgur.com/0y5CnXh.jpg",
-  },
-  {
-    id: 2,
-    title: "Truyện 2",
-    coverImage: "https://i.imgur.com/0y5CnXh.jpg",
-  },
-  {
-    id: 2,
-    title: "Truyện 2",
-    coverImage: "https://i.imgur.com/0y5CnXh.jpg",
-  },
-];
-*/
+
+
 
 const UserHome = () => {
   const [listBooks, setListBooks] = useState([]);

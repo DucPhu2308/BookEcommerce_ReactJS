@@ -19,9 +19,9 @@ const InfoBook = () => {
         const fetchBook = async () => {
             try {
                 const response = await BookApi.getBookById(id);
-                setBook(response.data);
-                setListChapter(response.data.chapters);
-                setListGenre(response.data.genres);
+                setBook(response.data.data);
+                setListChapter(response.data.data.chapters);
+                setListGenre(response.data.data.genres);
                 
             } catch (error) {
                 console.log(error);
@@ -74,7 +74,8 @@ const InfoBook = () => {
                     <div className="container_info_book_body_description">
                         <div className="container_info_book_body_description_left">
                             <div className="container_info_book_body_description_left_item_long_desc">
-                                <span>Long desc: {book.description} </span>
+                                <span>Long desc:</span>
+                                <pre>{book.description} </pre>
                             </div>
 
                             <div className="container_info_book_body_description_left_list_genre">

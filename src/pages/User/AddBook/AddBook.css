@@ -16,6 +16,13 @@
     display: flex;
     align-items: center;
 }
+.container_addBook_taskbar ul li span{
+    font-size: medium;
+    font-weight: 600;
+    color:#333;
+    font-family: sans-serif;
+    margin-left:10px;
+}
 .container_addBook_taskbar button{
     padding: 10px 20px;
     text-align: center;
@@ -30,9 +37,18 @@
     background-color: #333;
     color: #fff;
 }
+.dark:hover{
+    background-color: #fff;
+    color: #333;
+    border:2px solid #333;
+}
 .white{
     background-color: #fff;
     color: #333;
+}
+.white:hover{
+    background-color: #333;
+    color: #fff;
 }
 .container_addBook_taskbar a{
     text-decoration: none;

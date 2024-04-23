@@ -2,11 +2,11 @@ import {axiosPrivate} from "../axiosClient";
 import axiosClient from "../axiosClient";
 class GenreApi {
     getAll=()=>{
-        const url='genre/all';
+        const url=`genre/all`;
         return axiosClient.get(url);
     }
     addGenre=(data)=>{
-        const url='genre';
+        const url=`genre`;
         return axiosPrivate.post(url,data);
     }
 

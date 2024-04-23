@@ -11,15 +11,19 @@ const Login = () => {
   const [error, setError] = useState("");
 
   const handleLogin = async () => {
+   
     AuthApi.login(email, password)
       .then((res) => {
+        console.log(res.data);
         if (res.data.status == "ok") {
           localStorage.setItem("token", res.data.data.token);
           localStorage.setItem("user", JSON.stringify(res.data.data.user));
           localStorage.setItem("roles", JSON.stringify(res.data.data.roles));
           navigate("/");
+          
         } else {
           setError(res.data.message);
+          
         }
       })
       .catch((err) => {

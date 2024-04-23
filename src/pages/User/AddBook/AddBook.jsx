@@ -3,11 +3,13 @@ import DefaultLayout from '../../../layouts/DefaultLayout/DefaultLayout'
 import GenreApi from '../../../API/Admin/GenreApi'
 import './AddBook.css'
 import BookApi from '../../../API/User/BookApi'
+import { Link } from 'react-router-dom'
 const AddBook = () => {
     const [listGenre, setListGenre] = useState([]);
     const [listGenreAdded, setListGenreAdded] = useState([]);
     const [addBook, setAddBook] = useState('');
     const [addDescription, setAddDescription] = useState('');
+    
 
     const handleChangeAddInput = (e) => {
         setAddBook(e.target.value);
@@ -17,23 +19,26 @@ const AddBook = () => {
     }
 
     const handleAddBook = () => {
-        const newBook = {
-            "title": addBook,
-            "description": addDescription,
-            "coverImage": "image.png",
-            "genresDto": listGenreAdded.map(genre => genre.id),
-            "authorsDto": [1],
-            "userOwn": 1
+        const listGenreId = listGenreAdded.map(genre => genre.id);
+        const book = {
+            title: addBook,
+            description: addDescription,
+            coverImage: "cover.jpg",
+            genresDto: listGenreId,
+            authorsDto: localStorage.getItem('userId')
         }
-        const addBookApi = async () => {
-            try {
-                const response = await BookApi.postBook(newBook);
-                console.log(response);
-            } catch (error) {
-                console.log('Failed to add book: ', error);
-            }
-        }
-        addBookApi();   
+        console.log(book);
+        BookApi.postBook(book)
+            .then((res) => {
+                setAddBook('');
+                setAddDescription('');
+                setListGenreAdded([]);
+                console.log(res.data);
+                alert('Thêm truyện thành công');
+            })
+            .catch((err) => {
+                console.log(err.response.data.message);
+            });
     }
 
 
@@ -57,7 +62,7 @@ const AddBook = () => {
         const fetchGenre = async () => {
             try {
                 const response = await GenreApi.getAll();
-                setListGenre(response.data);
+                setListGenre(response.data.data);
             } catch (error) {
                 console.log('Failed to fetch genre: ', error);
             }
@@ -80,14 +85,14 @@ const AddBook = () => {
                 <div className="container_addBook_taskbar">
                     <ul>
                         <li>
-                            <a href="addBook.html">
-                                <i className="fas fa-arrow-left"></i>
-                                Thêm truyện</a>
+                            <span>Thêm truyện</span>
                         </li>
                         <li>
                             <div className="container_addBook_taskbar_button">
-                                <button className="dark">Hủy</button>
-                                <button className="white" onClick={handleAddBook}>Tiếp theo</button>
+                                <Link to="/my-books">
+                                    <button className="dark">Quay lại</button>
+                                </Link>
+                                <button className="white" onClick={handleAddBook}>Lưu</button>
                             </div>
                         </li>
                     </ul>

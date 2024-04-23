@@ -2,7 +2,7 @@ import axiosClient, {axiosPrivate} from "../axiosClient";
 
 class ChapterApi {
     getAllChapter = () => {
-        const url = 'chapter/all';
+        const url = `chapter/all`;
         return axiosClient.get(url);
     }
     getChapterById = (id) => {
@@ -11,7 +11,7 @@ class ChapterApi {
     }
     
     postChapter = (data) => {
-        const url = 'chapter';
+        const url = `chapter`;
         return axiosClient.post(url, data);
     }
 }

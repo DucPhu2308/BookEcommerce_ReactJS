@@ -1,7 +1,6 @@
 import './LoginLayout.css';
 import loginImage from '@/assets/images/imageLogin.png';
 import logo from '@/assets/images/logo.png';
-import PropTypes from 'prop-types';
 
 const LoginLayout = ({children}) => {
     return (
@@ -21,8 +20,6 @@ const LoginLayout = ({children}) => {
     );
 }
 
-LoginLayout.propTypes = {
-    children: PropTypes.node.isRequired,
-};
+
 
 export default LoginLayout;

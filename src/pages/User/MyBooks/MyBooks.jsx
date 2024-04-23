@@ -1,19 +1,66 @@
 import DefaultLayout from "@/layouts/DefaultLayout/DefaultLayout";
 import "./MyBooks.css";
 import { Link } from "react-router-dom";
-
+import { useState, useEffect } from "react";
+import AuthorApi from "../../../API/User/AuthorApi";
+import RowItemMyBook from "../MyBooks/RowItemMyBook/RowItemMyBook";
+const listBook =[
+  {
+    id:1,
+    title:"Truyện 1",
+    chapter:3,
+    rate:4,
+    comment:200,
+    view:1000
+  },
+  {
+    id:2,
+    title:"Truyện 2",
+    chapter:3,
+    rate:4,
+    comment:200,
+    view:1000
+  }
+]
 const MyBooks = () => {
+  
+  // const [listBook, setListBook] = useState([]);
+
+  // useEffect(() => {
+  //   const userId= localStorage.getItem("id");
+  //   const fetchListBook = async () => {
+  //     try {
+  //       const response = await AuthorApi.getBooksByAuthor(1);
+  //       console.log(response);
+  //       setListBook(response.data.data);
+  //     } catch (error) {
+  //       console.log("Failed to fetch list book: ", error);
+  //     }
+  //   };
+  //   fetchListBook();
+  // });
+
+  
+  const renderListBook = () =>{
+    if(listBook!=null){
+      return(
+        listBook.map((book) => (
+          <RowItemMyBook book={book} key={book.id} />
+        ))
+      )
+    }
+    else{
+      return(
+        <span style={{fontSize:"16px",margin:"20px 0 0 10px",fontWeight:"600"}}>Không có truyện nào</span>
+      )
+    }
+  }
+  
+
   return (
 
     <DefaultLayout>
       <div className="container_mybooks_body">
-        <div className="container_mybooks_taskbar">
-          <ul>
-            <li>
-              <a href="mybooks.html">Truyện của tôi</a>
-            </li>
-          </ul>
-        </div>
         <div className="container_mybooks_content">
           <div className="container_mybooks_content_header">
             <span>Truyện của tôi</span>
@@ -30,81 +77,7 @@ const MyBooks = () => {
               </div>
             </div>
             <div className="container_mybooks_content_body_box">
-              <div className="container_mybooks_content_body_box_item">
-                <div className="container_mybooks_content_body_box_item_img">
-                  <img src="imageBooks/anh1.jpg" alt="book1" />
-                </div>
-                <div className="container_mybooks_content_body_box_item_info">
-                  <div className="container_mybooks_content_body_box_item_info_nav">
-                    <div className="container_mybooks_content_body_box_item_info_nav_paga">
-                      <span className="title_bigger">Truyện 1</span>
-                      <span>Số chương: 3</span>
-                    </div>
-                    <div className="container_mybooks_content_body_box_item_action">
-                      <div className="container_mybooks_content_body_box_item_action_edit">
-                        <button className="body_box_item_action_edit_btn">
-                          Tiếp tục viêt
-                        </button>
-                        <div className="container_mybooks_content_body_box_item_action_edit_icon">
-                          <i className="fas fa-ellipsis-v"></i>
-                        </div>
-                      </div>
-                      <button className="body_box_item_action_delete_btn">Sửa</button>
-                    </div>
-                  </div>
-                  <div className="container_mybooks_content_body_box_item_info_nav_desc">
-                    <span>Đánh giá</span>
-                    <span>Lượt bình luận:200</span>
-                    <span>Lượt xem: 1000</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="container_mybooks_content_body_box_item">
-                <div className="container_mybooks_content_body_box_item_img">
-                  <img src="imageBooks/anh1.jpg" alt="book1" />
-                </div>
-                <div className="container_mybooks_content_body_box_item_info">
-                  <div className="container_mybooks_content_body_box_item_info_nav">
-                    <div className="container_mybooks_content_body_box_item_info_nav_paga">
-                      <span className="title_bigger">Truyện 1</span>
-                      <span>Số chương: 3</span>
-                    </div>
-                    <div className="container_mybooks_content_body_box_item_action">
-                      <div className="container_mybooks_content_body_box_item_action_edit">
-                        <button className="body_box_item_action_edit_btn">
-                          Tiếp tục viêt
-                        </button>
-                        <div className="container_mybooks_content_body_box_item_action_edit_icon">
-                          <i className="fas fa-ellipsis-v"></i>
-
-                          <div className="box_action_edit_icon_hidden">
-                            <div className="box_action_edit_icon_hidden_square">
-                              <div className="box_action_edit_icon_hidden_square_listChapter">
-                                <ul>
-                                  <li>Chương 1 sagasgsadg</li>
-                                  <li>Chương 2</li>
-                                  <li>Chương 3</li>
-                                  <li>Chương 4</li>
-                                </ul>
-                              </div>
-                              <div className="box_action_edit_icon_hidden_square_add_Chapter">
-                                <button>Thêm chương</button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <button className="body_box_item_action_delete_btn">Sửa</button>
-                    </div>
-                  </div>
-                  <div className="container_mybooks_content_body_box_item_info_nav_desc">
-                    <span>Đánh giá</span>
-                    <span>Lượt bình luận:200</span>
-                    <span>Lượt xem: 1000</span>
-                  </div>
-                </div>
-              </div>
+              {renderListBook()}
             </div>
           </div>
         </div>

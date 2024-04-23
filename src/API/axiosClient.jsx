@@ -7,15 +7,6 @@ const axiosClient = axios.create({
     headers: { 'Content-Type': 'application/json' },
     paramsSerializer: params => queryString.stringify(params)
 });
-axiosClient.interceptors.response.use((response) => {
-    if (response && response.data) {
-    return response.data;
-    }
-    return response;
-    }, (error) => {
-    // Handle errors
-    throw error;
-    });
 export default axiosClient;
 
 export const axiosPrivate = axios.create({
