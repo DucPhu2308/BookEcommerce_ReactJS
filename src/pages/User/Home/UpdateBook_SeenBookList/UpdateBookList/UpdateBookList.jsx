@@ -2,26 +2,12 @@ import { Link } from "react-router-dom";
 import BookItem from "@/components/User/BookItem/BookItem";
 import './UpdateBookList.css';
 import Reveal from "../../../../../components/utils/Reveal";
-import BookApi from "../../../../../API/User/BookApi";
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 
 const colNumber = 2;
-const UpdateBookList = () => {
-  const [listBooks, setListBooks] = useState([]);
-  useEffect(() => {
-    const fetchBooks = async () => {
-      try {
-        const response = await BookApi.getAll();
-        console.log(response.data);
-        // lấy 10 sách cuối cùng trong mảng
-        setListBooks(response.data.slice(-10));
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchBooks();
-  });
+const UpdateBookList = ({list}) => {
+  const [listBooks, setListBooks] = useState(list);
 
   return (
     <div className="container_nav_2_listBooks">

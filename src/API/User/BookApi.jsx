@@ -12,7 +12,11 @@ class BookApi {
     
     postBook = (data) => {
         const url = 'book';
-        return axiosClient.post(url, data);
+        return axiosPrivate.post(url, data);
+    }
+    getTopNBooksSortByDate = (n) => {
+        const url = `book/list-by-date?num=${n}`;
+        return axiosClient.get(url);
     }
 }
 export default new BookApi();
