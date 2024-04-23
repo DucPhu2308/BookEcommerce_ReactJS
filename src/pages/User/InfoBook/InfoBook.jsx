@@ -6,27 +6,22 @@ import ItemListGenre from "./ItemListGenre";
 import ItemListLoveBook from "./ItemListLoveBook";
 import BookApi from "../../../API/User/BookApi";
 
-const bookList=[
-    {
-        id:1,
-        title:"Chapter 1",
-    },
-    {
-        id:2,
-        title:"Chapter 2",
-    },
-]
-
 const InfoBook = () => {
     const [book, setBook] = useState({});
     const id=window.location.pathname.split("/")[2];
     const [listChapter,setListChapter]=useState([]);
+    const [listGenre,setListGenre]=useState([]);
+
+    
+
+
     useEffect(() => {
         const fetchBook = async () => {
             try {
                 const response = await BookApi.getBookById(id);
                 setBook(response.data);
                 setListChapter(response.data.chapters);
+                setListGenre(response.data.genres);
                 
             } catch (error) {
                 console.log(error);
@@ -53,7 +48,7 @@ const InfoBook = () => {
                     <div className="container_info_book_body_image_title_box">
                         <div className="container_info_book_body_image_title_left">
                             <span className="title_bold">{book.title}</span>
-                            <span>Luot xem</span>
+                            <span>Lượt xem</span>
                             <span>Rate: {book.avgRating}</span>
                             <span>Follow</span>
                         </div>
@@ -70,7 +65,7 @@ const InfoBook = () => {
                                 <span>Genre</span>
                                 <div className="container_info_book_body_image_title_right_list_genre_body">
                                     
-                                    <ItemListGenre />
+                                    <ItemListGenre listGenre={listGenre} />
                                 </div>
                             </div>
                         </div>

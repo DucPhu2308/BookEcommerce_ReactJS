@@ -36,6 +36,13 @@
     background-color: #333;
     color: #ffff;
 }
+.container_mybooks_content_header button:hover{
+    background-color: #ffff;
+    color: #333;
+}
+.container_mybooks_content_header i{
+    margin-left:5px;
+}
 .container_mybooks_content_body{
     width:100%;
     height:auto;
@@ -163,6 +170,13 @@
     border-radius:10px;
     position: relative;
     right:15px;
+    cursor: pointer;
+}
+.container_mybooks_content_body_box_item_action_edit_icon i{
+    font-size: 20px;
+    color: #ffff;
+    
+
 }
 .box_action_edit_icon_hidden_rect{
     border-width:10px 20px;
@@ -173,7 +187,7 @@
     top:20px;
 }
 .box_action_edit_icon_hidden_square{
-    width:180px;  
+    width:300px;  
     background-color: #ffff;
     position:absolute;
     border-radius:10px;
@@ -197,6 +211,11 @@
     color: #333;
     font-family: sans-serif;
     cursor: pointer;
+}
+
+.box_action_edit_icon_hidden_square_listChapter ul li:hover{
+    background-color: #f2f2f2;
+    border-radius: 5px;
 }
 .box_action_edit_icon_hidden_square_add_Chapter{
     width:100%;  

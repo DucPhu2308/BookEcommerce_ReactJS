@@ -10,7 +10,7 @@ const ManageGenre = () => {
     const [genre, setGenre] = useState([]);
     const [editingGenre, setEditingGenre] = useState(null);
     const [addInputValue, setAddInputValue] = useState('');
-
+    
     useEffect(() => {
         const fetchGenre = async () => {
             try {

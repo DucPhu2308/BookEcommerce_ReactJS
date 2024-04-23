@@ -12,7 +12,7 @@ class BookApi {
     
     postBook = (data) => {
         const url = 'book';
-        return axiosPrivate.post(url, data);
+        return axiosClient.post(url, data);
     }
 }
 export default new BookApi();

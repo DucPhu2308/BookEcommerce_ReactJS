@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react'
 import DefaultLayout from '../../../layouts/DefaultLayout/DefaultLayout'
 import GenreApi from '../../../API/Admin/GenreApi'
-import BookApi from '../../../API/User/BookApi'
 import './AddBook.css'
-
+import BookApi from '../../../API/User/BookApi'
 const AddBook = () => {
     const [listGenre, setListGenre] = useState([]);
     const [listGenreAdded, setListGenreAdded] = useState([]);
@@ -12,10 +11,12 @@ const AddBook = () => {
 
     const handleChangeAddInput = (e) => {
         setAddBook(e.target.value);
+    }
+    const handleChangeDescriptionInput = (e) => {
         setAddDescription(e.target.value);
     }
 
-    const handleAddBook = async () => {
+    const handleAddBook = () => {
         const newBook = {
             "title": addBook,
             "description": addDescription,
@@ -24,12 +25,15 @@ const AddBook = () => {
             "authorsDto": [1],
             "userOwn": 1
         }
-        try {
-            const response = await BookApi.postBook(newBook);
-            console.log(response.data);
-        } catch (error) {
-            console.log('Failed to add book: ', error);
+        const addBookApi = async () => {
+            try {
+                const response = await BookApi.postBook(newBook);
+                console.log(response);
+            } catch (error) {
+                console.log('Failed to add book: ', error);
+            }
         }
+        addBookApi();   
     }
 
 
@@ -83,7 +87,7 @@ const AddBook = () => {
                         <li>
                             <div className="container_addBook_taskbar_button">
                                 <button className="dark">Hủy</button>
-                                <button className="white" onClick={handleAddBook} >Tiếp theo</button>
+                                <button className="white" onClick={handleAddBook}>Tiếp theo</button>
                             </div>
                         </li>
                     </ul>
@@ -117,7 +121,7 @@ const AddBook = () => {
                                             <span>Mô tả</span>
                                         </div>
                                         <div className="container_addBook_nav_form_box_body_item_input">
-                                            <textarea name="bookDescription" placeholder="Nhập mô tả truyện" value={addDescription} onChange={handleChangeAddInput}></textarea>
+                                            <textarea name="bookDescription" placeholder="Nhập mô tả truyện" value={addDescription} onChange={handleChangeDescriptionInput}></textarea>
                                         </div>
                                     </div>
                                     <div className="container_addBook_nav_form_box_body_item select_option">
@@ -126,7 +130,7 @@ const AddBook = () => {
                                             <span>Thể loại</span>
                                         </div>
                                         <div className="container_addBook_nav_form_box_body_item_input">
-                                            <select name="bookType" id="bookType" onChange={handleChangeClick}>
+                                            <select name="bookType" id="bookType" onChange={handleChangeClick} >
                                                 {listGenre.map((genre) => (
                                                     <option key={genre.id} value={genre.id}>{genre.name}</option>
                                                 ))}
