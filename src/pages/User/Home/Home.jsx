@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import DefaultLayout from "@/layouts/DefaultLayout/DefaultLayout";
 import NavigationBar from "@/components/User/NavigationBar/NavigationBar";
@@ -11,6 +11,7 @@ import SeenBookList from "./UpdateBook_SeenBookList/SeenBookList/SeenBookList";
 import './Home.css';
 import BookApi from "../../../API/User/BookApi";
 
+/*
 const listBooks = [
   {
     id: 1,
@@ -38,12 +39,14 @@ const listBooks = [
     coverImage: "https://i.imgur.com/0y5CnXh.jpg",
   },
 ];
+*/
 
 const UserHome = () => {
+  const [listBooks, setListBooks] = useState([]);
   // load books
   useEffect(() => {
     BookApi.getTopNBooksSortByDate(10).then((res) => {
-      console.log(res.data);
+      setListBooks(res.data.data);
     });
   }, []);
   return (
@@ -60,7 +63,7 @@ const UserHome = () => {
           <div className="container_nav_2">
             {/* Truyện mới cập nhật */}
 
-            <UpdateBookList />
+            <UpdateBookList list={listBooks} />
 
             {/* Truyện đã xem */}
 
