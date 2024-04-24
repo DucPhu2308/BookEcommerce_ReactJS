@@ -4,7 +4,7 @@ import GenreApi from '../../../API/Admin/GenreApi'
 import './AddBook.css'
 import BookApi from '../../../API/User/BookApi'
 import { Link } from 'react-router-dom'
-import {ToastContainer, toast} from 'react-toastify'
+import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 
 const AddBook = () => {
@@ -12,7 +12,7 @@ const AddBook = () => {
     const [listGenreAdded, setListGenreAdded] = useState([]);
     const [addBook, setAddBook] = useState('');
     const [addDescription, setAddDescription] = useState('');
-    
+
 
     const handleChangeAddInput = (e) => {
         setAddBook(e.target.value);
@@ -22,25 +22,39 @@ const AddBook = () => {
     }
 
     const handleAddBook = () => {
-        const listGenreId = listGenreAdded.map(genre => genre.id);
-        const book = {
-            title: addBook,
-            description: addDescription,
-            coverImage: "cover.jpg",
-            genresDto: listGenreId,
+        const user = localStorage.getItem('user');
+        if (!user) {
+            toast.error('Vui lòng đăng nhập để thêm truyện');
+            return;
         }
-        BookApi.postBook(book)
-            .then((res) => {
-                setAddBook('');
-                setAddDescription('');
-                setListGenreAdded([]);
-                console.log(res.data);
-                toast.success('Thêm truyện thành công');
-            })
-            .catch((err) => {
-                console.log(err.response.data.message);
-                toast.error('Thêm truyện thất bại');
-            });
+        else if (addBook === '' || addDescription === '' || listGenreAdded.length === 0) {
+            toast.error('Vui lòng nhập đầy đủ thông tin');
+            return;
+        }
+        else {
+            const listGenreId = listGenreAdded.map(genre => genre.id);
+            const book = {
+                title: addBook,
+                description: addDescription,
+                coverImage: "cover.jpg",
+                genresDto: listGenreId,
+            }
+            BookApi.postBook(book)
+                .then((res) => {
+                    setAddBook('');
+                    setAddDescription('');
+                    setListGenreAdded([]);
+                    console.log(res.data);
+                    toast.success('Thêm truyện thành công');
+                })
+                .catch((err) => {
+                    console.log(err.response.data.message);
+                    toast.error('Thêm truyện thất bại');
+                });
+        }
+
+
+
     }
 
 

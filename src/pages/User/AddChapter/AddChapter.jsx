@@ -17,6 +17,8 @@ const AddChapter = () => {
 
     const handleSubmitGenre = () => {
         setSubmitAddChapter(!submitAddChapter)
+
+    
         if(addChapter === '' || indexChapter === null || priceChapter === null){
             setSubmitAddChapter(false)
             toast.error('Vui lòng nhập đầy đủ thông tin')
@@ -58,6 +60,18 @@ const AddChapter = () => {
 
     
     const handleAddChapterBook = async () => {
+
+        const user = localStorage.getItem('user')
+        if(!user){
+            toast.error('Vui lòng đăng nhập để thêm chương')
+            return;
+        }
+        else if(listChapter.length === 0){
+            toast.error('Vui lòng thêm chương')
+            return;
+        }
+        
+
         for(let i=0; i<listChapter.length; i++){
             const newChapter = {
                 "title": listChapter[i].title,
