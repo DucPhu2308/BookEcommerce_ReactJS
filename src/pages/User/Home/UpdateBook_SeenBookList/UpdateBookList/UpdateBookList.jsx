@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import BookItem from "@/components/User/BookItem/BookItem";
 import './UpdateBookList.css';
 import Reveal from "../../../../../components/utils/Reveal";
-import { useState } from 'react';
 
 
 const colNumber = 2;
@@ -33,9 +32,11 @@ const UpdateBookList = ({list}) => {
 
                 {index + 1 < list.length && (
                   <td>
-                    <Reveal>
-                      <BookItem book={list[index + 1]} />
-                    </Reveal>
+                    <Link to={`/infoBook/${list[index + 1].id}`}>
+                      <Reveal>
+                        <BookItem book={list[index + 1]} />
+                      </Reveal>
+                    </Link>
                   </td>
                 )}
               </tr>

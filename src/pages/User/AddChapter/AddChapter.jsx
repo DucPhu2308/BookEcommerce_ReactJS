@@ -3,6 +3,8 @@ import DefaultLayout from '../../../layouts/DefaultLayout/DefaultLayout'
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
 import ChapterApi from '../../../API/User/ChapterApi'
+import {ToastContainer, toast} from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
 import numeral from 'numeral'
 const AddChapter = () => {
     const [addChapter, setAddChapter] = useState('')
@@ -11,11 +13,13 @@ const AddChapter = () => {
     const [listChapter, setListChapter] = useState([])
     const [submitAddChapter, setSubmitAddChapter] = useState(false)
 
+    const nameBook = localStorage.getItem('nameBook')
+
     const handleSubmitGenre = () => {
-        // const bookId= localStorage.getItem("idBook");
         setSubmitAddChapter(!submitAddChapter)
-        if(addChapter === '' || indexChapter === null || priceChapter === ''){
+        if(addChapter === '' || indexChapter === null || priceChapter === null){
             setSubmitAddChapter(false)
+            toast.error('Vui lòng nhập đầy đủ thông tin')
         }
         else{
             const newChapter = {
@@ -64,11 +68,12 @@ const AddChapter = () => {
             try {
                 ChapterApi.postChapter(newChapter).then((res) => {
                     console.log(res.data)
-                    alert('Thêm chương thành công')
+                    toast.success('Thêm chương thành công')
                 })
                 
             } catch (error) {
                 console.log('Failed to add chapter: ', error)
+                toast.error('Thêm chương thất bại')
             }
         }
         setListChapter([])
@@ -92,6 +97,7 @@ const AddChapter = () => {
 
     return (
         <DefaultLayout>
+            <ToastContainer />
             <div className="container_add_chapter_body">
                 <div className="container_add_chapter_taskbar">
                     <ul>
@@ -127,7 +133,7 @@ const AddChapter = () => {
                                 <span>Sách</span>
                             </div>
                             <div className="container_add_chapter_box_form_input_input">
-                                <input type="text" value="Thạch và những người bạn" style={{backgroundColor: '#b9b4b4e1'}} disabled/>
+                                <input type="text" value={nameBook} style={{backgroundColor: '#b9b4b4e1'}} disabled/>
                             </div>
                         </div>
                         <div className="container_add_chapter_box_form_input">
@@ -138,7 +144,7 @@ const AddChapter = () => {
                         <div className="container_add_chapter_box_form_input">
                             <div className="container_add_chapter_box_form_input_name">
                                 <span>Nhập xu
-                                    <input type="number" placeholder="Nhập giá tiền" value={priceChapter} onChange={handleChangePriceChapter} />
+                                    <input type="number" placeholder="Nhập xu" value={priceChapter} onChange={handleChangePriceChapter} />
                                     xu
                                 </span>
 
@@ -161,7 +167,7 @@ const AddChapter = () => {
                                     <div className="container_added_chapter_list_body_item" key={index}>
                                         <div className="container_added_chapter_list_body_item_info">
                                             <span>Chương {item.index}: {item.title}</span>
-                                            <span>Giá: {amountCurrency(item.price)} VNĐ</span>
+                                            <span>Giá: {amountCurrency(item.price)} xu</span>
                                         </div>
                                         <div className="container_added_chapter_list_body_item_action">
                                             <button onClick={()=> handleDeleteGenre(index)}>xóa</button>

@@ -20,6 +20,7 @@ const InfoBook = () => {
                 setBook(response.data.data);
                 setListChapter(response.data.data.chapters);
                 setListGenre(response.data.data.genres);
+                localStorage.setItem("nameBook",response.data.data.title);
             } catch (error) {
                 console.log("Failed to fetch book: ", error);
             }

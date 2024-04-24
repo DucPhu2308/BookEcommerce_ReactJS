@@ -4,6 +4,9 @@ import GenreApi from '../../../API/Admin/GenreApi'
 import './AddBook.css'
 import BookApi from '../../../API/User/BookApi'
 import { Link } from 'react-router-dom'
+import {ToastContainer, toast} from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
+
 const AddBook = () => {
     const [listGenre, setListGenre] = useState([]);
     const [listGenreAdded, setListGenreAdded] = useState([]);
@@ -19,27 +22,24 @@ const AddBook = () => {
     }
 
     const handleAddBook = () => {
-        
-        
         const listGenreId = listGenreAdded.map(genre => genre.id);
         const book = {
             title: addBook,
             description: addDescription,
             coverImage: "cover.jpg",
             genresDto: listGenreId,
-            authorsDto: [1]
         }
-        console.log(book);
         BookApi.postBook(book)
             .then((res) => {
                 setAddBook('');
                 setAddDescription('');
                 setListGenreAdded([]);
                 console.log(res.data);
-                alert('Thêm truyện thành công');
+                toast.success('Thêm truyện thành công');
             })
             .catch((err) => {
                 console.log(err.response.data.message);
+                toast.error('Thêm truyện thất bại');
             });
     }
 
@@ -67,6 +67,7 @@ const AddBook = () => {
                 setListGenre(response.data.data);
             } catch (error) {
                 console.log('Failed to fetch genre: ', error);
+                toast.error('Lỗi khi lấy dữ liệu thể loại');
             }
         }
         fetchGenre();
@@ -83,6 +84,7 @@ const AddBook = () => {
     }, [])
     return (
         <DefaultLayout>
+            <ToastContainer />
             <div className="container_addBook_body">
                 <div className="container_addBook_taskbar">
                     <ul>
