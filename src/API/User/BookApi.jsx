@@ -18,5 +18,9 @@ class BookApi {
         const url = `book/list-by-date?num=${n}`;
         return axiosClient.get(url);
     }
+    updateBook = (id,data) => {
+        const url = `book/${id}`;
+        return axiosPrivate.put(url, data);
+    }
 }
 export default new BookApi();

@@ -16,6 +16,7 @@ import SubcribeBookPage from './pages/User/SubcribeBookPage/SubcribeBookPage'
 import HistoryBookPage from './pages/User/HistoryBookPage/HistoryBookPage'
 import AddParagraph from './pages/User/AddParagraph/AddParagraph'
 import AddChapter from './pages/User/AddChapter/AddChapter'
+import UpdateBook from './pages/User/UpdateBook/UpdateBook'
 
 const ROLES = {
   'USER': 'USER',
@@ -42,7 +43,7 @@ function App() {
         <Route path="/bank" element={<Bank />} />
         <Route path="/subcribebook" element={<SubcribeBookPage />} />
         <Route path="/historybook" element={<HistoryBookPage />} />
-
+        <Route path="/update-book/:id" element={<UpdateBook />} />
         {/* private routes */}
         <Route element={<RequireAuth allowedRoles={[ROLES.USER]} />}>
           <Route path="/buy-coins" element={<BuyCoins />} />

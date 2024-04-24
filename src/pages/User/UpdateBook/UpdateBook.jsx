@@ -1,106 +1,105 @@
-import { useState, useEffect } from 'react'
-import DefaultLayout from '../../../layouts/DefaultLayout/DefaultLayout'
-import GenreApi from '../../../API/Admin/GenreApi'
-import './AddBook.css'
-import BookApi from '../../../API/User/BookApi'
+import '../AddBook/AddBook.css'
 import { Link } from 'react-router-dom'
+import DefaultLayout from '../../../layouts/DefaultLayout/DefaultLayout'
+import { useState, useEffect } from 'react'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
+import BookAPI from '../../../API/User/BookApi'
+import GenreAPI from '../../../API/Admin/GenreApi'
 
-const AddBook = () => {
+const UpdateBook = ()=>{
+    const idBook= window.location.pathname.split("/")[2];
     const [listGenre, setListGenre] = useState([]);
+    const [updateNameBook, setUpdateNameBook] = useState('');
+    const [updateDescription, setUpdateDescription] = useState('');
     const [listGenreAdded, setListGenreAdded] = useState([]);
-    const [addBook, setAddBook] = useState('');
-    const [addDescription, setAddDescription] = useState('');
 
-
-    const handleChangeAddInput = (e) => {
-        setAddBook(e.target.value);
-    }
-    const handleChangeDescriptionInput = (e) => {
-        setAddDescription(e.target.value);
-    }
-
-    const handleAddBook = () => {
-        const user = localStorage.getItem('user');
-        if (!user) {
-            toast.error('Vui lòng đăng nhập để thêm truyện');
-            return;
-        }
-        else if (addBook === '' || addDescription === '' || listGenreAdded.length === 0) {
-            toast.error('Vui lòng nhập đầy đủ thông tin');
-            return;
-        }
-        else {
-            const genres = []
-            listGenreAdded.map((genre) => {
-                genres.push(genre.id)
+    useEffect(() => {
+        BookAPI.getBookById(idBook)
+            .then((res) => {
+                setUpdateNameBook(res.data.data.title);
+                setUpdateDescription(res.data.data.description);
+                setListGenreAdded(res.data.data.genres);
+                
             })
-            const book = {
-                title: addBook,
-                description: addDescription,
-                coverImage: "cover.jpg",
-                genresDto: genres,
-            }
-            BookApi.postBook(book)
-                .then((res) => {
-                    setAddBook('');
-                    setAddDescription('');
-                    setListGenreAdded([]);
-                    console.log(res.data);
-                    toast.success('Thêm truyện thành công');
-                })
-                .catch((err) => {
-                    console.log(err.response.data.message);
-                    toast.error('Thêm truyện thất bại');
-                });
-        }
+            .catch((err) => {
+                console.log(err.response.data.message);
+                toast.error('Lấy thông tin truyện thất bại');
+            });
+    }, [idBook]);
 
 
-
-    }
-
-
-
-
-
-
-    const handleDeleteGenreAdded = (genreId) => {
-        const newListGenreAdded = listGenreAdded.filter(genre => genre.id !== genreId);
-        setListGenreAdded(newListGenreAdded);
-    }
-
-    const handleChangeClick = (e) => {
-        const genreId = parseInt(e.target.value);
-        const genre = listGenre.find(genre => genre.id === genreId);
-        const isExist = listGenreAdded.find(genre => genre.id === genreId);
-        if (!isExist) {
-            setListGenreAdded([...listGenreAdded, genre]);
-        }
-    }
 
     useEffect(() => {
         const fetchGenre = async () => {
             try {
-                const response = await GenreApi.getAll();
+                const response = await GenreAPI.getAll();
                 setListGenre(response.data.data);
             } catch (error) {
-                console.log('Failed to fetch genre: ', error);
-                toast.error('Lỗi khi lấy dữ liệu thể loại');
+                console.log("Failed to fetch genre: ", error);
+                toast.error('Lấy thông tin thể loại thất bại');
             }
         }
         fetchGenre();
     }, []);
 
-    useEffect(() => {
-        const script = document.createElement("script");
-        script.src = "/src/pages/User/AddBook/script.jsx";
-        document.body.appendChild(script);
+    const handleUpdateBook = () => {
+        const user = localStorage.getItem('user');
+        if (!user) {
+            toast.error('Vui lòng đăng nhập để cập nhật truyện');
+            return;
+        }
+        else if (updateNameBook === '' || updateDescription === '' || listGenreAdded.length === 0) {
+            toast.error('Vui lòng nhập đầy đủ thông tin');
+            return;
+        }
+        else {
+            const genres=[]
+            listGenreAdded.map((genre)=>{
+                genres.push(genre.id)
+            })
+            const book = {
+                title: updateNameBook,
+                description: updateDescription,
+                coverImage: "cover.jpg",
+                genresDto: genres,
+            }
+            BookAPI.updateBook(idBook, book)
+                .then((res) => {
+                    console.log(res.data);
+                    toast.success('Cập nhật truyện thành công');
+                })
+                .catch((err) => {
+                    console.log(err);
+                    toast.error('Cập nhật truyện thất bại');
+                });
 
-        return () => {
-            document.body.removeChild(script);
-        };
-    }, [])
+        }
+    }
+
+    const handleChangeClick = (e) => {
+        const genreId = e.target.value;
+        const genre = listGenre.find((genre) => genre.id === parseInt(genreId));
+        const isExist = listGenreAdded.find((genre) => genre.id === parseInt(genreId));
+        if (!isExist) {
+            setListGenreAdded([...listGenreAdded, genre]);
+        }
+    }
+
+    const handleChangeUpdateInput = (e) => {
+        setUpdateNameBook(e.target.value);
+    }
+
+
+    const handleChangeDescriptionInput = (e) => {
+        setUpdateDescription(e.target.value);
+    }
+
+    const handleDeleteGenreAdded = (id) => {
+        const newListGenreAdded = listGenreAdded.filter((genre) => genre.id !== id);
+        setListGenreAdded(newListGenreAdded);
+    }
+
     return (
         <DefaultLayout>
             <ToastContainer />
@@ -108,14 +107,14 @@ const AddBook = () => {
                 <div className="container_addBook_taskbar">
                     <ul>
                         <li>
-                            <span>Thêm truyện</span>
+                            <span>Cập nhật truyện</span>
                         </li>
                         <li>
                             <div className="container_addBook_taskbar_button">
                                 <Link to="/my-books">
                                     <button className="dark">Quay lại</button>
                                 </Link>
-                                <button className="white" onClick={handleAddBook}>Lưu</button>
+                                <button className="white" onClick={handleUpdateBook}>Lưu</button>
                             </div>
                         </li>
                     </ul>
@@ -141,7 +140,7 @@ const AddBook = () => {
                                             <span>Tiêu đề</span>
                                         </div>
                                         <div className="container_addBook_nav_form_box_body_item_input">
-                                            <input type="text" name="bookName" placeholder="Nhập tiêu đề" value={addBook} onChange={handleChangeAddInput} />
+                                            <input type="text" name="bookName" placeholder="Nhập tiêu đề" value={updateNameBook} onChange={handleChangeUpdateInput} />
                                         </div>
                                     </div>
                                     <div className="container_addBook_nav_form_box_body_item">
@@ -149,7 +148,7 @@ const AddBook = () => {
                                             <span>Mô tả</span>
                                         </div>
                                         <div className="container_addBook_nav_form_box_body_item_input">
-                                            <textarea name="bookDescription" placeholder="Nhập mô tả truyện" value={addDescription} onChange={handleChangeDescriptionInput}></textarea>
+                                            <textarea name="bookDescription" placeholder="Nhập mô tả truyện" value={updateDescription} onChange={handleChangeDescriptionInput}></textarea>
                                         </div>
                                     </div>
                                     <div className="container_addBook_nav_form_box_body_item select_option">
@@ -195,4 +194,4 @@ const AddBook = () => {
     )
 }
 
-export default AddBook
+export default UpdateBook
