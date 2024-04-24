@@ -154,19 +154,7 @@
     border-radius: 10px;
     cursor: pointer;
 }
-.body_box_item_action_delete_btn{
-    width: 50px;
-    height: 35px;
-    background-color: #a29999;
-    font-size: 16px;
-    color: #333;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    border:none;
-    border-radius: 5px;
-}
+
 
 
 

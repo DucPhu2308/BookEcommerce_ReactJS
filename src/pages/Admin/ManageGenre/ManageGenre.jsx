@@ -1,6 +1,8 @@
 import GenreApi from '../../../API/Admin/GenreApi';
 import './ManageGenre.css'
 import { useEffect, useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const ManageGenre = () => {
@@ -10,14 +12,15 @@ const ManageGenre = () => {
     const [genre, setGenre] = useState([]);
     const [editingGenre, setEditingGenre] = useState(null);
     const [addInputValue, setAddInputValue] = useState('');
-    
+
     useEffect(() => {
         const fetchGenre = async () => {
             try {
                 const response = await GenreApi.getAll();
-                setGenre(response.data);
+                setGenre(response.data.data);
             } catch (error) {
                 console.log(error);
+                toast.error('Lấy thông tin thể loại thất bại');
             }
         }
         fetchGenre();
@@ -44,6 +47,7 @@ const ManageGenre = () => {
             setGenre([...genre, newGenre]);
             try {
                 const response = await GenreApi.addGenre(newGenre);
+                toast.success('Thêm thể loại thành công');
                 setGenre([...genre, response.data]);
                 setAddGenre(false);
                 setAddInputValue('');
@@ -72,6 +76,7 @@ const ManageGenre = () => {
         };
         try {
             const response = await GenreApi.updateGenre(id, newGenre);
+            toast.success('Cập nhật thể loại thành công');
             const newGenres = genre.map((item) =>
                 item.id === id ? response.data : item
             );
@@ -97,15 +102,12 @@ const ManageGenre = () => {
     }
 
 
-
-
-
     const renderAddGenre = () => {
         if (addGenre) {
             return (
                 <tr>
                     <td>
-                        <input type="text" placeholder="Nhập tên thể loại" value={addInputValue} onChange={handleChangeAddInput} />
+                        <input id="inputFilter" type="text" placeholder="Nhập tên thể loại" value={addInputValue} onChange={handleChangeAddInput} />
                     </td>
                     <td className="option_content_table_btn_action">
                         <button onClick={handleAddGenre}>
@@ -120,75 +122,89 @@ const ManageGenre = () => {
         }
     }
 
+    useEffect(() => {
+        const script = document.createElement("script");
+        script.src = "/src/pages/Admin/ManageGenre/script.jsx";
+        script.async = true;
+        document.body.appendChild(script);
+        return () => {
+            document.body.removeChild(script);
+        };
+    }, [genre]);
+
     return (
-        <div className="container_admin_option">
-            <div className="container_admin_option_body">
-                <div className="container_admin_option_title">
-                    <div className="container_admin_option_title_item">
-                        <span>Quản lý thể loại</span>
+        <>
+            <ToastContainer />
+            <div className="container_admin_option">
+                <div className="container_admin_option_body">
+                    <div className="container_admin_option_title">
+                        <div className="container_admin_option_title_item">
+                            <span>Quản lý thể loại</span>
+                        </div>
+                        <div className="container_admin_option_title_search">
+                            <input id="inputFilter" type="text" placeholder="Tìm kiếm" />
+                            <button>
+                                <i className="fas fa-search"></i>
+                            </button>
+                        </div>
                     </div>
-                    <div className="container_admin_option_title_search">
-                        <input type="text" placeholder="Tìm kiếm" />
-                        <button>
-                            <i className="fas fa-search"></i>
-                        </button>
-                    </div>
-                </div>
-                <div className="container_admin_option_content">
-                    <div className="container_admin_option_content_add">
-                        <button onClick={handleAddGenre}>Thêm thể loại</button>
-                    </div>
-                    <div className="container_admin_option_content_table">
-                        <table>
-                            {renderAddGenre()}
-                            {genre.map((item) => (
-                                <tr key={item.id}>
-                                    <td>
-                                        {editingGenre === item.id ? (
-                                            <>
-                                                <input
-                                                    type="text"
-                                                    value={inputValue}
-                                                    onChange={handleChangeInput}
-                                                />
-                                            </>
+                    <div className="container_admin_option_content">
+                        <div className="container_admin_option_content_add">
+                            <button onClick={handleAddGenre}>Thêm thể loại</button>
+                        </div>
+                        <div className="container_admin_option_content_table">
+                            <table>
+                                {renderAddGenre()}
+                                {genre.map((item) => (
+                                    <tr key={item.id}>
+                                        <td>
+                                            {editingGenre === item.id ? (
+                                                <>
+                                                    <input
+                                                        type="text"
+                                                        value={inputValue}
+                                                        onChange={handleChangeInput}
+                                                    />
+                                                </>
 
 
-                                        ) : (
-                                            <span>{item.name}</span>
-                                        )}
-                                    </td>
-                                    <td className="option_content_table_btn_action">
-                                        {editingGenre === item.id ? (
-                                            <>
-                                                <button onClick={() => handleSaveGenre(item.id)}>
-                                                    <i className="fas fa-save"></i>
-                                                </button>
-                                                <button onClick={handleCancelSaveGenre}>
-                                                    <i className="fas fa-times"></i>
-                                                </button>
-                                            </>
+                                            ) : (
+                                                <span>{item.name}</span>
+                                            )}
+                                        </td>
+                                        <td className="option_content_table_btn_action">
+                                            {editingGenre === item.id ? (
+                                                <>
+                                                    <button onClick={() => handleSaveGenre(item.id)}>
+                                                        <i className="fas fa-save"></i>
+                                                    </button>
+                                                    <button onClick={handleCancelSaveGenre}>
+                                                        <i className="fas fa-times"></i>
+                                                    </button>
+                                                </>
 
-                                        ) : (
-                                            <>
-                                                <button onClick={() => handleUpdateGenre(item.id)}>
-                                                    <i className="fas fa-edit"></i>
-                                                </button>
-                                                <button onClick={() => handleDeleteGenre(item.id)}>
-                                                    <i className="fas fa-trash-alt"></i>
-                                                </button>
-                                            </>
+                                            ) : (
+                                                <>
+                                                    <button onClick={() => handleUpdateGenre(item.id)}>
+                                                        <i className="fas fa-edit"></i>
+                                                    </button>
+                                                    <button onClick={() => handleDeleteGenre(item.id)}>
+                                                        <i className="fas fa-trash-alt"></i>
+                                                    </button>
+                                                </>
 
-                                        )}
+                                            )}
 
-                                    </td>
-                                </tr>
-                            ))}
-                        </table>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </>
+
     );
 }
 

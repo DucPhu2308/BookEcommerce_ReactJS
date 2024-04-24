@@ -2,16 +2,34 @@ import { useState } from "react";
 import "./RowItemMyBook.css";
 import { Link } from "react-router-dom";
 
-const RowItemMyBook = ({ book,book_id }) => {
+const RowItemMyBook = ({ book, book_id }) => {
   const [click, setClick] = useState(false);
+  
   const handleClick = () => {
     setClick(!click);
   }
   const handleDirectGenre = () => {
     localStorage.setItem("idBook", book_id);
     window.location.href = "/add-chapter";
-    
+
   }
+  
+  const renderStateListChapter = (data) => {
+    if(data != null){
+      return (
+        data.map((chapter) => (
+          <li key={chapter.id}>Chương {chapter.index}: {chapter.title}</li>
+        ))
+      )
+    }
+    else{
+      return (
+        <span style={{fontSize:"16px", fontWeight:"600", fontFamily:"San-serif"}}>Chưa có chương nào</span>
+      )
+    }
+  }
+
+
   const renderListChapter = () => {
     if (click) {
       return (
@@ -19,15 +37,13 @@ const RowItemMyBook = ({ book,book_id }) => {
           <div className="box_action_edit_icon_hidden_square">
             <div className="box_action_edit_icon_hidden_square_listChapter">
               <ul>
-                {book.chapters.map((chapter) => (
-                  <li key={chapter.id}>Chương {chapter.index}: {chapter.title}</li>
-                ))}
+                {renderStateListChapter(book.chapters)}
               </ul>
             </div>
             <div className="box_action_edit_icon_hidden_square_add_Chapter">
-              
-            <button onClick={handleDirectGenre}>Thêm chương</button>
-              
+
+              <button onClick={handleDirectGenre}>Thêm chương</button>
+
             </div>
           </div>
         </div>
@@ -56,7 +72,11 @@ const RowItemMyBook = ({ book,book_id }) => {
                 {renderListChapter()}
               </div>
             </div>
-            <button className="body_box_item_action_delete_btn">Sửa</button>
+            <div className="btn_action">
+              <button className="body_box_item_action_update_btn">Sửa</button>
+              <button className="body_box_item_action_delete_btn">Xóa</button>
+            </div>
+
           </div>
         </div>
         <div className="container_mybooks_content_body_box_item_info_nav_desc">

@@ -91,3 +91,44 @@
     
 
 }
+
+.btn_action{
+    display:flex;
+}
+.body_box_item_action_delete_btn{
+    width: 50px;
+    height: 35px;
+    background-color: #918c8c;
+    font-size: 16px;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border:none;
+    border-radius: 5px;
+    margin-left:10px;
+}
+
+
+.body_box_item_action_update_btn{
+    width: 50px;
+    height: 35px;
+    background-color: #b0a7a7cb;
+    font-size: 16px;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border:none;
+    border-radius: 5px;
+}
+
+.body_box_item_action_delete_btn:hover{
+    background-color: #c2b9b9cb;
+}
+
+.body_box_item_action_update_btn:hover{
+    background-color: #d6a7a7cb;
+}

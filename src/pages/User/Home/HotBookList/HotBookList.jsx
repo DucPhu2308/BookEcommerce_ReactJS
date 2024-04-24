@@ -82,9 +82,6 @@ const HotBookList = () => {
                     </li>
                 </ul>
             </div>
-            <div className="btn_nav_1_listBooks right">
-                <span>{">"}</span>
-            </div>
         </>
 
     )
