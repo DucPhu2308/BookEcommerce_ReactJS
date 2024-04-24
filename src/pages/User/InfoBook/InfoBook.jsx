@@ -11,10 +11,8 @@ const InfoBook = () => {
     const id=window.location.pathname.split("/")[2];
     const [listChapter,setListChapter]=useState([]);
     const [listGenre,setListGenre]=useState([]);
-
+    localStorage.setItem("idBook",id);
     
-
-
     useEffect(() => {
         const fetchBook = async () => {
             try {
@@ -22,11 +20,10 @@ const InfoBook = () => {
                 setBook(response.data.data);
                 setListChapter(response.data.data.chapters);
                 setListGenre(response.data.data.genres);
-                
             } catch (error) {
-                console.log(error);
+                console.log("Failed to fetch book: ", error);
             }
-        }
+        };
         fetchBook();
     }, []);
 
@@ -58,7 +55,7 @@ const InfoBook = () => {
                         <div className="container_info_book_body_image_title_right">
                             <div className="container_info_book_body_image_title_right_author">
                                 <span>
-                                    Tác giả: {book.userOwn?.username}
+                                    Tác giả: {book.userOwn?.displayName}
                                 </span>
                             </div>
                             <div className="container_info_book_body_image_title_right_list_genre">

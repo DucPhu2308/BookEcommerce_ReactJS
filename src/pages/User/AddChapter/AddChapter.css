@@ -17,7 +17,13 @@
     padding: 10px;
     display: flex;
 }
-
+.container_add_chapter_taskbar ul li span{
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    font-family: sans-serif;
+    margin-left: 10px;
+}
 .container_add_chapter_taskbar button{
     padding: 10px 20px;
     text-align: center;
@@ -28,7 +34,15 @@
     margin-right: 10px;
     border-radius: 5px;
 }
-
+.white_btn_cancel:hover{
+    background-color: #333;
+    color: #fff;
+}
+.dark_btn_next:hover{
+    background-color: #fff;
+    color: #333;
+    border: 2px solid #333;
+}
 .container_add_chapter_box_body{
     padding:10px 25%;
 }

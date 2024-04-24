@@ -12,7 +12,7 @@ class ChapterApi {
     
     postChapter = (data) => {
         const url = `chapter`;
-        return axiosClient.post(url, data);
+        return axiosPrivate.post(url, data);
     }
 }
 export default new ChapterApi();

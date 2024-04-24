@@ -2,10 +2,15 @@ import { useState } from "react";
 import "./RowItemMyBook.css";
 import { Link } from "react-router-dom";
 
-const RowItemMyBook = ({ book }) => {
+const RowItemMyBook = ({ book,book_id }) => {
   const [click, setClick] = useState(false);
   const handleClick = () => {
     setClick(!click);
+  }
+  const handleDirectGenre = () => {
+    localStorage.setItem("idBook", book_id);
+    window.location.href = "/add-chapter";
+    
   }
   const renderListChapter = () => {
     if (click) {
@@ -14,16 +19,15 @@ const RowItemMyBook = ({ book }) => {
           <div className="box_action_edit_icon_hidden_square">
             <div className="box_action_edit_icon_hidden_square_listChapter">
               <ul>
-                <li>Chương 1 sagasgsadg</li>
-                <li>Chương 2</li>
-                <li>Chương 3</li>
-                <li>Chương 4</li>
+                {book.chapters.map((chapter) => (
+                  <li key={chapter.id}>Chương {chapter.index}: {chapter.title}</li>
+                ))}
               </ul>
             </div>
             <div className="box_action_edit_icon_hidden_square_add_Chapter">
-              <Link to="/add-chapter">
-                <button>Thêm chương</button>
-              </Link>
+              
+            <button onClick={handleDirectGenre}>Thêm chương</button>
+              
             </div>
           </div>
         </div>
@@ -38,8 +42,8 @@ const RowItemMyBook = ({ book }) => {
       <div className="container_mybooks_content_body_box_item_info">
         <div className="container_mybooks_content_body_box_item_info_nav">
           <div className="container_mybooks_content_body_box_item_info_nav_paga">
-            <span className="title_bigger">Truyện 1</span>
-            <span>Số chương: 3</span>
+            <span className="title_bigger">{book.title}</span>
+            <span>Số chương: null</span>
           </div>
           <div className="container_mybooks_content_body_box_item_action">
             <div className="container_mybooks_content_body_box_item_action_edit">

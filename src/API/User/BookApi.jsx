@@ -6,7 +6,10 @@ class BookApi {
         return axiosClient.get(url);
     }
     
-    
+    getBookById = (id) => {
+        const url = `book/${id}`;
+        return axiosClient.get(url);
+    }
     postBook = (data) => {
         const url = 'book';
         return axiosPrivate.post(url, data);

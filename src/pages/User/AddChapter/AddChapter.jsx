@@ -12,6 +12,7 @@ const AddChapter = () => {
     const [submitAddChapter, setSubmitAddChapter] = useState(false)
 
     const handleSubmitGenre = () => {
+        // const bookId= localStorage.getItem("idBook");
         setSubmitAddChapter(!submitAddChapter)
         if(addChapter === '' || indexChapter === null || priceChapter === ''){
             setSubmitAddChapter(false)
@@ -21,21 +22,23 @@ const AddChapter = () => {
                 "title": addChapter,
                 "price": priceChapter,
                 "index": indexChapter,
-                "book": 104
+                "book": localStorage.getItem('idBook')
             }
             setListChapter([...listChapter, newChapter])
-
+            setAddChapter('')
+            setIndexChapter(null)
+            setPriceChapter('')
         }
     }
-
+    
     const handleDeleteGenre = (index) => {
         const newListChapter = listChapter.filter((item, idx) => idx !== index)
         setListChapter(newListChapter)
     }
 
-    const saveAddBook = localStorage.getItem('newBook')
-    const newBook = saveAddBook ? JSON.parse(saveAddBook) : null
-    console.log(newBook);
+    // const saveAddBook = localStorage.getItem('newBook')
+    // const newBook = saveAddBook ? JSON.parse(saveAddBook) : null
+    // console.log(newBook);
 
 
 
@@ -46,26 +49,30 @@ const AddChapter = () => {
         setIndexChapter(e.target.value)
     }
     const handleChangePriceChapter = (e) => {
-        const rawValue = e.target.value.replace(/\D/g, ''); // Lọc bỏ tất cả kí tự không phải số
-        rawValue.replace(/đ/gi, '');
-        const formattedValue = amountCurrency(rawValue);
-        setPriceChapter(formattedValue)
+        setPriceChapter(e.target.value)
     }
 
     
     const handleAddChapterBook = async () => {
-        const newChapter = {
-            "title": addChapter,
-            "price": priceChapter,
-            "index": indexChapter,
-            "book": 104
+        for(let i=0; i<listChapter.length; i++){
+            const newChapter = {
+                "title": listChapter[i].title,
+                "price": listChapter[i].price,
+                "index": listChapter[i].index,
+                "book": listChapter[i].book
+            }
+            try {
+                ChapterApi.postChapter(newChapter).then((res) => {
+                    console.log(res.data)
+                    alert('Thêm chương thành công')
+                })
+                
+            } catch (error) {
+                console.log('Failed to add chapter: ', error)
+            }
         }
-        try {
-            const response = await ChapterApi.postChapter(newChapter)
-            console.log(response.data)
-        } catch (error) {
-            console.log('Failed to add chapter: ', error)
-        }
+        setListChapter([])
+        
     }
 
     function amountCurrency(price){
@@ -89,12 +96,15 @@ const AddChapter = () => {
                 <div className="container_add_chapter_taskbar">
                     <ul>
                         <li>
-                            <a href="addBook.html"> Thêm truyện</a>
+                            
+                            <span>Thêm chương</span>
                         </li>
                         <li>
                             <div className="container_add_chapter_taskbar_button">
-                                <button className="white_btn_cancel">Hủy</button>
-                                <button className="dark_btn_next" onClick={handleAddChapterBook}>Tiếp theo</button>
+                                <Link to="/my-books">
+                                    <button className="white_btn_cancel">Quay lại</button>
+                                </Link>
+                                <button className="dark_btn_next" onClick={handleAddChapterBook}>Lưu</button>
                             </div>
                         </li>
                     </ul>
@@ -127,9 +137,9 @@ const AddChapter = () => {
                         </div>
                         <div className="container_add_chapter_box_form_input">
                             <div className="container_add_chapter_box_form_input_name">
-                                <span>Nhập giá tiền
-                                    <input type="text" placeholder="Nhập giá tiền" value={priceChapter} onChange={handleChangePriceChapter} />
-                                    VNĐ
+                                <span>Nhập xu
+                                    <input type="number" placeholder="Nhập giá tiền" value={priceChapter} onChange={handleChangePriceChapter} />
+                                    xu
                                 </span>
 
 

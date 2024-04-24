@@ -1,0 +1,95 @@
+.container_noticePublishBook{
+    position: fixed;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    background-color: rgba(148, 146, 146, 0.634);
+    z-index: 1000;
+}
+
+.container_noticePublishBook_box{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50%;
+    height: 50%;
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+}
+.container_noticePublishBook_box_title{
+    font-size: 30px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+    font-family: sans-serif;
+}
+.container_noticePublishBook_box_content{
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+    font-family: sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.container_noticePublishBook_box_content_text{
+    width:500px;
+}
+.container_noticePublishBook_box_button{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+}
+.container_noticePublishBook_box_button button{
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    background-color: #2d2a2a;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: sans-serif;
+}
+
+.btn_Cancel_Publish{
+    background-color: #fff !important;
+    color:#333 !important;
+    border: 2px solid #2d2a2a !important;
+}
+.btn_Cancel_Publish:hover{
+    background-color: #2d2a2a !important;
+    color: white !important;
+}
+.btn_Permission:hover{
+    background-color: #a29c9c !important;
+    color:#333 !important;
+    outline: #333;
+}
+
+@media screen and (max-width: 768px) {
+    .container_noticePublishBook_box{
+        width: 80%;
+        height: 80%;
+    }
+    .container_noticePublishBook_box_title{
+        font-size: 20px;
+    }
+    .container_noticePublishBook_box_content{
+        font-size: 16px;
+    }
+    .container_noticePublishBook_box_content_text{
+        width: 300px;
+    }
+    .container_noticePublishBook_box_button button{
+        padding: 5px 10px;
+        font-size: 12px;
+    }
+    
+}

@@ -4,26 +4,26 @@ import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import AuthorApi from "../../../API/User/AuthorApi";
 import RowItemMyBook from "../MyBooks/RowItemMyBook/RowItemMyBook";
-const listBook =[
+const listBook = [
   {
-    id:1,
-    title:"Truyện 1",
-    chapter:3,
-    rate:4,
-    comment:200,
-    view:1000
+    id: 1,
+    title: "Truyện 1",
+    chapter: 3,
+    rate: 4,
+    comment: 200,
+    view: 1000
   },
   {
-    id:2,
-    title:"Truyện 2",
-    chapter:3,
-    rate:4,
-    comment:200,
-    view:1000
+    id: 2,
+    title: "Truyện 2",
+    chapter: 3,
+    rate: 4,
+    comment: 200,
+    view: 1000
   }
 ]
 const MyBooks = () => {
-  
+
   // const [listBook, setListBook] = useState([]);
 
   // useEffect(() => {
@@ -40,22 +40,21 @@ const MyBooks = () => {
   //   fetchListBook();
   // });
 
-  
-  const renderListBook = () =>{
-    if(listBook!=null){
-      return(
+
+  const renderListBook = () => {
+    if (listBook != null) {
+      return (
         listBook.map((book) => (
-          <RowItemMyBook book={book} key={book.id} />
+          <RowItemMyBook book={book} book_id={book.id} key={book.id} />
         ))
       )
     }
-    else{
-      return(
-        <span style={{fontSize:"16px",margin:"20px 0 0 10px",fontWeight:"600"}}>Không có truyện nào</span>
+    else {
+      return (
+        <span style={{ fontSize: "16px", margin: "20px 0 0 10px", fontWeight: "600" }}>Không có truyện nào</span>
       )
     }
   }
-  
 
   return (
 
@@ -64,11 +63,12 @@ const MyBooks = () => {
         <div className="container_mybooks_content">
           <div className="container_mybooks_content_header">
             <span>Truyện của tôi</span>
-            <Link to="/add-book">
+            <Link to="/add-book" >
               <button>Thêm truyện mới
                 <i className="fas fa-circle-plus"></i>
               </button>
             </Link>
+
           </div>
           <div className="container_mybooks_content_body">
             <div className="container_mybooks_content_body_title">

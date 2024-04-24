@@ -6,6 +6,9 @@
     border-radius: 5px;
     box-shadow: 0 0 10px #d3cccc;
 }
+.container_nav_2_listBooks_item:hover{
+    background-color: #f1f1f1;
+}
 .container_nav_2_listBooks_title{
     position: relative;
     top: 10px;
@@ -13,24 +16,6 @@
     display:flex;
     justify-content: space-between;
 } 
-.SeeUpdate{
-    font-size: 20px;
-    color: #000;
-    font-weight: bold;
-    font-family: Arial;
-}
-.SeeTotal {
-    font-size: 15px;
-    color: #000;
-    font-weight: bold;
-    font-family: Arial;
-    cursor: pointer;
-    margin-right:5%;
-    text-decoration: none;
-}
-.SeeTotal:hover{
-    text-decoration: underline;
-}
 
 
 .container_nav_2_listBooks table{

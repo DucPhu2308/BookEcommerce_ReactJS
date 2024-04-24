@@ -19,13 +19,15 @@ const AddBook = () => {
     }
 
     const handleAddBook = () => {
+        
+        
         const listGenreId = listGenreAdded.map(genre => genre.id);
         const book = {
             title: addBook,
             description: addDescription,
             coverImage: "cover.jpg",
             genresDto: listGenreId,
-            authorsDto: localStorage.getItem('userId')
+            authorsDto: [1]
         }
         console.log(book);
         BookApi.postBook(book)
