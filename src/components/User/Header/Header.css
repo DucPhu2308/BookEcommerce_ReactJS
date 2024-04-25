@@ -85,14 +85,30 @@
     
 }
 .header_search_keybox{
-    width:100%;
-    height:200px;
-    background-color: #d26e6e;
+    width: 450px;
+    height: 250px;
+    background-color: #cecccc;
+    overflow-y: scroll;
     position: absolute;
-    margin-top: 10px;
     display: none;
+    left: 30%;
+    top: 50px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 0 rgba(0,0,0,0.5);
 }
-
+.header_search_keybox ul{
+    list-style: none;
+    padding: 0;
+    margin: 0; 
+    display: flex;
+    flex-wrap: wrap;
+}
+.header_search_keybox ul li{
+    width:100%;
+    height: 100px;
+    padding: 5px;
+    
+}
 
 
 .header_nav_user{

@@ -3,9 +3,8 @@ import axiosClient from '../axiosClient';
 class BookApi {
     getAll = () => {
         const url = 'book/all';
-        return axiosClient.get(url);
+        return axiosPrivate.get(url);
     }
-    
     getBookById = (id) => {
         const url = `book/${id}`;
         return axiosClient.get(url);
