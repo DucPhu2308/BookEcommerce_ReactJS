@@ -5,6 +5,10 @@ class BookApi {
         const url = 'book/all';
         return axiosPrivate.get(url);
     }
+    getBookByUserId = (id) => {
+        const url = `book/${id}/user`;
+        return axiosClient.get(url);
+    }
     getBookById = (id) => {
         const url = `book/${id}`;
         return axiosClient.get(url);
@@ -20,6 +24,10 @@ class BookApi {
     updateBook = (id,data) => {
         const url = `book/${id}`;
         return axiosPrivate.put(url, data);
+    }
+    deleteBook = (id) => {
+        const url = `book/${id}`;
+        return axiosPrivate.delete(url);
     }
 }
 export default new BookApi();

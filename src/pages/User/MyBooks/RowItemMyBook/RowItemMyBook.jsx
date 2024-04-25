@@ -1,15 +1,20 @@
-import { useState } from "react";
+import { useState} from "react";
 import "./RowItemMyBook.css";
-import { Link } from "react-router-dom";
+import BookApi from "../../../../API/User/BookApi";
+import {ToastContainer, toast} from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
 
-const RowItemMyBook = ({ book, book_id }) => {
+
+const RowItemMyBook = ({ book, book_id, listBooks }) => {
   const [click, setClick] = useState(false);
+  const [listBook, setListBook] = useState(listBooks);
   
   const handleClick = () => {
     setClick(!click);
   }
   const handleDirectGenre = () => {
     localStorage.setItem("idBook", book_id);
+    localStorage.setItem("nameBook", book.title);
     window.location.href = "/add-chapter";
 
   }
@@ -18,6 +23,7 @@ const RowItemMyBook = ({ book, book_id }) => {
     if(data != null){
       return (
         data.map((chapter) => (
+          data.sort((a, b) => a.index - b.index),
           <li key={chapter.id}>Chương {chapter.index}: {chapter.title}</li>
         ))
       )
@@ -28,6 +34,37 @@ const RowItemMyBook = ({ book, book_id }) => {
       )
     }
   }
+
+  const handleClickUpdate = () => {
+    window.location.href = `/update-book/${book_id}`;
+  }
+
+  const handleDeleteBook = (id) => {
+    const confirm = window.confirm("Bạn có chắc chắn muốn xóa truyện này không?");
+    if(confirm){
+      BookApi.deleteBook(id).then((response) => {
+        if(response.status === 200){
+          const newListBook = listBook.filter((book) => book.id !== id);
+          setListBook(newListBook);
+          toast.success('Xóa truyện thành công')
+        }
+      }).catch((error) => {
+        console.log("Failed to delete book: ", error);
+        toast.error('Xóa truyện thất bại')
+      })
+    }
+
+  }
+
+  const numberChapter = (data) => {
+    if(data != null){
+      return data.length;
+    }
+    else{
+      return 0;
+    }
+  }
+
 
 
   const renderListChapter = () => {
@@ -51,7 +88,9 @@ const RowItemMyBook = ({ book, book_id }) => {
     }
   }
   return (
+    
     <div className="container_mybooks_content_body_box_item">
+      <ToastContainer />
       <div className="container_mybooks_content_body_box_item_img">
         <img src="imageBooks/anh1.jpg" alt="book1" />
       </div>
@@ -59,7 +98,7 @@ const RowItemMyBook = ({ book, book_id }) => {
         <div className="container_mybooks_content_body_box_item_info_nav">
           <div className="container_mybooks_content_body_box_item_info_nav_paga">
             <span className="title_bigger">{book.title}</span>
-            <span>Số chương: null</span>
+            <span>Số chương: {numberChapter(book.chapters)}</span>
           </div>
           <div className="container_mybooks_content_body_box_item_action">
             <div className="container_mybooks_content_body_box_item_action_edit">
@@ -73,8 +112,8 @@ const RowItemMyBook = ({ book, book_id }) => {
               </div>
             </div>
             <div className="btn_action">
-              <button className="body_box_item_action_update_btn">Sửa</button>
-              <button className="body_box_item_action_delete_btn">Xóa</button>
+              <button className="body_box_item_action_update_btn" onClick={handleClickUpdate}>Sửa</button>
+              <button className="body_box_item_action_delete_btn" onClick={()=>handleDeleteBook(book.id)}>Xóa</button>
             </div>
 
           </div>
