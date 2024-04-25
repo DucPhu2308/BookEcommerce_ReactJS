@@ -6,6 +6,8 @@ import BookApi from '../../../API/User/BookApi'
 import { Link } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const AddBook = () => {
     const [listGenre, setListGenre] = useState([]);
@@ -104,6 +106,14 @@ const AddBook = () => {
     return (
         <DefaultLayout>
             <ToastContainer />
+            {listGenre.length === 0 ? (
+                <Backdrop
+                    sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                    open
+                >
+                    <CircularProgress color="inherit" />
+                </Backdrop>
+            ) : null}
             <div className="container_addBook_body">
                 <div className="container_addBook_taskbar">
                     <ul>
