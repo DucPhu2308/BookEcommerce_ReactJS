@@ -55,11 +55,14 @@
     align-items: center;
     position: relative;
     left:15px;
+    font-size: 15px;
+    font-family: sans-serif;
+    font-weight: bold;
 }
 .header_search input::placeholder{
     font-size: 15px;
     color: #B7B0B0;
-    font-family: 'Kantumruy';
+    font-family:Arial, Helvetica, sans-serif;
 }
 .header_search input:focus{
     outline: none;
@@ -167,10 +170,6 @@
 .header_nav_user i{
     margin-left:3px;
 }
-
-
-
-
 
 .rotate {
     animation: rotate 0.5s forwards;

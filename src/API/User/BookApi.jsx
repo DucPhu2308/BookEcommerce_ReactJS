@@ -3,7 +3,7 @@ import axiosClient from '../axiosClient';
 class BookApi {
     getAll = () => {
         const url = 'book/all';
-        return axiosPrivate.get(url);
+        return axiosClient.get(url);
     }
     getBookByUserId = (id) => {
         const url = `book/${id}/user`;

@@ -15,7 +15,7 @@ function Header() {
   useEffect(() => {
     const fetchBooks = async () => {
       try {
-        const response = await BookApi.getTopNBooksSortByDate(10);
+        const response = await BookApi.getAll();
         setBooks(response.data.data);
       } catch (error) {
         console.log("Failed to fetch book list: ", error);
@@ -24,7 +24,32 @@ function Header() {
     fetchBooks();
   }, []); 
   
+  const handleDirectInfoBook = (id) => {
+    window.location.href = `/infoBook/${id}`;
+  }
 
+  const inputSearch = document.querySelector(".header_search input");
+  const keyBox = document.querySelector(".header_search_keybox");
+  if(inputSearch){
+    inputSearch.addEventListener("focus", () => {
+      keyBox.style.display = "block";
+    });
+    inputSearch.addEventListener("blur", () => {
+      keyBox.style.display = "none";
+    });
+  }
+
+  inputSearch.addEventListener("keyup", (e) => {
+    const searchValue = e.target.value.toLowerCase();
+    const searchItems = document.querySelectorAll(".header_search_keybox li");
+    searchItems.forEach((item) => {
+      if (item.textContent.toLowerCase().indexOf(searchValue) > -1) {
+        item.style.display = "block";
+      } else {
+        item.style.display = "none";
+      }
+    });
+  });
 
   return (
     <nav className="header">
@@ -47,7 +72,6 @@ function Header() {
               </div>
               <div className="header_search_keybox">
                 <ul>
-                  <li>
                     {books.length === 0 ? (
                       <Backdrop
                         sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
@@ -56,23 +80,12 @@ function Header() {
                         <CircularProgress color="inherit" />
                       </Backdrop>
                     ) : null}
-
                     {books.map((book) => (
-                      <Link to={`/infoBook/${book.id}`} key={book.id}>
+                      <li onClick={()=>handleDirectInfoBook(book.id)} key={book.id}>
                         <ItemBoxSearchName key={book.id} book={book} />
-                      </Link>
+                      </li>
                     ))}
-                  
-                  </li>
-
-
-
                 </ul>
-
-
-
-
-
               </div>
 
             </div>
