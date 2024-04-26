@@ -158,6 +158,7 @@ const UpdateBook = ()=>{
                                         </div>
                                         <div className="container_addBook_nav_form_box_body_item_input">
                                             <select name="bookType" id="bookType" onChange={handleChangeClick} >
+                                                <option value="0" disabled>Chọn thể loại</option>
                                                 {listGenre.map((genre) => (
                                                     <option key={genre.id} value={genre.id}>{genre.name}</option>
                                                 ))}

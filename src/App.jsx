@@ -17,7 +17,7 @@ import HistoryBookPage from './pages/User/HistoryBookPage/HistoryBookPage'
 import AddParagraph from './pages/User/AddParagraph/AddParagraph'
 import AddChapter from './pages/User/AddChapter/AddChapter'
 import UpdateBook from './pages/User/UpdateBook/UpdateBook'
-
+import SuccessPayment from './pages/Bank/SuccessPayment'
 const ROLES = {
   'USER': 'USER',
   'SALER': 'SALER',
@@ -39,14 +39,25 @@ function App() {
         <Route path="/add-paragraph" element={<AddParagraph />} />
         <Route path="/infoUser" element={<InfoUser />} />
         <Route path="/infoBook/:id" element={<InfoBook />} />
-        <Route path="/admin" element={<AdminHome />} />
+        
+        <Route element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
+          <Route path="/admin" element={<AdminHome />} />
+        </Route>
+
         <Route path="/bank" element={<Bank />} />
         <Route path="/subcribebook" element={<SubcribeBookPage />} />
         <Route path="/historybook" element={<HistoryBookPage />} />
-        <Route path="/update-book/:id" element={<UpdateBook />} />
+
+        <Route element={<RequireAuth allowedRoles={[ROLES.USER]} />}>
+          <Route path="/update-book/:id" element={<UpdateBook />} />
+        </Route>
         {/* private routes */}
         <Route element={<RequireAuth allowedRoles={[ROLES.USER]} />}>
           <Route path="/buy-coins" element={<BuyCoins />} />
+        </Route>
+
+        <Route element={<RequireAuth allowedRoles={[ROLES.USER]} />}>
+          <Route path="/paymentSuccess" element={<SuccessPayment />} />
         </Route>
       </Routes>
     </BrowserRouter>

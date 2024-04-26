@@ -18,6 +18,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 const UserHome = () => {
   const [listBooks, setListBooks] = useState([]);
   const [post, setPost] = useState(null);
+  localStorage.setItem('paySuccess', false)
   // load books
   useEffect(() => {
     BookApi.getTopNBooksSortByDate(10).then((res) => {

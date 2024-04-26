@@ -14,7 +14,8 @@ import {
   Radio,
 } from "@mui/material";
 import { DoubleArrow } from "@mui/icons-material";
-
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
 import { useState, useEffect } from "react";
 
 const paymentMethods = [
@@ -37,8 +38,22 @@ const BuyCoins = () => {
   const handleMethodChange = (event) => {
     setSelectedMethod(event.target.value);
   };
+  const handleBuy = () => {
+    if(selectedMethod === 'Credit Card') {
+      if(amount <0){
+        alert('Amount must be greater than 0');
+        return;
+      }
+      localStorage.setItem('amount', amount);
+      window.location.href = '/bank';
+    }
+  }
+  
+  
+
   return (
     <DefaultLayout>
+      <ToastContainer />
       <Container>
         <Card>
           <CardContent>
@@ -128,7 +143,7 @@ const BuyCoins = () => {
                   ))}
                 </Stack>
               </RadioGroup>
-              <Button sx={{ marginY: "10px" }} variant="contained" >
+              <Button sx={{ marginY: "10px" }} variant="contained" onClick={handleBuy}>
                 Buy
               </Button>
             </form>

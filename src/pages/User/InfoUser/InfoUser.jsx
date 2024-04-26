@@ -13,6 +13,8 @@ import Comment from './Comment/Comment';
 import Notification from './Notification/Notification'
 // left menu
 const Menu = ({ onSelect }) => {
+    
+
     useEffect(() => {
         const script = document.createElement("script");
         script.src = "/src/pages/User/InfoUser/script.js";
@@ -92,9 +94,10 @@ const Menu = ({ onSelect }) => {
 
 const Form = ({ selectedItem }) => {
     let form;
+    
     switch (selectedItem) {
         case "Thông tin cá nhân":
-            form = <ChangeInfo />;
+            form = <ChangeInfo  />;
             break;
         case "Đổi mật khẩu":
             form = <ChangePassword />;
@@ -133,6 +136,7 @@ const Form = ({ selectedItem }) => {
 
 const InfoUser = () => {
     const [selectedItem, setSelectedItem] = useState(null);
+    const user = JSON.parse(localStorage.getItem('user'));
     return (
         <DefaultLayout>
             <div className="container_user_page">
@@ -144,11 +148,13 @@ const InfoUser = () => {
                         </div>
                         <div className="container_user_page_body_info_name">
                             <div className="container_user_page_body_info_name_title">
-                                <span>Name </span>
+                                <span>{user.displayName} </span>
                             </div>
                             <div className="container_user_page_body_info_name_coin">
-                                <span>Số xu: </span>
-                                <a href="#">Nạp xu</a>
+                                <span>Số xu: {user.coin} </span>
+                                <Link to="/buy-coins">
+                                    Nạp xu
+                                </Link>
                             </div>
                         </div>
 
@@ -160,7 +166,7 @@ const InfoUser = () => {
                             </div>
                         </div>
                         <div className="container_user_page_body_function_right">
-                            <div class="container_user_page_body_function_right_box">
+                            <div className="container_user_page_body_function_right_box">
                                 <Form selectedItem={selectedItem} />
                             </div>
                         </div>

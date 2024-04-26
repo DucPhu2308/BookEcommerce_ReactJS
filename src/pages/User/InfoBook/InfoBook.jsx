@@ -26,17 +26,17 @@ const InfoBook = () => {
             }
         };
         fetchBook();
-    }, []);
+    }, [id]);
 
     useEffect(() => {
         const script = document.createElement("script");
-        script.src = "/src/pages/User/InfoBook/script.js";
+        script.src = "/src/pages/User/InfoBook/script.jsx";
         document.body.appendChild(script);
 
         return () => {
             document.body.removeChild(script);
         };
-    });
+    }, [id]);
     
     
     return (

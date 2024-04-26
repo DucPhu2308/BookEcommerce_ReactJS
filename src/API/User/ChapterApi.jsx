@@ -1,12 +1,8 @@
 import axiosClient, {axiosPrivate} from "../axiosClient";
 
 class ChapterApi {
-    getAllChapter = () => {
-        const url = `chapter/all`;
-        return axiosClient.get(url);
-    }
-    getChapterById = (id) => {
-        const url = `chapter/${id}`;
+    getChapterByBook = (id) => {
+        const url = `chapter/book/${id}`;
         return axiosClient.get(url);
     }
     

@@ -5,7 +5,6 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 import ManageGenre from "../ManageGenre/ManageGenre";
 import DashBoard from "../DashBoard/DashBoard";
-import GrantPermission from "../GrantPermission/GrantPermission";
 import ManageComment from "../ManageComment/ManageComment";
 import ManageBook from "../ManageBook/ManageBook";
 
@@ -25,9 +24,6 @@ const Form = ({ selectItem }) => {
             break;
         case "Quản lý thể loại":
             form = <ManageGenre />;
-            break;
-        case "Cấp quyền":
-            form = <GrantPermission />;
             break;
         case "Theo dõi doanh thu":
             form = <DashBoard />;

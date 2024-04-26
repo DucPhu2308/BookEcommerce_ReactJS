@@ -96,9 +96,17 @@ const ManageGenre = () => {
     }
 
     const handleDeleteGenre = (id) => {
+        const confirm = window.confirm('Bạn có chắc chắn muốn xóa thể loại này không?');
+        if (!confirm) return;
         const newGenres = genre.filter((item) => item.id !== id);
         setGenre(newGenres);
-        GenreApi.deleteGenre(id);
+        try {
+            GenreApi.deleteGenre(id);
+            toast.success('Xóa thể loại thành công');
+        } catch (error) {
+            console.log(error);
+            toast.error('Xóa thể loại thất bại');
+        }
     }
 
 
