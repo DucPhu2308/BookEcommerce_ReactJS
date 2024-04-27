@@ -57,9 +57,13 @@
     display: flex;
     flex-direction: column;
     margin:5px;
+    width:170px;
 }
 .container_bookDetail_taskbar_box_title h3{
     margin:0;
+    overflow: hidden;
+    white-space: nowrap; 
+    text-overflow: ellipsis;
 }
 .container_bookDetail_taskbar_box_title span{
     font-size: 10px;

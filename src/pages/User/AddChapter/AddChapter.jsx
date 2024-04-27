@@ -1,25 +1,27 @@
 import './AddChapter.css'
 import DefaultLayout from '../../../layouts/DefaultLayout/DefaultLayout'
 import { Link } from 'react-router-dom'
-import { useState } from 'react'
+import { useState,useEffect } from 'react'
 import ChapterApi from '../../../API/User/ChapterApi'
 import {ToastContainer, toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import numeral from 'numeral'
+import BookApi from '../../../API/User/BookApi'
 const AddChapter = () => {
     const [addChapter, setAddChapter] = useState('')
-    const [indexChapter, setIndexChapter] = useState(null)
+    const [indexChapter, setIndexChapter] = useState('')
     const [priceChapter, setPriceChapter] = useState('')
     const [listChapter, setListChapter] = useState([])
     const [submitAddChapter, setSubmitAddChapter] = useState(false)
-
-    const nameBook = localStorage.getItem('nameBook')
+    const [listBook, setListBook] = useState([])
+    const [idBook, setIdBook] = useState(localStorage.getItem('idBook'))
+    
 
     const handleSubmitGenre = () => {
         setSubmitAddChapter(!submitAddChapter)
 
     
-        if(addChapter === '' || indexChapter === null || priceChapter === null){
+        if(addChapter === '' || indexChapter === '' || priceChapter === '' || idBook === null || idBook === '0'){
             setSubmitAddChapter(false)
             toast.error('Vui lòng nhập đầy đủ thông tin')
         }
@@ -28,11 +30,12 @@ const AddChapter = () => {
                 "title": addChapter,
                 "price": priceChapter,
                 "index": indexChapter,
-                "book": localStorage.getItem('idBook')
+                "book": idBook
             }
+            console.log(newChapter)
             setListChapter([...listChapter, newChapter])
             setAddChapter('')
-            setIndexChapter(null)
+            setIndexChapter('')
             setPriceChapter('')
         }
     }
@@ -42,10 +45,7 @@ const AddChapter = () => {
         setListChapter(newListChapter)
     }
 
-    // const saveAddBook = localStorage.getItem('newBook')
-    // const newBook = saveAddBook ? JSON.parse(saveAddBook) : null
-    // console.log(newBook);
-
+    
 
 
     const handleChangeAddChapter = (e) => {
@@ -56,6 +56,9 @@ const AddChapter = () => {
     }
     const handleChangePriceChapter = (e) => {
         setPriceChapter(e.target.value)
+    }
+    const handleChangeClick = (e) => {
+        setIdBook(e.target.value)
     }
 
     
@@ -94,9 +97,18 @@ const AddChapter = () => {
         
     }
 
-    function amountCurrency(price){
-        return numeral(price).format('0,0')
-    }
+    useEffect(() => {
+        const user = JSON.parse(localStorage.getItem('user'))
+        const fetchData = async () => {
+            try {
+                const response = await BookApi.getBookByUserId(user.id)
+                setListBook(response.data.data)
+            } catch (error) {
+                console.log('Failed to fetch data: ', error)
+            }
+        }
+        fetchData()
+    }, [])
     
     function checkDataListGenre(listGenre){
         if(listGenre.length === 0){
@@ -108,7 +120,7 @@ const AddChapter = () => {
         }
 
     }
-
+    
     return (
         <DefaultLayout>
             <ToastContainer />
@@ -147,18 +159,24 @@ const AddChapter = () => {
                                 <span>Sách</span>
                             </div>
                             <div className="container_add_chapter_box_form_input_input">
-                                <input type="text" value={nameBook} style={{backgroundColor: '#b9b4b4e1'}} disabled/>
+                                <select name="bookType" id="bookType" onChange={handleChangeClick} value={idBook}>
+                                    <option value="0" >Chọn sách</option>
+                                    {listBook.map((item, index) => (
+                                        <option value={item.id} key={index}>{item.title}</option>
+                                    ))}
+                                    
+                                </select>
                             </div>
                         </div>
                         <div className="container_add_chapter_box_form_input">
                             <div className="container_add_chapter_box_form_input_name">
-                                <span>Chương số <input type="number" min="1" value={indexChapter} onChange={handleChangeIndexChapter} /> </span>
+                                <span>Chương số <input placeholder="Nhập chương" type="number" min="1" value={indexChapter} onChange={handleChangeIndexChapter} /> </span>
                             </div>
                         </div>
                         <div className="container_add_chapter_box_form_input">
                             <div className="container_add_chapter_box_form_input_name">
                                 <span>Nhập xu
-                                    <input type="number" placeholder="Nhập xu" value={priceChapter} onChange={handleChangePriceChapter} />
+                                    <input type="number" placeholder="Nhập xu" value={priceChapter} min="0" onChange={handleChangePriceChapter} />
                                     xu
                                 </span>
 
@@ -181,7 +199,7 @@ const AddChapter = () => {
                                     <div className="container_added_chapter_list_body_item" key={index}>
                                         <div className="container_added_chapter_list_body_item_info">
                                             <span>Chương {item.index}: {item.title}</span>
-                                            <span>Giá: {amountCurrency(item.price)} xu</span>
+                                            <span>Giá: {item.price} xu</span>
                                         </div>
                                         <div className="container_added_chapter_list_body_item_action">
                                             <button onClick={()=> handleDeleteGenre(index)}>xóa</button>

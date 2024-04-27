@@ -30,6 +30,7 @@ const BuyCoins = () => {
   const [selectedMethod, setSelectedMethod] = useState(paymentMethods[0].name);
   const [amount, setAmount] = useState(0);
   const [price, setPrice] = useState(0);
+  const [paySuccess, setPaySuccess] = useState(localStorage.getItem('paySuccess'));
 
   useEffect(() => {
     setPrice(amount * conversionRate);
@@ -41,7 +42,7 @@ const BuyCoins = () => {
   const handleBuy = () => {
     if(selectedMethod === 'Credit Card') {
       if(amount <0){
-        alert('Amount must be greater than 0');
+        toast.error('Amount must be greater than 0');
         return;
       }
       localStorage.setItem('amount', amount);
@@ -49,7 +50,13 @@ const BuyCoins = () => {
     }
   }
   
-  
+  useEffect(() => {
+    if(paySuccess === 'true') {
+      toast.success('Payment success');
+      localStorage.setItem('paySuccess', false);
+      setPaySuccess(false);
+    }
+  }, [paySuccess]);
 
   return (
     <DefaultLayout>
@@ -61,7 +68,7 @@ const BuyCoins = () => {
               Buy Coins
             </Typography>
             <form>
-              <Typography marginTop={3} variant="body1" component="div">
+              <Typography marginTop={3} variant="body1" component="div" >
                 Select the amount of Coins
               </Typography>
               <Stack

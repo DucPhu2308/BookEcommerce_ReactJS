@@ -37,7 +37,7 @@ function Header() {
     return () => {
       document.body.removeChild(script);
     };
-  }, []);
+  }, [books, loggedIn]);
 
 
   return (

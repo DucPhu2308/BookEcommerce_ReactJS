@@ -1,7 +1,10 @@
 
 import './ChangePassword.css';
-
+import {useState, useEffect} from 'react';
+import UserApi from '../../../../API/User/UserApi';
 const ChangePassword = () => {
+    
+        
     return (
         <div>
             <div className="container_user_change_password_title">

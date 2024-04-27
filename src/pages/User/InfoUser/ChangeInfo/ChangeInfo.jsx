@@ -4,10 +4,13 @@ import UserApi from '../../../../API/User/UserApi';
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 const ChangeInfo = () => {
-    const user=JSON.parse(localStorage.getItem('user'));
+    const user = JSON.parse(localStorage.getItem('user'));
     const [username, setUsername] = useState(user.displayName);
     const [email, setEmail] = useState(user.email);
     const [introduce, setIntroduce] = useState(user.introduction);
+    
+    
+
     const handleUserName = (e) => {
         setUsername(e.target.value);
     }
@@ -36,6 +39,8 @@ const ChangeInfo = () => {
             toast.error('Cập nhật thông tin thất bại');
         }
     }
+
+
 
 
     return (

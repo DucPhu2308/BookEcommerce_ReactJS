@@ -4,16 +4,30 @@ import imageAccount from "../../../assets/images/account.png";
 import { useState, useEffect } from "react";
 import CommentApi from "../../../API/User/CommentApi";
 import ChapterApi from "../../../API/User/ChapterApi";
+import BookApi from "../../../API/User/BookApi";
 const DetailBook = () => {
     const [listComment, setListComment] = useState([])
     const [listChapter, setListChapter] = useState([])
     const [text, setText] = useState('')
+    const [book, setBook] = useState({})
 
+    const idBook= localStorage.getItem("idBook");
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await BookApi.getBookById(idBook);
+                setBook(response.data.data);
+            } catch (error) {
+                console.log("Failed to fetch data", error);
+            }
+        };
+        fetchData();
+    }, []);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await ChapterApi.getChapterByBook(1)
+                const response = await ChapterApi.getChapterByBook(idBook);
                 setListChapter(response.data.data)
             }
             catch (error) {
@@ -87,8 +101,8 @@ const DetailBook = () => {
 
                                 </div>
                                 <div className="container_bookDetail_taskbar_box_title">
-                                    <h3>Title</h3>
-                                    <span>author</span>
+                                    <h3>{book.title}</h3>
+                                    <span>{book.userOwn?.displayName}</span>
                                 </div>
                             </div>
                         </li>
@@ -104,7 +118,7 @@ const DetailBook = () => {
                     <div className="container_bookDetail_nav_1_author">
                         <div className="container_bookDetail_nav_1_author_info">
                             <img src="download.png" alt="account" />
-                            <span>Nguyễn Nhật Ánh</span>
+                            <span>{book.userOwn?.displayName}</span>
                         </div>
                     </div>
                     <div className="container_bookDetail_nav_1_displayBook">
