@@ -18,5 +18,9 @@ class ChapterApi {
         const url = `chapter`;
         return axiosPrivate.post(url, data);
     }
+    updateChapter = (data) => {
+        const url = `chapter/${data.id}`;
+        return axiosPrivate.put(url, data);
+    }
 }
 export default new ChapterApi();

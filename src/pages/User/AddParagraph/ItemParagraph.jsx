@@ -4,14 +4,16 @@ import { Button } from "@mui/material";
 import "react-quill/dist/quill.snow.css";
 import "./ItemParagraph.css";
 
-const ItemParagraph = ({value, onChange}) => {
+const ItemParagraph = ({value, onChange, onBtnDeleteClick}) => {
   const [showBtn, setShowBtn] = useState(false);
   const editorRef = useRef(null);
   const handleFocus = () => {
+    setShowBtn(true);
     editorRef.current.classList.add("show-toolbar");
   };
 
   const handleBlur = () => {
+    setShowBtn(false);
     editorRef.current.classList.remove("show-toolbar");
   };
   const toolbarOptions = [
@@ -36,8 +38,8 @@ const ItemParagraph = ({value, onChange}) => {
         style={{ width: "60%", height: "auto", marginTop: "20px", textAlign: "center"}}
         ref={editorRef}
         className="quill-container"
-        onMouseEnter={() => setShowBtn(true)}
-        onMouseLeave={() => setShowBtn(false)}
+        // onMouseEnter={() => setShowBtn(true)}
+        // onMouseLeave={() => setShowBtn(false)}
       >
         <ReactQuill
           theme="snow"
@@ -49,7 +51,7 @@ const ItemParagraph = ({value, onChange}) => {
           onChange={(newContent) => onChange(newContent)}
           
         />
-        {/* {showBtn && <Button onClick={onAddClick} variant="contained" color="primary">Thêm đoạn</Button>} */}
+        {showBtn && <Button onClick={onBtnDeleteClick} variant="contained" color="primary">Xóa</Button>}
       </div>
       
     </>
