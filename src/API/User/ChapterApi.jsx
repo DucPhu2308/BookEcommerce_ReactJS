@@ -9,6 +9,10 @@ class ChapterApi {
         const url = `chapter/${id}`;
         return axiosPrivate.get(url);
     }
+    getChapterByBook = (id) => {
+        const url = `chapter/book/${id}`;
+        return axiosClient.get(url);
+    }
     
     postChapter = (data) => {
         const url = `chapter`;

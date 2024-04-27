@@ -31,7 +31,9 @@
     font-size: 20px !important;
     font-weight: 700 !important;
     font-style: normal !important;
+    line-height: 1 !important;
 }
+
 .container_info_book_body_image_title_center{
     width:200px;
     height:300px;

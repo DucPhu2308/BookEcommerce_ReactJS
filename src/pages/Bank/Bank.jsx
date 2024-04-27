@@ -7,39 +7,47 @@ const Bank = () => {
     const [bankList, setBankList] = useState([])
     const [urlNCB, setUrlNCB] = useState('')
 
-
+    useEffect(() => {
+        const fetchBankList = async () => {
+            try {
+                const paymentData= {
+                    amount: localStorage.getItem('amount')*1000,
+                    name: 'NCB',
+                };
+                const response = await BankApi.createPayment(paymentData);
+                setUrlNCB(response.data.data.name);
+            }
+            catch (error) {
+                console.log(error)
+            }
+        }
+        fetchBankList();
+    }, []);
 
     useEffect(() => {
         const fetchBankList = async () => {
             try {
                 const response = await BankApi.getAll();
-                setBankList(response.data);
+                setBankList(response.data.data);
             } catch (error) {
                 console.log(error)
             }
         }
         fetchBankList();
 
-
-        const fetchBankLink = async () => {
-            try {
-                const response = await BankApi.getPayment();
-                setUrlNCB(response.data.name);
-                console.log(response.data.name)
-            } catch (error) {
-                console.log(error)
-            }
-        }
-        fetchBankLink();
     }, []);
+
+    const handleBack = () => {
+        window.location.href = '/buy-coins';
+    }
 
     return (
         <div className="container_pay_page">
             <div className="container_pay_page_body">
                 <div className="container_pay_page_body_nav">
-                    <button>
+                    <button onClick={handleBack}>
                         <i className="fas fa-arrow-left"></i>
-                        <span>Back</span>
+                        <span>Quay lại</span>
                     </button>
                 </div>
                 <div className="container_pay_page_body_form">

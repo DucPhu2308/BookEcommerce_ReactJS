@@ -57,9 +57,13 @@
     display: flex;
     flex-direction: column;
     margin:5px;
+    width:170px;
 }
 .container_bookDetail_taskbar_box_title h3{
     margin:0;
+    overflow: hidden;
+    white-space: nowrap; 
+    text-overflow: ellipsis;
 }
 .container_bookDetail_taskbar_box_title span{
     font-size: 10px;
@@ -170,10 +174,13 @@
     cursor: pointer;
     border-radius: 5px;
 }
-
+.container_bookDetail_nav_1_displayBook_body_button button:hover{
+    background-color: #f8f6f6c5 !important;
+    border:none !important;
+    outline: 2px solid #5c5959 !important;
+}
 .container_bookDetail_nav_1_displayBook_comment{
     padding:0 20px;
-    height:400px;
     background-color: #f2f2f2;
     margin-top:20px;
     box-shadow: 0 0 10px 5px #b1aeae;
@@ -196,6 +203,7 @@
     display: flex;
     flex-direction: row;
     margin-top: 10px;
+    
 }
 
 .container_bookDetail_nav_1_displayBook_comment_form_img{
@@ -253,7 +261,6 @@
     margin-top: 10px;
     display: flex;
     flex-direction: row;
-    padding: 10px;
     border: 2px solid #cdbfbf;
     border-radius: 5px;
 
@@ -292,4 +299,46 @@
     color: #333;
     font-family: sans-serif;
 
+}
+
+.container_bookDetail_nav_1_comment_action{
+    width:15%;
+    height: 100%;
+    margin-left:5%;
+    margin-top:5px;
+    display: flex;
+    justify-content: space-between;
+}
+.container_bookDetail_nav_1_comment_action button{
+    background-color: #f2f2f2;
+    color:#333;
+    border:none;
+    cursor: pointer;
+    font-weight: bold;
+    font-family: sans-serif;
+    text-decoration: underline;
+}
+
+.container_bookDetail_nav_1_comment_reply{
+    padding:0 0 0 50px;
+    margin-top: 10px;
+    background-color: #3c5fee;
+}
+.container_bookDetail_nav_1_comment_reply_box{
+    background-color: #9a3939;
+    width: 100%;
+    height: 100px;
+    display: flex;
+    flex-direction: row;
+}
+
+.container_bookDetail_nav_1_comment_reply_box_img{
+    width: 20%;
+    height: 100px;
+}
+.container_bookDetail_nav_1_comment_reply_box_img img{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin: 10px 20px;
 }

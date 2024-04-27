@@ -1,8 +1,95 @@
 import DefaultLayout from "../../../layouts/DefaultLayout/DefaultLayout";
 import "./DetailBook.css";
 import imageAccount from "../../../assets/images/account.png";
-
+import { useState, useEffect } from "react";
+import CommentApi from "../../../API/User/CommentApi";
+import ChapterApi from "../../../API/User/ChapterApi";
+import BookApi from "../../../API/User/BookApi";
 const DetailBook = () => {
+    const [listComment, setListComment] = useState([])
+    const [listChapter, setListChapter] = useState([])
+    const [text, setText] = useState('')
+    const [book, setBook] = useState({})
+
+    const idBook= localStorage.getItem("idBook");
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await BookApi.getBookById(idBook);
+                setBook(response.data.data);
+            } catch (error) {
+                console.log("Failed to fetch data", error);
+            }
+        };
+        fetchData();
+    }, []);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await ChapterApi.getChapterByBook(idBook);
+                setListChapter(response.data.data)
+            }
+            catch (error) {
+                console.log('Failed to fetch data', error)
+            }
+        }
+        fetchData()
+    }, [])
+
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await CommentApi.getByChapter(1)
+                setListComment(response.data.data)
+            } catch (error) {
+                console.log('Failed to fetch data', error)
+            }
+        }
+        fetchData()
+    }, [])
+
+    const handleChangeText = (e) => {
+        setText(e.target.value)
+    }
+
+    const handleClickPost = async () => {
+        try {
+            const newComment = {
+                content: text,
+                parent: null,
+                chapter: 1
+            }
+            const response = await CommentApi.add(newComment)
+            setListComment([...listComment, response.data.data])
+            setText('')
+        } catch (error) {
+            console.log('Failed to post data', error)
+        }
+    }
+
+    const handleDeleteComment = async (id) => {
+        try {
+            await CommentApi.remove(id)
+            const newListComment = listComment.filter(comment => comment.id !== id)
+            setListComment(newListComment)
+        } catch (error) {
+            console.log('Failed to delete data', error)
+        }
+    }
+    const renderActionEditDelete = (id) => {
+        const user = JSON.parse(localStorage.getItem('user'))
+        if (user) {
+            return (
+                <>
+                   <button >Sửa</button>
+                    <button onClick={() => handleDeleteComment(id)}>Xóa</button>
+                </>
+
+            )
+        }
+    }
     return (
         <DefaultLayout>
             <div className="container_bookDetail_body">
@@ -14,8 +101,8 @@ const DetailBook = () => {
 
                                 </div>
                                 <div className="container_bookDetail_taskbar_box_title">
-                                    <h3>Title</h3>
-                                    <span>author</span>
+                                    <h3>{book.title}</h3>
+                                    <span>{book.userOwn?.displayName}</span>
                                 </div>
                             </div>
                         </li>
@@ -31,7 +118,7 @@ const DetailBook = () => {
                     <div className="container_bookDetail_nav_1_author">
                         <div className="container_bookDetail_nav_1_author_info">
                             <img src="download.png" alt="account" />
-                            <span>Nguyễn Nhật Ánh</span>
+                            <span>{book.userOwn?.displayName}</span>
                         </div>
                     </div>
                     <div className="container_bookDetail_nav_1_displayBook">
@@ -54,24 +141,44 @@ const DetailBook = () => {
                                 </div>
                                 <div className="container_bookDetail_nav_1_displayBook_comment_form_box">
                                     <form action="">
-                                        <textarea placeholder="Viết bình luận của bạn...."></textarea>
+                                        <textarea value={text} placeholder="Viết bình luận của bạn...." onChange={handleChangeText}></textarea>
                                     </form>
-                                    <button>
+                                    <button onClick={handleClickPost}>
                                         <i className="fas fa-paper-plane"></i>
                                     </button>
                                 </div>
                             </div>
 
                             <div className="container_bookDetail_nav_1_displayBook_comment_form_listComments">
-                                <div className="container_bookDetail_nav_1_displayBook_comment_form_listComments_item">
-                                    <div className="container_bookDetail_nav_1_displayBook_comment_form_listComments_item_img">
-                                        <img src={imageAccount} alt="account" />
-                                    </div>
-                                    <div className="container_bookDetail_nav_1_displayBook_comment_form_listComments_item_content">
-                                        <span className="author">account</span>
-                                        <span className="content">Chương hay quá</span>
-                                    </div>
-                                </div>
+                                {listComment.map((comment, index) => (
+                                    <>
+                                        <div key={index} className="container_bookDetail_nav_1_displayBook_comment_form_listComments_item">
+                                            <div className="container_bookDetail_nav_1_displayBook_comment_form_listComments_item_img">
+                                                <img src={imageAccount} alt="account" />
+                                            </div>
+                                            <div className="container_bookDetail_nav_1_displayBook_comment_form_listComments_item_content">
+                                                <span className="author">{comment.user?.displayName}</span>
+                                                <span className="content">{comment.content}</span>
+                                            </div>
+                                        </div>
+                                        <div className="container_bookDetail_nav_1_comment_action">
+                                            <button >Trả lời</button>
+                                            {renderActionEditDelete(comment.id)}
+                                        </div>
+                                        {/* <div className="container_bookDetail_nav_1_comment_reply">
+                                            <div className="container_bookDetail_nav_1_comment_reply_box">
+                                                <div className="container_bookDetail_nav_1_comment_reply_box_img">
+                                                    <img src={imageAccount} alt="account" />
+                                                </div>
+                                                <div className="container_bookDetail_nav_1_comment_reply_box_content">
+                                                    <span className="author">account</span>
+                                                    <span className="content">Chương hay quá</span>
+                                                </div>
+                                            </div>
+                                        </div> */}
+                                    </>
+
+                                ))}
                             </div>
 
                         </div>

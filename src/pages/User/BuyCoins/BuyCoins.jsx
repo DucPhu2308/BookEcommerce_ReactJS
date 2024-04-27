@@ -14,7 +14,8 @@ import {
   Radio,
 } from "@mui/material";
 import { DoubleArrow } from "@mui/icons-material";
-
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
 import { useState, useEffect } from "react";
 
 const paymentMethods = [
@@ -29,6 +30,7 @@ const BuyCoins = () => {
   const [selectedMethod, setSelectedMethod] = useState(paymentMethods[0].name);
   const [amount, setAmount] = useState(0);
   const [price, setPrice] = useState(0);
+  const [paySuccess, setPaySuccess] = useState(localStorage.getItem('paySuccess'));
 
   useEffect(() => {
     setPrice(amount * conversionRate);
@@ -37,8 +39,28 @@ const BuyCoins = () => {
   const handleMethodChange = (event) => {
     setSelectedMethod(event.target.value);
   };
+  const handleBuy = () => {
+    if(selectedMethod === 'Credit Card') {
+      if(amount <0){
+        toast.error('Amount must be greater than 0');
+        return;
+      }
+      localStorage.setItem('amount', amount);
+      window.location.href = '/bank';
+    }
+  }
+  
+  useEffect(() => {
+    if(paySuccess === 'true') {
+      toast.success('Payment success');
+      localStorage.setItem('paySuccess', false);
+      setPaySuccess(false);
+    }
+  }, [paySuccess]);
+
   return (
     <DefaultLayout>
+      <ToastContainer />
       <Container>
         <Card>
           <CardContent>
@@ -46,7 +68,7 @@ const BuyCoins = () => {
               Buy Coins
             </Typography>
             <form>
-              <Typography marginTop={3} variant="body1" component="div">
+              <Typography marginTop={3} variant="body1" component="div" >
                 Select the amount of Coins
               </Typography>
               <Stack
@@ -128,7 +150,7 @@ const BuyCoins = () => {
                   ))}
                 </Stack>
               </RadioGroup>
-              <Button sx={{ marginY: "10px" }} variant="contained" >
+              <Button sx={{ marginY: "10px" }} variant="contained" onClick={handleBuy}>
                 Buy
               </Button>
             </form>

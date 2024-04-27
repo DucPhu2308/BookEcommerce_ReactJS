@@ -1,4 +1,4 @@
-import axiosClient, {axiosPrivate} from '../axiosClient';
+import axiosClient from '../axiosClient';
 
 class GenreApi {
     getAllByBook = (id) => {

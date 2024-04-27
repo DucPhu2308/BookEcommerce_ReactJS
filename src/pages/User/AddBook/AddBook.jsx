@@ -14,13 +14,16 @@ const AddBook = () => {
     const [listGenreAdded, setListGenreAdded] = useState([]);
     const [addBook, setAddBook] = useState('');
     const [addDescription, setAddDescription] = useState('');
-
+    const [addImage, setAddImage] = useState('');
 
     const handleChangeAddInput = (e) => {
         setAddBook(e.target.value);
     }
     const handleChangeDescriptionInput = (e) => {
         setAddDescription(e.target.value);
+    }
+    const handleImage = (e) => {
+        setAddImage(e.target.value);
     }
 
     const handleAddBook = () => {
@@ -41,7 +44,7 @@ const AddBook = () => {
             const book = {
                 title: addBook,
                 description: addDescription,
-                coverImage: "cover.jpg",
+                coverImage: addImage,
                 genresDto: genres,
             }
             BookApi.postBook(book)
@@ -98,7 +101,7 @@ const AddBook = () => {
         const script = document.createElement("script");
         script.src = "/src/pages/User/AddBook/script.jsx";
         document.body.appendChild(script);
-
+        
         return () => {
             document.body.removeChild(script);
         };
@@ -134,8 +137,11 @@ const AddBook = () => {
                 <div className="container_addBook_nav">
                     <div className="container_addBook_nav_image">
                         <div className="image_form">
-                            <span>+ Add image</span>
+                            {/* <span>+ Add image</span> */}
+                            <img src="#" alt="" id="imageInput" />
                         </div>
+                        <input type="file" name="image" id="imageFile" accept="image/*" value={addImage} onChange={handleImage}/>
+
                     </div>
                     <div className="container_addBook_nav_form">
                         <div className="container_addBook_nav_form_box">
@@ -169,6 +175,7 @@ const AddBook = () => {
                                         </div>
                                         <div className="container_addBook_nav_form_box_body_item_input">
                                             <select name="bookType" id="bookType" onChange={handleChangeClick} >
+                                                <option value="0" disabled>Chọn thể loại</option>
                                                 {listGenre.map((genre) => (
                                                     <option key={genre.id} value={genre.id}>{genre.name}</option>
                                                 ))}

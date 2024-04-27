@@ -6,13 +6,10 @@ class BankApi {
         return axiosPrivate.get(url);
     }
 
-    getPayment=()=>{
-        const url='http://localhost:8080/api/v1/payment/NCB';
-        return axiosPrivate.get(url);
-    }
-    
-    
-    
+    createPayment=(data) =>{
+        const url='/payment/create';
+        return axiosPrivate.post(url,data);
+    } 
 }
 
 export default new BankApi();

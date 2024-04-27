@@ -5,7 +5,6 @@ import ItemListChapter from "./ItemListChapter";
 import ItemListGenre from "./ItemListGenre";
 import ItemListLoveBook from "./ItemListLoveBook";
 import BookApi from "../../../API/User/BookApi";
-
 const InfoBook = () => {
     const [book, setBook] = useState({});
     const id=window.location.pathname.split("/")[2];
@@ -25,18 +24,20 @@ const InfoBook = () => {
                 console.log("Failed to fetch book: ", error);
             }
         };
+
+        
         fetchBook();
-    }, []);
+    }, [id]);
 
     useEffect(() => {
         const script = document.createElement("script");
-        script.src = "/src/pages/User/InfoBook/script.js";
+        script.src = "/src/pages/User/InfoBook/script.jsx";
         document.body.appendChild(script);
 
         return () => {
             document.body.removeChild(script);
         };
-    });
+    }, [id]);
     
     
     return (

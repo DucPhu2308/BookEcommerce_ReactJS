@@ -22,35 +22,23 @@ function Header() {
       }
     };
     fetchBooks();
-  }, []); 
-  
+  }, []);
+
   const handleDirectInfoBook = (id) => {
     window.location.href = `/infoBook/${id}`;
   }
 
-  const inputSearch = document.querySelector(".header_search input");
-  const keyBox = document.querySelector(".header_search_keybox");
-  if(inputSearch){
-    inputSearch.addEventListener("focus", () => {
-      keyBox.style.display = "block";
-    });
-    inputSearch.addEventListener("blur", () => {
-      keyBox.style.display = "none";
-    });
-    inputSearch.addEventListener("keyup", (e) => {
-      const searchValue = e.target.value.toLowerCase();
-      const searchItems = document.querySelectorAll(".header_search_keybox li");
-      searchItems.forEach((item) => {
-        if (item.textContent.toLowerCase().indexOf(searchValue) > -1) {
-          item.style.display = "block";
-        } else {
-          item.style.display = "none";
-        }
-      });
-    });
-  }
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "/src/components/User/Header/script.jsx";
+    script.async = true;
+    document.body.appendChild(script);
 
-  
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, [books, loggedIn]);
+
 
   return (
     <nav className="header">
@@ -73,19 +61,19 @@ function Header() {
               </div>
               <div className="header_search_keybox">
                 <ul>
-                    {books.length === 0 ? (
-                      <Backdrop
-                        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-                        open
-                      >
-                        <CircularProgress color="inherit" />
-                      </Backdrop>
-                    ) : null}
-                    {books.map((book) => (
-                      <li onClick={()=>handleDirectInfoBook(book.id)} key={book.id}>
-                        <ItemBoxSearchName key={book.id} book={book} />
-                      </li>
-                    ))}
+                  {books.length === 0 ? (
+                    <Backdrop
+                      sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                      open
+                    >
+                      <CircularProgress color="inherit" />
+                    </Backdrop>
+                  ) : null}
+                  {books.map((book) => (
+                    <li onClick={() => handleDirectInfoBook(book.id)} key={book.id}>
+                      <ItemBoxSearchName key={book.id} book={book} />
+                    </li>
+                  ))}
                 </ul>
               </div>
 

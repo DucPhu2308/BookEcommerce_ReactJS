@@ -131,7 +131,7 @@
     font-weight: bold;
     font-family: Arial;
     align-self: center;
-    text-transform: lowercase;
+    text-transform: none;
 }
 
 .header_nav_select{
@@ -154,7 +154,7 @@
     color: #000;
     font-weight: bold;
     font-family: system-ui;
-    text-transform: lowercase;
+    text-transform: none;
     margin-left:5px;
 }
 .header_nav_select_title i{
