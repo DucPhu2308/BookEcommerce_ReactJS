@@ -170,6 +170,29 @@
     color: #000;
     font-style: italic;
 }
+.box_item_info_chapter_right{
+    display: flex;
+    justify-content: space-between;
+}
+.box_item_info_chapter_right button{
+    width: 80px;
+    height: 25px;
+    background-color: #333;
+    color: #fff;
+    font-family: sans-serif !important;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 15px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+.box_item_info_chapter_right span{
+    font-size: 15px !important;
+    font-family: sans-serif !important;
+    color: #000;
+    font-weight: bold;
+}
 .container_info_book_body_description_right{
     width: 30%;
     height:100%;

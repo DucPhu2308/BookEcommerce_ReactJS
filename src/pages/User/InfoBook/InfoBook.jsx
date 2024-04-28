@@ -5,10 +5,13 @@ import ItemListChapter from "./ItemListChapter";
 import ItemListGenre from "./ItemListGenre";
 import ItemListLoveBook from "./ItemListLoveBook";
 import BookApi from "../../../API/User/BookApi";
+import UserApi from "../../../API/User/UserApi";
 const InfoBook = () => {
     const [book, setBook] = useState({});
     const id=window.location.pathname.split("/")[2];
     const [listChapter,setListChapter]=useState([]);
+    const [listFollowBook,setListFollowBook]=useState([]);
+    const [checkEdit,setCheckEdit]=useState(false);
     const [listGenre,setListGenre]=useState([]);
     localStorage.setItem("idBook",id);
     
@@ -20,6 +23,9 @@ const InfoBook = () => {
                 setListChapter(response.data.data.chapters);
                 setListGenre(response.data.data.genres);
                 localStorage.setItem("nameBook",response.data.data.title);
+                if(response.data.data.userOwn.id===JSON.parse(localStorage.getItem("user")).id){
+                    setCheckEdit(true);
+                }
             } catch (error) {
                 console.log("Failed to fetch book: ", error);
             }
@@ -27,6 +33,18 @@ const InfoBook = () => {
 
         
         fetchBook();
+    }, [id]);
+
+    useEffect(() => {
+        const fetchFollowBook = async () => {
+            try {
+                const response = await UserApi.getFollowBooks();
+                setListFollowBook(response.data.data);
+            } catch (error) {
+                console.log("Failed to fetch follow book: ", error);
+            }
+        };
+        fetchFollowBook();
     }, [id]);
 
     useEffect(() => {
@@ -38,6 +56,13 @@ const InfoBook = () => {
             document.body.removeChild(script);
         };
     }, [id]);
+
+    const renderNumberFollowBook = () => {
+        if (listFollowBook.length > 0) {
+            return <span>Follow: {listFollowBook.length}</span>;
+        }
+        return <span>0</span>;
+    }
     
     
     return (
@@ -49,7 +74,7 @@ const InfoBook = () => {
                             <span className="title_bold">{book.title}</span>
                             <span>Lượt xem</span>
                             <span>Rate: {book.avgRating}</span>
-                            <span>Follow</span>
+                            {renderNumberFollowBook()}
                         </div>
                         <div className="container_info_book_body_image_title_center">
                             <img src="book.jpg" alt="book" />
@@ -83,7 +108,7 @@ const InfoBook = () => {
                                         <span>Danh sách chương</span>
                                     </div>
                                     
-                                    <ItemListChapter list={listChapter}/>
+                                    <ItemListChapter list={listChapter} checkEdit={checkEdit}/>
                                 </div>
                             </div>
                         </div>

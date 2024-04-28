@@ -6,12 +6,14 @@ import CommentApi from "../../../API/User/CommentApi";
 import BookApi from "../../../API/User/BookApi";
 import ParagraphApi from "../../../API/User/ParagraphApi";
 import ChapterApi from "../../../API/User/ChapterApi";
+import UserApi from "../../../API/User/UserApi";
 const DetailBook = () => {
     const [listComment, setListComment] = useState([])
     const [listParagraph, setListParagraph] = useState([])
+    const [listFollowBook, setListFollowBook] = useState([])
     const [chapter, setChapter] = useState({})
     const [indexParagraph, setIndexParagraph] = useState(1)
-    const [paragraph, setParagraph] = useState('')
+    const [paragraph, setParagraph] = useState({})
     const [text, setText] = useState('')
     const [book, setBook] = useState({})
     const idChapter=window.location.pathname.split("/")[2];
@@ -40,7 +42,6 @@ const DetailBook = () => {
         const fetchData = async () => {
             try {
                 const response = await ChapterApi.getChapterById(idChapter);
-                console.log( response.data.data)
                 setChapter(response.data.data);
             } catch (error) {
                 console.log("Failed to fetch data", error);
@@ -61,7 +62,17 @@ const DetailBook = () => {
         fetchData();
     }, [idChapter]);
 
-    
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await UserApi.getFollowBooks();
+                setListFollowBook(response.data.data);
+            } catch (error) {
+                console.log("Failed to fetch data", error);
+            }
+        };
+        fetchData();
+    }, []);
 
     const handleNextParagraph = () => {
         if (indexParagraph < listParagraph.length - 1) {
@@ -136,10 +147,43 @@ const DetailBook = () => {
         }
     }
 
+    const handleFollowBook = async (bookId) => {
+        try {
+            await UserApi.followBook(bookId)
+            const response = await UserApi.getFollowBooks()
+            setListFollowBook(response.data.data)
+        } catch (error) {
+            console.log('Failed to fetch data', error)
+        }
+    }
+    const checkFollowBook = (bookId) => {
+        const isFollow = listFollowBook.find(followBook => followBook.id === bookId)
+        if (isFollow) {
+            return false
+        }
+        return true
+    }
+
+    const renderFollowButton = (bookId) => {
+        const isFollow = checkFollowBook(bookId)
+        if (isFollow) {
+            return (
+                <button className="dark" onClick={() => handleFollowBook(bookId)}>Theo dõi</button>
+            )
+        }   
+        else {
+            return (
+                <button className="dark" onClick={() => handleFollowBook(bookId)}>Bỏ theo dõi</button>
+            )
+        }
+
+    }
+
+
     const renderParagraph = () => {
-        const paragraph = document.querySelector('.container_bookDetail_nav_1_display_paragraph')
-        if (paragraph) {
-            paragraph.innerHTML = listParagraph[indexParagraph].content
+        const divParagraph= document.querySelector(".container_bookDetail_nav_1_display_paragraph");
+        if (divParagraph) {
+            divParagraph.innerHTML = paragraph.content;
         }
     }
     return (
@@ -160,7 +204,7 @@ const DetailBook = () => {
                         </li>
                         <li>
                             <div className="container_bookDetail_taskbar_button">
-                                <button className="dark">Theo dõi</button>
+                                {renderFollowButton(book.id)}
                                 <button className="white">Đánh giá</button>
                             </div>
                         </li>
