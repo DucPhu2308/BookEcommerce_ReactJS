@@ -6,6 +6,7 @@ const ItemListChapter = ({list}) => {
     return (
         <ul>
             {list.map((chapter,index) => (
+                list.sort((a,b) => a.index - b.index),
                 <li key={index}>
                     <div className="box_item_info_chapter">
                         <span className="title_bold">Chương {chapter.index}: {chapter.title}</span>

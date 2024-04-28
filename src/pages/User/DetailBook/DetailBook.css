@@ -145,6 +145,8 @@
     height:800px;
     border: 1px solid #a29f9f;
     box-shadow: 0 0 10px 5px #b1aeae;
+    display: flex;
+    flex-direction: column;
 }
 .container_bookDetail_nav_1_displayBook_body_tittle{
     width: 100%;
@@ -156,6 +158,12 @@
     font-weight: bold;
     color: #333;
     font-family: sans-serif;
+}
+.container_bookDetail_nav_1_display_paragraph{
+    width:100%;
+    height:100%;
+    background-color: #cdcccc44;
+    overflow-y: scroll;
 }
 
 .container_bookDetail_nav_1_displayBook_body_button{
