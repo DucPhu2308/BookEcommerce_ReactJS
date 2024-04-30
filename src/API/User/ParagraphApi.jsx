@@ -11,7 +11,6 @@ class ParagraphApi {
     }
     static async updateParagraph(data) {
         const url = `/paragraph/${data.id}`;
-        console.log(data);
         return axiosPrivate.put(url, data);
     }
     static async deleteParagraph(id) {

@@ -25,13 +25,12 @@ const ItemParagraph = ({value, onChange, onBtnDeleteClick}) => {
       { indent: "-1" },
       { indent: "+1" },
     ],
-    ["link", "image", "video"],
+    ["link", "image"],
     ["clean"],
   ];
   const modules = {
     toolbar: toolbarOptions,
   };
-
   return (
     <>
       <div

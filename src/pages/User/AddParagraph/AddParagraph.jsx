@@ -1,10 +1,18 @@
-import { Container, TextField, Box, Button } from "@mui/material";
+import {
+  Container,
+  TextField,
+  Box,
+  Button,
+  CircularProgress,
+  Backdrop,
+} from "@mui/material";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import { ToastContainer, toast } from "react-toastify";
 
 import ParagraphApi from "../../../API/User/ParagraphApi";
 import ChapterApi from "../../../API/User/ChapterApi";
+import UploadApi, { UploadType } from "../../../API/User/UploadApi";
 import "./AddParagraph.css";
 import DefaultLayout from "../../../layouts/DefaultLayout/DefaultLayout";
 import ItemParagraph from "./ItemParagraph";
@@ -12,6 +20,7 @@ import ItemParagraph from "./ItemParagraph";
 var deletedParagraphs = [];
 
 const AddParagraph = () => {
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   // get id from url
   const id = window.location.pathname.split("/")[2];
@@ -30,7 +39,11 @@ const AddParagraph = () => {
     const fetchParagraphs = async () => {
       try {
         const response = await ParagraphApi.getParagraphs(id);
-        setParagraphs(response.data.data.length > 0 ? response.data.data : [{content: "", index: 0}]);
+        setParagraphs(
+          response.data.data.length > 0
+            ? response.data.data
+            : [{ content: "", index: 0 }]
+        );
       } catch (error) {
         console.log("Failed to fetch paragraphs: ", error);
       }
@@ -44,41 +57,102 @@ const AddParagraph = () => {
     const newParagraphs = [...paragraphs];
     newParagraphs[index].content = newContent;
     setParagraphs(newParagraphs);
-  }
+  };
 
   const onAddClick = () => {
-    const newParagraphs = [...paragraphs, {content: "", index: paragraphs.length}];
+    const newParagraphs = [
+      ...paragraphs,
+      { content: "", index: paragraphs.length },
+    ];
     setParagraphs(newParagraphs);
-  }
+  };
+
+  const getFileFromImgTag = (imgTag) => {
+    // get file from img tag
+    const file = imgTag.split(",")[1].slice(0, -2);
+    // create file from base64
+    const byteCharacters = atob(file);
+    const byteNumbers = new Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+    const byteArray = new Uint8Array(byteNumbers);
+    const blob = new Blob([byteArray], { type: "image/png" });
+    const fileData = new File([blob], "image.png", { type: "image/png" });
+    return fileData;
+  };
+  const getImgTagFromStr = (str) => {
+    const imgRegex = /<img src="data:image\/.*;base64,.*">/g;
+    const imgTags = str.match(imgRegex);
+    return imgTags;
+  };
   const save = async () => {
     chapter.book = chapter.bookId;
     ChapterApi.updateChapter(chapter);
-    paragraphs.forEach(async (paragraph, index) => {
+
+    for (let index = 0; index < paragraphs.length; index++) {
+      const paragraph = paragraphs[index];
+      // check if paragraph contain img tag in base64
+      const imgTags = getImgTagFromStr(paragraph.content);
+      if (imgTags !== null) {
+        for (const imgTag of imgTags) {
+          const fileData = getFileFromImgTag(imgTag);
+          // upload file
+          const response = await UploadApi.uploadFile(
+            fileData,
+            UploadType.PARAGRAPH
+          );
+          const imageUrl = response.data.data;
+          const newContent = `<img src="${imageUrl}">`;
+          paragraph.content = paragraph.content.replace(imgTag, newContent);
+        }
+      }
+
       paragraph.chapter = id;
       paragraph.index = index; // re-index the paragraphs
       if (paragraph.id === undefined)
         await ParagraphApi.postParagraph(paragraph, id);
-      else
-        await ParagraphApi.updateParagraph(paragraph);
-    });
+      else await ParagraphApi.updateParagraph(paragraph);
 
-    deletedParagraphs.forEach(async (id) => {
+      const newParagraphs = [...paragraphs];
+      newParagraphs[index] = paragraph;
+      setParagraphs(newParagraphs);
+    }
+
+    for (let i = 0; i < deletedParagraphs.length; i++) {
+      const id = deletedParagraphs[i];
+      const imgTags = getImgTagFromStr(deletedParagraphs[i].content);
+      if (imgTags !== null) {
+        for (const imgTag of imgTags) {
+          // get file url from img tag
+          const fileUrl = imgTag.split('"')[1];
+          // delete file
+          await UploadApi.deleteFile(fileUrl);
+        }
+      }
       await ParagraphApi.deleteParagraph(id);
-    });
-  }
+    }
+    deletedParagraphs = [];
+  };
   const quit = () => {
     navigate(`/infoBook/${chapter.bookId}`);
-  }
+  };
   const handleSave = async () => {
+    setLoading(true);
     save().then(() => {
       toast.success("Đã lưu");
+      setLoading(false);
     });
-  }
+  };
   const handleSaveAndQuit = async () => {
-    save();
-    quit();
-  }
-  
+    setLoading(true);
+    save().then(() => {
+      setLoading(false);
+      toast.success("Đã lưu");
+      quit();
+    });
+  };
+
   const handleBtnDeleteClick = (index) => {
     const newParagraphs = paragraphs.filter((paragraph, i) => {
       if (i === index) {
@@ -90,9 +164,18 @@ const AddParagraph = () => {
       return true;
     });
     setParagraphs(newParagraphs);
-  }
+  };
+
   return (
     <DefaultLayout>
+      {loading && (
+        <Backdrop
+          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
+      )}
       <ToastContainer />
       <div className="container_add_paragraph_body">
         <div className="container_add_paragraph_taskbar">
@@ -102,43 +185,60 @@ const AddParagraph = () => {
             </li>
             <li>
               <div className="container_add_paragraph_taskbar_button">
-                <button onClick={quit} className="white_btn_cancel">Hủy</button>
-                <button onClick={handleSave} className="dark_btn_next">Lưu</button>
-                <button onClick={handleSaveAndQuit} className="dark_btn_next">Lưu & Thoát</button>
+                <button onClick={quit} className="white_btn_cancel">
+                  Hủy
+                </button>
+                <button onClick={handleSave} className="dark_btn_next">
+                  Lưu
+                </button>
+                <button onClick={handleSaveAndQuit} className="dark_btn_next">
+                  Lưu & Thoát
+                </button>
               </div>
             </li>
           </ul>
         </div>
-        <Box display="flex" justifyContent="center" flexDirection={"column"} alignItems={"center"}>
+        <Box
+          display="flex"
+          justifyContent="center"
+          flexDirection={"column"}
+          alignItems={"center"}
+        >
           <TextField
             hiddenLabel
             // center the text field
-            sx={{ width: "60%"}}
+            sx={{ width: "60%" }}
             inputProps={{
               style: {
                 fontWeight: "bold",
                 fontSize: "20px",
                 textAlign: "center",
-              }
+              },
             }}
             value={chapter.title}
-            onChange={(e) => setChapter({...chapter, title: e.target.value})}
+            onChange={(e) => setChapter({ ...chapter, title: e.target.value })}
             size="medium"
             placeholder="Tiêu đề chương"
             variant="standard"
           />
-          {
-            paragraphs.map((paragraph, index) => {
-              return (
-                <ItemParagraph key={index} 
+          {paragraphs.map((paragraph, index) => {
+            return (
+              <ItemParagraph
+                key={index}
                 value={paragraph.content}
-                onChange={(newContent) => handleChange(newContent, index)} 
+                onChange={(newContent) => handleChange(newContent, index)}
                 onBtnDeleteClick={() => handleBtnDeleteClick(index)}
-                /> 
-              )
-            })
-          }
-          <Button sx={{marginTop: "10px"}} onClick={onAddClick} variant="contained" color="primary">Thêm đoạn</Button>
+              />
+            );
+          })}
+          <Button
+            sx={{ marginTop: "10px" }}
+            onClick={onAddClick}
+            variant="contained"
+            color="primary"
+          >
+            Thêm đoạn
+          </Button>
         </Box>
       </div>
     </DefaultLayout>
