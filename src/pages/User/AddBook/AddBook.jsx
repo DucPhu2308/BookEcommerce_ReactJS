@@ -32,7 +32,7 @@ const AddBook = () => {
             toast.error('Vui lòng đăng nhập để thêm truyện');
             return;
         }
-        else if (addBook === '' || addDescription === '' || listGenreAdded.length === 0) {
+        else if (addBook === '' || addDescription === '' || listGenreAdded.length === 0 ) {
             toast.error('Vui lòng nhập đầy đủ thông tin');
             return;
         }
@@ -175,7 +175,7 @@ const AddBook = () => {
                                         </div>
                                         <div className="container_addBook_nav_form_box_body_item_input">
                                             <select name="bookType" id="bookType" onChange={handleChangeClick} >
-                                                <option value="0" disabled>Chọn thể loại</option>
+                                                <option value="0">Chọn thể loại</option>
                                                 {listGenre.map((genre) => (
                                                     <option key={genre.id} value={genre.id}>{genre.name}</option>
                                                 ))}

@@ -34,18 +34,22 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/my-books" element={<MyBooks />} />
         <Route path="/add-book" element={<AddBook />} />
-        <Route path="/detail-book" element={<DetailBook />} />
+        <Route path="/detail-book/:id" element={<DetailBook />} />
         <Route path="/add-chapter" element={<AddChapter />} />
         <Route path="/edit-chapter/:id" element={<AddParagraph />} />
         <Route path="/infoUser" element={<InfoUser />} />
         <Route path="/infoBook/:id" element={<InfoBook />} />
-        
+
         <Route element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
           <Route path="/admin" element={<AdminHome />} />
         </Route>
 
         <Route path="/bank" element={<Bank />} />
-        <Route path="/subcribebook" element={<SubcribeBookPage />} />
+
+        <Route element={<RequireAuth allowedRoles={[ROLES.USER]} />}>
+          <Route path="/subcribebook" element={<SubcribeBookPage />} />
+        </Route>
+
         <Route path="/historybook" element={<HistoryBookPage />} />
 
         <Route element={<RequireAuth allowedRoles={[ROLES.USER]} />}>

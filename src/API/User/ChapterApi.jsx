@@ -18,8 +18,8 @@ class ChapterApi {
         const url = `chapter`;
         return axiosPrivate.post(url, data);
     }
-    updateChapter = (data) => {
-        const url = `chapter/${data.id}`;
+    updateChapter = (data,id) => {
+        const url = `chapter/${id}`;
         return axiosPrivate.put(url, data);
     }
 }
