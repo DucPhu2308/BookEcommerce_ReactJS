@@ -3,18 +3,17 @@ import BookItem from "@/components/User/BookItem/BookItem";
 import './UpdateBookList.css';
 import Reveal from "../../../../../components/utils/Reveal";
 
-
 const colNumber = 2;
-const UpdateBookList = ({list}) => {
-  
-
+const UpdateBookList = ({ list }) => {
   return (
     <div className="container_nav_2_listBooks">
       <div className="container_nav_2_listBooks_title">
         <span className="SeeUpdate">Truyện mới cập nhật</span>
-        <a href="#" className="SeeTotal">
-          Xem tất cả {">>"}
-        </a>
+        <Link to="/NewBook">
+          <div className="SeeTotal">
+            Xem tất cả {">>"}
+          </div>
+        </Link>
       </div>
       <table>
         {/* display list in colNumber column */}

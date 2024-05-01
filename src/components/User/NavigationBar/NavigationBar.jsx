@@ -54,6 +54,11 @@ function NavigationBar() {
           </NavLink>
         </li>
         <li>
+          <NavLink to="/NewBook" activeClassName="active">
+            Truyện mới
+          </NavLink>
+        </li>
+        <li>
           <NavLink to="/SubcribeBook" activeClassName="active">
             Theo dõi
           </NavLink>

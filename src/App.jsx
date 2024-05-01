@@ -12,8 +12,9 @@ import './App.css'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import AdminHome from './pages/Admin/Home/AdminHome'
 import Bank from './pages/Bank/Bank'
-import SubcribeBookPage from './pages/User/SubcribeBookPage/SubcribeBookPage'
-import HistoryBookPage from './pages/User/HistoryBookPage/HistoryBookPage'
+import NewBookPage from './pages/User/BookPage/NewBookPage'
+import SubcribeBookPage from './pages/User/BookPage/SubcribeBookPage'
+import HistoryBookPage from './pages/User/BookPage/HistoryBookPage'
 import AddParagraph from './pages/User/AddParagraph/AddParagraph'
 import AddChapter from './pages/User/AddChapter/AddChapter'
 import UpdateBook from './pages/User/UpdateBook/UpdateBook'
@@ -45,6 +46,8 @@ function App() {
         </Route>
 
         <Route path="/bank" element={<Bank />} />
+
+        <Route path="/newbook" element={<NewBookPage />} />
 
         <Route element={<RequireAuth allowedRoles={[ROLES.USER]} />}>
           <Route path="/subcribebook" element={<SubcribeBookPage />} />
