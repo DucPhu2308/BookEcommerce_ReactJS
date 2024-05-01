@@ -3,7 +3,7 @@ import NavigationBar from "@/components/User/NavigationBar/NavigationBar";
 import SeenBookList from "../Home/UpdateBook_SeenBookList/SeenBookList/SeenBookList";
 import Reveal from "../../../components/utils/Reveal";
 import BookItem from "../../../components/User/BookItem/BookItem";
-import './HistoryBookPage.css'
+import './BookPage.css'
 
 const colNumber = 3;
 const listBooks = [
@@ -52,8 +52,8 @@ const HistoryBookPage = () => {
                 <div className="container_body">
                     <NavigationBar />
                     <div className="container_nav_2">
-                        <div className="his_book_page_list">
-                            <div className="his_book_page_list_title">
+                        <div className="book_page_list">
+                            <div className="book_page_list_title">
                                 Lịch sử đọc truyện
                             </div>
                             <table>

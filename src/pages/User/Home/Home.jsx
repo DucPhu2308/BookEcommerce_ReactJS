@@ -13,8 +13,6 @@ import BookApi from "../../../API/User/BookApi";
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 
-
-
 const UserHome = () => {
   const [listBooks, setListBooks] = useState([]);
   const [post, setPost] = useState(null);
