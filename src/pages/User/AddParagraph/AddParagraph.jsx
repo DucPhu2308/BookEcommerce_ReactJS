@@ -21,6 +21,8 @@ var deletedParagraphs = [];
 
 const AddParagraph = () => {
   const [loading, setLoading] = useState(false);
+  const [paragraphs, setParagraphs] = useState([]);
+  const [chapter, setChapter] = useState("");
   const navigate = useNavigate();
   // get id from url
   const id = window.location.pathname.split("/")[2];
@@ -51,8 +53,7 @@ const AddParagraph = () => {
     fetchParagraphs();
   }, []);
 
-  const [paragraphs, setParagraphs] = useState([]);
-  const [chapter, setChapter] = useState("");
+  
   const handleChange = (newContent, index) => {
     const newParagraphs = [...paragraphs];
     newParagraphs[index].content = newContent;
@@ -81,20 +82,27 @@ const AddParagraph = () => {
     const fileData = new File([blob], "image.png", { type: "image/png" });
     return fileData;
   };
-  const getImgTagFromStr = (str) => {
+  const getImgTagBase64FromStr = (str) => {
+    if (!str) return null;
     const imgRegex = /<img src="data:image\/.*;base64,.*">/g;
+    const imgTags = str.match(imgRegex);
+    return imgTags;
+  };
+  const getImgTagUrlFromStr = (str) => {
+    if (!str) return null;
+    const imgRegex = /<img src=".*">/g;
     const imgTags = str.match(imgRegex);
     return imgTags;
   };
   const save = async () => {
     chapter.book = chapter.bookId;
-    ChapterApi.updateChapter(chapter);
+    ChapterApi.updateChapter(chapter, chapter.id);
 
     for (let index = 0; index < paragraphs.length; index++) {
       const paragraph = paragraphs[index];
       // check if paragraph contain img tag in base64
-      const imgTags = getImgTagFromStr(paragraph.content);
-      if (imgTags !== null) {
+      const imgTags = getImgTagBase64FromStr(paragraph.content);
+      if (imgTags) {
         for (const imgTag of imgTags) {
           const fileData = getFileFromImgTag(imgTag);
           // upload file
@@ -119,9 +127,9 @@ const AddParagraph = () => {
       setParagraphs(newParagraphs);
     }
 
-    for (let i = 0; i < deletedParagraphs.length; i++) {
-      const id = deletedParagraphs[i];
-      const imgTags = getImgTagFromStr(deletedParagraphs[i].content);
+    for (const paragraph of deletedParagraphs) {
+      const imgTags = getImgTagUrlFromStr(paragraph.content);
+      console.log(imgTags);
       if (imgTags !== null) {
         for (const imgTag of imgTags) {
           // get file url from img tag
@@ -140,8 +148,8 @@ const AddParagraph = () => {
   const handleSave = async () => {
     setLoading(true);
     save().then(() => {
-      toast.success("Đã lưu");
       setLoading(false);
+      toast.success("Đã lưu");
     });
   };
   const handleSaveAndQuit = async () => {
@@ -157,7 +165,7 @@ const AddParagraph = () => {
     const newParagraphs = paragraphs.filter((paragraph, i) => {
       if (i === index) {
         if (paragraph.id !== undefined) {
-          deletedParagraphs.push(paragraph.id);
+          deletedParagraphs.push(paragraph);
         }
         return false;
       }

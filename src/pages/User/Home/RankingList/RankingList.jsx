@@ -14,7 +14,7 @@ const RankingList = ({ title, list }) => {
                 <div className="rank-1">
                     <img className="medal-icon" src={goldmedal} alt="goldmedal" />
                     {/* TODO: change img src */}
-                    <img className="item-image" src={"https://picsum.photos/200"} alt={list[0].title} />
+                    <img className="item-image" src={list[0].coverImage} alt={list[0].title} />
                     <div className="rank-1-info">
                         <div className="item-title">{list[0].title}</div>
                         <div className="view-number">lượt xem</div>

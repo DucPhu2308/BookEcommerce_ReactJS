@@ -14,9 +14,8 @@ class UploadApi {
   }
 
   static deleteFile(deleteFileUrl) {
-    const url = `/upload`;
-    // params: {url: deleteFileUrl}
-    return axiosPrivate.delete(url, { data: { url: deleteFileUrl } });
+    const url = `/upload?url=${deleteFileUrl}`;
+    return axiosPrivate.delete(url);
   }
 }
 
