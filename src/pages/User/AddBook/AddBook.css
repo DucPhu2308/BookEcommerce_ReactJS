@@ -101,12 +101,20 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative; /* Position the container relative to the parent */
 }
-.image_form span{
-    font-size: medium;
-    font-weight: 600;
-    color:#333;
-    font-family: sans-serif;
+.image_form label {
+    position: absolute; /* Position the button absolutely within the container */
+  top: 50%; /* Center vertically by setting top to 50% */
+  left: 50%; /* Center horizontally by setting left to 50% */
+  transform: translate(-50%, -50%);  /* Center the button using translate */
+  background-color: #3498db; /* Optional: Style the button */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px; /* Optional: Style the button */
+
 }
 
 
