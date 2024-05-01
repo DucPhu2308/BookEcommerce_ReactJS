@@ -7,6 +7,9 @@ import BookApi from "../../../API/User/BookApi";
 import ParagraphApi from "../../../API/User/ParagraphApi";
 import ChapterApi from "../../../API/User/ChapterApi";
 import UserApi from "../../../API/User/UserApi";
+import {toast, ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const DetailBook = () => {
     const [listComment, setListComment] = useState([])
     const [listParagraph, setListParagraph] = useState([])
@@ -110,11 +113,12 @@ const DetailBook = () => {
     }
 
     const handleClickPost = async () => {
+        
         try {
             const newComment = {
                 content: text,
                 parent: null,
-                chapter: 1
+                chapter: idChapter
             }
             const response = await CommentApi.add(newComment)
             setListComment([...listComment, response.data.data])
@@ -148,6 +152,10 @@ const DetailBook = () => {
     }
 
     const handleFollowBook = async (bookId) => {
+        if(!localStorage.getItem('token')) {
+            toast.error('Vui lòng đăng nhập để theo dõi truyện')
+            return
+        }
         try {
             await UserApi.followBook(bookId)
             const response = await UserApi.getFollowBooks()
@@ -188,6 +196,7 @@ const DetailBook = () => {
     }
     return (
         <DefaultLayout>
+            <ToastContainer />
             <div className="container_bookDetail_body">
                 <div className="container_bookDetail_taskbar">
                     <ul>

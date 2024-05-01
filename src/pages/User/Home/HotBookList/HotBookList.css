@@ -93,3 +93,19 @@
 .been{
     background-color: #858585;
 }
+
+@media screen and (max-width: 768px) {
+    .container_nav_1_listBooks ul{
+        display: block;
+    }
+    .container_nav_1_listBooks ul li {
+        margin: 0;
+    }
+    .container_nav_1_listBooks_button{
+        top:-120px;
+    }
+    .container_nav_1_listBooks_circles{
+        top:-60px;
+    }
+    
+}

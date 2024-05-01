@@ -8,7 +8,7 @@ import ItemBoxSearchName from "./ItemBoxSearchName/ItemBoxSearchName";
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 
-function Header() {
+const Header = () => {
   const loggedIn = localStorage.getItem("token");
   const [books, setBooks] = useState([]);
 
@@ -37,7 +37,7 @@ function Header() {
     return () => {
       document.body.removeChild(script);
     };
-  }, [books, loggedIn]);
+  }, []);
 
 
   return (

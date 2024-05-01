@@ -13,6 +13,7 @@ const UpdateBook = ()=>{
     const [updateNameBook, setUpdateNameBook] = useState('');
     const [updateDescription, setUpdateDescription] = useState('');
     const [listGenreAdded, setListGenreAdded] = useState([]);
+    const [addImage,setAddImage] = useState('');
 
     useEffect(() => {
         BookAPI.getBookById(idBook)
@@ -27,6 +28,7 @@ const UpdateBook = ()=>{
                 toast.error('Lấy thông tin truyện thất bại');
             });
     }, [idBook]);
+
 
 
 
@@ -99,6 +101,28 @@ const UpdateBook = ()=>{
         const newListGenreAdded = listGenreAdded.filter((genre) => genre.id !== id);
         setListGenreAdded(newListGenreAdded);
     }
+    const handleImage = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function () {
+                document.getElementById('imageInput').src = reader.result;
+            }
+            reader.readAsDataURL(file);
+        }
+        else {
+            document.getElementById('imageInput').src = "";
+        }
+    }
+    useEffect(() => {
+        const script = document.createElement("script");
+        script.src = "/src/pages/User/UpdateBook/script.jsx";
+        document.body.appendChild(script);
+        
+        return () => {
+            document.body.removeChild(script);
+        };
+    }, [])
 
     return (
         <DefaultLayout>
@@ -123,8 +147,9 @@ const UpdateBook = ()=>{
                 <div className="container_addBook_nav">
                     <div className="container_addBook_nav_image">
                         <div className="image_form">
-                            <span>+ Add image</span>
+                            <img src="#" alt="" id="imageInput" />
                         </div>
+                        <input type="file" name="image" id="imageFile" accept="image/*" value={addImage} onChange={handleImage}/>
                     </div>
                     <div className="container_addBook_nav_form">
                         <div className="container_addBook_nav_form_box">
