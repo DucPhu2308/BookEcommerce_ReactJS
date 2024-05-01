@@ -1,7 +1,7 @@
 .show-toolbar .ql-toolbar {
-  display: block; /* Show the toolbar */
+  display: block;
 }
 
 .ql-toolbar {
-  display: none; /* Hide the toolbar by default */
+  display: none; 
 }
