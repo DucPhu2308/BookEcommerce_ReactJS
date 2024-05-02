@@ -2,6 +2,7 @@ import DefaultLayout from "../../../layouts/DefaultLayout/DefaultLayout";
 import "./DetailBook.css";
 import imageAccount from "../../../assets/images/account.png";
 import { useState, useEffect } from "react";
+import DOMPurify from 'dompurify';
 import CommentApi from "../../../API/User/CommentApi";
 import BookApi from "../../../API/User/BookApi";
 import ParagraphApi from "../../../API/User/ParagraphApi";
@@ -19,10 +20,6 @@ const DetailBook = () => {
     const idChapter=window.location.pathname.split("/")[2];
 
     const idBook= localStorage.getItem("idBook");
-
-    
-
-
 
     useEffect(() => {
         const fetchData = async () => {
@@ -74,6 +71,19 @@ const DetailBook = () => {
         fetchData();
     }, []);
 
+    // fetch paragraph list
+    useEffect( () => {
+        const fetchParagraphs = async () => {
+            try {
+              const response = await ParagraphApi.getParagraphs(idChapter);
+              setListParagraph(response.data.data);
+            } catch (error) {
+              console.log("Failed to fetch paragraphs: ", error);
+            }
+          };
+          fetchParagraphs();
+    }, [idChapter]);
+
     const handleNextParagraph = () => {
         if (indexParagraph < listParagraph.length - 1) {
             setIndexParagraph(indexParagraph + 1)
@@ -87,11 +97,6 @@ const DetailBook = () => {
             setParagraph(listParagraph[indexParagraph - 1])
         }
     }
-
-   
-
-    
-
 
     useEffect(() => {
         const fetchData = async () => {
@@ -123,7 +128,6 @@ const DetailBook = () => {
             console.log('Failed to post data', error)
         }
     }
-    
 
     const handleDeleteComment = async (id) => {
         try {
@@ -181,10 +185,11 @@ const DetailBook = () => {
 
 
     const renderParagraph = () => {
-        const divParagraph= document.querySelector(".container_bookDetail_nav_1_display_paragraph");
-        if (divParagraph) {
-            divParagraph.innerHTML = paragraph.content;
-        }
+        listParagraph.map((paragraph, index) => {
+            return (
+                <p key={index}>{paragraph.content}</p>
+            )
+        })
     }
     return (
         <DefaultLayout>
@@ -224,7 +229,13 @@ const DetailBook = () => {
         
                             </div>
                             <div className="container_bookDetail_nav_1_display_paragraph">
-                                {renderParagraph()}
+                                {listParagraph.map((paragraph, index) => {
+                                return (
+                                    <p key={index} dangerouslySetInnerHTML={{ 
+                                        __html: DOMPurify.sanitize(paragraph.content) 
+                                    }}></p>
+                                )
+                            })}
                             </div>
                         </div>
                         <div className="container_bookDetail_nav_1_displayBook_body_button">
