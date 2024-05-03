@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import DefaultLayout from "../../../layouts/DefaultLayout/DefaultLayout";
 import "./InfoBook.css";
+import PlaceholderImage from "@/assets/images/placeholder-image.png";
 import ItemListChapter from "./ItemListChapter";
 import ItemListGenre from "./ItemListGenre";
 import ItemListLoveBook from "./ItemListLoveBook";
@@ -72,7 +73,7 @@ const InfoBook = () => {
                         <button className="btn_add_chapter" onClick={() => { window.location.href = `/add-chapter` }}>Thêm chương</button>
                     </div>
                 </>
-
+ 
             )
         }
     }
@@ -89,7 +90,7 @@ const InfoBook = () => {
                             {renderNumberFollowBook()}
                         </div>
                         <div className="container_info_book_body_image_title_center">
-                            <img src="book.jpg" alt="book" />
+                            <img src={book.coverImage || PlaceholderImage} alt="book" />
                         </div>
                         <div className="container_info_book_body_image_title_right">
                             <div className="container_info_book_body_image_title_right_author">

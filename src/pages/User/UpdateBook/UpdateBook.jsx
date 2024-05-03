@@ -63,8 +63,6 @@ const UpdateBook = () => {
         genres.push(genre.id);
       });
 
-      
-
       const book = {
         title: updateNameBook,
         description: updateDescription,
