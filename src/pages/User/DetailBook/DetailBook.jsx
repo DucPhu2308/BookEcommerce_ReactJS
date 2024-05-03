@@ -267,7 +267,7 @@ const DetailBook = () => {
                     >
                       {listChapter?.map((chapter, index) => (
                         <MenuItem key={index} value={index}>
-                          {chapter.title}
+                          {chapter.index + '. ' + chapter.title}
                         </MenuItem>
                       ))}
                     </Select>
