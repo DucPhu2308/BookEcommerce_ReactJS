@@ -18,12 +18,14 @@ const InfoBook = () => {
     const [checkEdit, setCheckEdit] = useState(false);
     const [listGenre, setListGenre] = useState([]);
     localStorage.setItem("idBook", id);
+
+    // fetch book by id
     useEffect(() => {
         const fetchBook = async () => {
             try {
                 const response = await BookApi.getBookById(id);
                 setBook(response.data.data);
-                setListChapter(response.data.data.chapters);
+                // setListChapter(response.data.data.chapters);
                 setListGenre(response.data.data.genres);
                 localStorage.setItem("nameBook", response.data.data.title);
                 if (response.data.data.userOwn.id === JSON.parse(localStorage.getItem("user")).id) {
@@ -33,10 +35,21 @@ const InfoBook = () => {
                 console.log("Failed to fetch book: ", error);
             }
         };
-
-
         fetchBook();
     }, [id, listChapter]);
+
+    // fetch chapter by book id
+    useEffect(() => {
+        const fetchChapter = async () => {
+            try {
+                const response = await ChapterApi.getChapterByBook(id);
+                setListChapter(response.data.data);
+            } catch (error) {
+                console.log("Failed to fetch chapter: ", error);
+            }
+        };
+        fetchChapter();
+    }, [id]);
 
     useEffect(() => {
         const fetchFollowBook = async () => {

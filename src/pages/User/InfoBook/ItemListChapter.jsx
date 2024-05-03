@@ -5,9 +5,11 @@ import 'react-toastify/dist/ReactToastify.css';
 import { MonetizationOnRounded } from "@mui/icons-material";
 import { Switch, FormControlLabel } from "@mui/material";
 import UpdatePriceDialog from "./UpdatePriceDialog";
+import ConfirmBuyChapterDialog from "./ConfirmBuyChapterDialog";
 
-const ItemListChapter = ({ list, checkEdit, onToggleActiveChapter }) => {
+const ItemListChapter = ({ list, checkEdit, onToggleActiveChapter, onBuyChapter }) => {
     const [edit, setEdit] = useState(false);
+    const [buy, setBuy] = useState(false);
 
     const renderButton = (chapter) => {
         if (checkEdit) { // book owner
@@ -29,8 +31,18 @@ const ItemListChapter = ({ list, checkEdit, onToggleActiveChapter }) => {
 
             )
         }
-        else {
-            return (
+        else { // not book owner
+            if (chapter.price > 0 && !chapter.bought) { // not buy
+                return (
+                    <>
+                        <button className="dark_btn_next" onClick={() => setBuy(chapter)}>
+                            <MonetizationOnRounded sx={{ fontSize: 20 }}  />
+                            {chapter.price}
+                        </button>
+                    </>
+                )
+            }
+            return ( // bought or free
                 <>
                     <Link to={`/detail-book/${chapter.id}`} >
                         <button className="dark_btn_next">Xem</button>
@@ -62,6 +74,7 @@ const ItemListChapter = ({ list, checkEdit, onToggleActiveChapter }) => {
         <ul>
             <ToastContainer />
             {edit && <UpdatePriceDialog onClose={() => setEdit(false)} chapter={edit} />}
+            {buy && <ConfirmBuyChapterDialog onClose={() => setBuy(false)} chapter={buy} />}
             {list?.map((chapter, index) => (
                 list.sort((a, b) => a.index - b.index),
                 <li key={index}>
