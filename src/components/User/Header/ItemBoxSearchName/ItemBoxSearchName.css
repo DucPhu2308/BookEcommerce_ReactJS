@@ -44,3 +44,22 @@
     font-family: sans-serif;
     margin: 0;
 }
+
+@media screen and (max-width: 768px){
+    .header_search_keybox_item{
+        width: 100%;
+    }
+    .header_search_keybox_item_image{
+        width: 30%;
+    }
+    .header_search_keybox_item_info{
+        width: 70%;
+    }
+    .header_search_keybox_item_info h3{
+        font-size: 12px;
+    }
+    .header_search_keybox_item_info span{
+        font-size: 10px;
+    }
+    
+}

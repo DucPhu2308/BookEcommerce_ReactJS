@@ -196,6 +196,13 @@
     font-size: 15px;
     cursor: pointer;
     margin-right: 10px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+}
+.box_item_info_chapter_right a{
+    text-decoration: none;
 }
 .box_item_info_chapter_right span{
     font-size: 15px !important;

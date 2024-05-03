@@ -94,3 +94,52 @@
 .header_nav_user_box i{
     margin-right:10px;
 }
+
+@media screen and (max-width: 768px){
+    .header_nav_user_box{
+        right: 0;
+    }
+    .header_nav_user_box ul li{
+        padding: 5px 10px;
+    }
+    .header_nav_user_box span{
+        font-size: 12px;
+    }
+    .header_nav_user_box i{
+        margin-right:5px;
+    }
+    .header_nav_select_box{
+        width: 120px;
+    }
+    .header_nav_select_box ul li{
+        padding: 0 5px;
+    }
+    .header_nav_select_box ul li:hover{
+        background-color: #d3d0cc;
+    }
+    .header_nav_select_box a{
+        font-size: 10px;
+    }
+    .header_nav_select_title{
+        width: 20px;
+    }
+    .header_nav_select_body{
+        top: 30px;
+    }
+    .header_nav_user img{
+        width: 30px;
+        height: 30px;
+        border-radius: 5px;
+        margin-right: 5px;
+    }
+    .header_nav_user span{
+        font-size: 12px;
+    }
+    .header_nav_user_box span{
+        font-size: 12px;
+    }
+    .header_nav_user_box i{
+        margin-right:5px;
+    }
+    
+}

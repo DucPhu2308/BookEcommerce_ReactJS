@@ -5,15 +5,13 @@ import PropType from "prop-types";
 const DefaultLayout = ({ children }) => {
   return (
     <>
-      <Header />
+      <Header/>
         <div className="container">{children}</div>
       <Footer />
     </>
   );
 };
 
-DefaultLayout.propTypes = {
-  children: PropType.node.isRequired,
-};
+
 
 export default DefaultLayout;

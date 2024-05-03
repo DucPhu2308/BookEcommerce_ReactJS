@@ -8,6 +8,8 @@ import BookApi from "../../../API/User/BookApi";
 import ParagraphApi from "../../../API/User/ParagraphApi";
 import ChapterApi from "../../../API/User/ChapterApi";
 import UserApi from "../../../API/User/UserApi";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { Select, MenuItem, FormControl, Grid } from "@mui/material";
 import { useNavigate } from "react-router";
@@ -129,21 +131,23 @@ const DetailBook = () => {
     setText(e.target.value);
   };
 
+
+
   const handleClickPost = async () => {
+
     try {
       const newComment = {
         content: text,
         parent: null,
-        chapter: 1,
-      };
-      const response = await CommentApi.add(newComment);
-      setListComment([...listComment, response.data.data]);
-      setText("");
+        chapter: idChapter
+      }
+      const response = await CommentApi.add(newComment)
+      setListComment([...listComment, response.data.data])
+      setText('')
     } catch (error) {
-      console.log("Failed to post data", error);
+      console.log('Failed to post data', error)
     }
-  };
-
+  }
   const handleDeleteComment = async (id) => {
     try {
       await CommentApi.remove(id);
@@ -165,13 +169,19 @@ const DetailBook = () => {
     }
   };
 
+
+
   const handleFollowBook = async (bookId) => {
+    if (!localStorage.getItem('token')) {
+      toast.error('Vui lòng đăng nhập để theo dõi truyện')
+      return
+    }
     try {
-      await UserApi.followBook(bookId);
-      const response = await UserApi.getFollowBooks();
-      setListFollowBook(response.data.data);
+      await UserApi.followBook(bookId)
+      const response = await UserApi.getFollowBooks()
+      setListFollowBook(response.data.data)
     } catch (error) {
-      console.log("Failed to fetch data", error);
+      console.log('Failed to fetch data', error)
     }
   };
   const checkFollowBook = (bookId) => {
@@ -201,14 +211,22 @@ const DetailBook = () => {
     }
   };
 
+
+
+
+
+
   return (
     <DefaultLayout>
+      <ToastContainer />
       <div className="container_bookDetail_body">
         <div className="container_bookDetail_taskbar">
           <ul>
             <li>
               <div className="container_bookDetail_taskbar_box">
-                <div className="container_bookDetail_taskbar_box_img"></div>
+                <div className="container_bookDetail_taskbar_box_img">
+
+                </div>
                 <div className="container_bookDetail_taskbar_box_title">
                   <h3>{book.title}</h3>
                   <span>{book.userOwn?.displayName}</span>
@@ -323,17 +341,17 @@ const DetailBook = () => {
                       <button>Trả lời</button>
                       {renderActionEditDelete(comment.id)}
                     </div>
-                    {/* <div className="container_bookDetail_nav_1_comment_reply">
-                                            <div className="container_bookDetail_nav_1_comment_reply_box">
-                                                <div className="container_bookDetail_nav_1_comment_reply_box_img">
-                                                    <img src={imageAccount} alt="account" />
-                                                </div>
-                                                <div className="container_bookDetail_nav_1_comment_reply_box_content">
-                                                    <span className="author">account</span>
-                                                    <span className="content">Chương hay quá</span>
-                                                </div>
-                                            </div>
-                                        </div> */}
+                    <div className="container_bookDetail_nav_1_comment_reply">
+                      <div className="container_bookDetail_nav_1_comment_reply_box">
+                        <div className="container_bookDetail_nav_1_comment_reply_box_img">
+                          <img src={imageAccount} alt="account" />
+                        </div>
+                        <div className="container_bookDetail_nav_1_comment_reply_box_content">
+                          <span className="author">account</span>
+                          <span className="content">Chương hay quá</span>
+                        </div>
+                      </div>
+                    </div>
                   </>
                 ))}
               </div>

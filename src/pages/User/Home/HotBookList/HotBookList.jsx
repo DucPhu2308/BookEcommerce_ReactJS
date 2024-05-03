@@ -40,7 +40,7 @@ const HotBookList = () => {
         return () => {
             document.body.removeChild(script);
         };
-    }, []);
+    }, [listBooks]);
     return (
         <>
             <div className="container_nav_1_title">
@@ -61,11 +61,15 @@ const HotBookList = () => {
             </div>
             <div className="container_nav_1_listBooks_button">
                 <div className="btn_nav_1_listBooks left">
-                    <span> {"<"} </span>
+                    <span> 
+                        <i className="fas fa-chevron-left"></i>    
+                     </span>
 
                 </div>
                 <div className="btn_nav_1_listBooks right">
-                    <span>{">"}</span>
+                    <span>
+                        <i className="fas fa-chevron-right"></i>
+                    </span>
 
                 </div>
             </div>

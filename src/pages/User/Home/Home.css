@@ -21,3 +21,15 @@
     margin-top: 20px;
 }
 
+@media screen and (max-width: 768px){
+    .container_nav_1{
+        height: 200px;
+    }
+    .container_nav_2{
+        flex-direction: column;
+    }
+    .container_nav_3{
+        flex-direction: column;
+    }
+    
+}

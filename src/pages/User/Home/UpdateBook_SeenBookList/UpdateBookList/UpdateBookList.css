@@ -39,35 +39,6 @@
     text-decoration: none;
     color: #000;
 }
-@media screen and (max-width: 1200px) {
-    .container_nav_2_listBooks{
-        margin-left:15%;
-    }
-    .container_nav_2_listBooks table{
-        margin-left:25%;
-    }
-
-    table {
-        width: 100%;
-        
-    }
-
-    
-
-    td {
-        display: block;
-        text-align: right;
-    }
-
-    td:before {
-        content: attr(data-label);
-        float: left;
-        font-weight: bold;
-        
-    }
-    
-}
-
 .container_nav_2_listBooks table td{
     padding: 10px;
     text-align: center;
@@ -75,4 +46,14 @@
     color: #000;
     font-weight: bold;
     font-family: Arial;
+}
+
+@media screen and (max-width: 768px){
+    .container_nav_2_listBooks{
+        width: 100%;
+    }
+    .container_nav_2_listBooks table{
+        margin-left:0;
+    }
+    
 }
