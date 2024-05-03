@@ -1,28 +1,23 @@
 import './ManageBook.css';
-import { useState } from 'react';
-const listBook = [
-    {
-        id: 1,
-        name: "Sách 1",
-        author: "Tác giả 1",
-        category: "Thể loại 1",
-    },
-    {
-        id: 2,
-        name: "Sách 2",
-        author: "Tác giả 2",
-        category: "Thể loại 2",
-    },
-    {
-        id: 3,
-        name: "Sách 3",
-        author: "Tác giả 3",
-        category: "Thể loại 3",
-    },
-]
-const ManageBook = () => {
-    const [book, setBook] = useState(listBook);
+import { useState,useEffect } from 'react';
+import BookApi from '../../../API/User/BookApi';
 
+const ManageBook = () => {
+    const [book, setBook] = useState([]);
+
+    useEffect(()=>{
+        const fetchBookList = async () => {
+            try {
+                const response = await BookApi.getAll();
+                console.log(response.data.data);
+                setBook(response.data.data);
+            } catch (error) {
+                console.log("Failed to fetch book list: ", error);
+            }
+        }
+        fetchBookList();
+    
+    },[])
     const handleDeleteBook = (id) => {
         console.log("deleted",id);
         const newListBook = book.filter(item => item.id !== id);
@@ -53,9 +48,18 @@ const ManageBook = () => {
                                     <td className="col_1_1 image_book">
                                         <img src="#" alt=""></img>
                                     </td>
-                                    <td className="col_2_1">{book.name}</td>
-                                    <td className="col_2_1">{book.author}</td>
-                                    <td className="col_2_1">{book.category}</td>
+                                    <td className="col_2_1">{book.title}</td>
+                                    <td className="col_2_1">{book.userOwn?.displayName}</td>
+                                    <td className="col_2_1">
+                                        {book.genres.map((genre) => {
+                                            return (
+                                                genre.name+" "
+                                            )
+                                        })}
+
+
+
+                                    </td>
                                     <td className="col_2_1">
                                         <button>
                                             <i className="fas fa-eye"></i>

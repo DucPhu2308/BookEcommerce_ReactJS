@@ -2,23 +2,12 @@ import BanUser from './BanUser/BanUser';
 import DetailUser from './DetailUser/DetailUser';
 import './ManageUser.css';
 import { useState, useEffect } from 'react';
-import AuthorApi from '../../../API/Admin/AuthorApi';
 
 
 const ManageUser = () => {
     const [users, setUsers] = useState([]);
 
-    useEffect(() => {
-        const fetchUsers = async () => {
-            try {
-                const response = await AuthorApi.getAllAuthor();
-                setUsers(response.data);
-            } catch (error) {
-                console.log(error);
-            }
-        }
-        fetchUsers();
-    });
+    
 
 
 
