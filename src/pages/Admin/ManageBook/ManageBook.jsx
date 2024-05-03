@@ -1,6 +1,8 @@
 import './ManageBook.css';
 import { useState,useEffect } from 'react';
 import BookApi from '../../../API/User/BookApi';
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const ManageBook = () => {
     const [book, setBook] = useState([]);
@@ -27,6 +29,14 @@ const ManageBook = () => {
 
     return (
         <div className="container_admin_manage_book">
+            {book.length === 0 && (
+                <Backdrop
+                    sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                    open={true}
+                >
+                    <CircularProgress color="inherit" />
+                </Backdrop>
+            )}
             <div className="container_admin_manage_book_body">
                 <div className="container_admin_manage_book_body_title">
                     <div className="container_admin_manage_book_body_title_paga">
