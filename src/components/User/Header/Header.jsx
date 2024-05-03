@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect,useRef } from "react";
 import "./Header.css";
 import { Link } from "react-router-dom";
 import logo from "@/assets/images/logo.png";
@@ -12,7 +12,44 @@ const Header = () => {
   const loggedIn = localStorage.getItem("token");
   const [books, setBooks] = useState([]);
   
+  const inputSearch = useRef(null);
+  const keyBox = useRef(null);
 
+  useEffect(() => {
+    const inputSearchRef = inputSearch.current;
+    const keyBoxRef = keyBox.current;
+    const handleFocus = () => {
+      keyBoxRef.style.display = "block";
+    };
+    const handleBlur = () => {
+      keyBoxRef.style.display = "none";
+    }
+    const handleKeyUp = (e) => {
+      const searchValue = e.target.value.toLowerCase();
+      const searchItems = document.querySelectorAll(".header_search_keybox li");
+      searchItems.forEach((item) => {
+          if (item.textContent.toLowerCase().indexOf(searchValue) > -1) {
+              item.style.display = "block";
+          } else {
+              item.style.display = "none";
+          }
+      }
+
+      );
+    }
+    if (inputSearchRef) {
+      inputSearchRef.addEventListener("focus", handleFocus);
+      inputSearchRef.addEventListener("blur", handleBlur);
+      inputSearchRef.addEventListener("keyup", handleKeyUp);
+    }
+    return () => {
+      if (inputSearchRef) {
+        inputSearchRef.removeEventListener("focus", handleFocus);
+        inputSearchRef.removeEventListener("blur", handleBlur);
+        inputSearchRef.removeEventListener("keyup", handleKeyUp);
+      }
+    }
+  }, []);
 
 
   useEffect(() => {
@@ -31,16 +68,7 @@ const Header = () => {
     window.location.href = `/infoBook/${id}`;
   }
 
-  useEffect(() => {
-    const script = document.createElement("script");
-    script.src = "/src/components/User/Header/script.jsx";
-    script.async = true;
-    document.body.appendChild(script);
-
-    return () => {
-      document.body.removeChild(script);
-    };
-  }, []);
+  
 
 
   return (
@@ -56,13 +84,13 @@ const Header = () => {
           </li>
           <li>
             <div className="header_search">
-              <input type="text" name="search" placeholder="Search..." />
+              <input type="text" name="search" placeholder="Search..." ref={inputSearch}/>
               <div className="header_search_icon">
                 <button>
                   <i className="fas fa-search"></i>
                 </button>
               </div>
-              <div className="header_search_keybox">
+              <div className="header_search_keybox" ref={keyBox}>
                 <ul>
                   {books.length === 0 ? (
                     <Backdrop
