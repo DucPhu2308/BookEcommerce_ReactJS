@@ -1,8 +1,26 @@
 import { Dialog, DialogContent, DialogActions, DialogTitle, Button, TextField, DialogContentText } from "@mui/material";
+import { useNavigate } from "react-router";
+import { toast } from "react-toastify";
+import UserApi from "../../../API/User/UserApi";
 
 const ConfirmBuyChapterDialog = ({ onClose, chapter }) => {
+    const navigate = useNavigate();
+
     const handleConfirmBuyChapter = () => {
-        console.log("Buy chapter");
+        const user = localStorage.getItem("user");
+        if (!user) {
+            navigate("/login");
+            return;
+        }
+        UserApi.buyChapter(chapter.id)
+            .then(() => {
+                toast.success("Mua chương thành công");
+                onClose();
+            })
+            .catch((error) => {
+                toast.error("Mua chương thất bại");
+                console.log("Failed to buy chapter: ", error);
+            });
     }
     return (
         <Dialog

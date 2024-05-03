@@ -43,6 +43,7 @@ const InfoBook = () => {
         const fetchChapter = async () => {
             try {
                 const response = await ChapterApi.getChapterByBook(id);
+                console.log(response);
                 setListChapter(response.data.data);
             } catch (error) {
                 console.log("Failed to fetch chapter: ", error);

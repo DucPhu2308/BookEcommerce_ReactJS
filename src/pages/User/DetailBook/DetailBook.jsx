@@ -19,16 +19,17 @@ const DetailBook = () => {
   const [listComment, setListComment] = useState([]);
   const [listParagraph, setListParagraph] = useState([]);
   const [listFollowBook, setListFollowBook] = useState([]);
-  const [chapter, setChapter] = useState({});
   const [text, setText] = useState("");
   const [book, setBook] = useState({});
   const [idChapter, setIdChapter] = useState(
     window.location.pathname.split("/")[2]
   );
   const idBook = localStorage.getItem("idBook");
-  var listChapter = book.chapters;
+  // var listChapter = book.chapters;
+  const [listChapter, setListChapter] = useState([]);
   var indexChapter = listChapter?.findIndex((chapter) => chapter.id == idChapter);
 
+  // fetch book by id
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -41,17 +42,18 @@ const DetailBook = () => {
     fetchData();
   }, [idBook]);
 
+  // fetch chapter list 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchChapter = async () => {
       try {
-        const response = await ChapterApi.getChapterById(idChapter);
-        setChapter(response.data.data);
+        const response = await ChapterApi.getChapterByBook(idBook);
+        setListChapter(response.data.data);
       } catch (error) {
-        console.log("Failed to fetch data", error);
+        console.log("Failed to fetch chapter: ", error);
       }
     };
-    fetchData();
-  }, [idChapter]);
+    fetchChapter();
+  }, [idBook]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -94,7 +96,6 @@ const DetailBook = () => {
     if (indexChapter < listChapter.length - 1) {
       indexChapter = indexChapter + 1;
       setIdChapter(listChapter[indexChapter].id);
-      setChapter(listChapter[indexChapter]);
       navigate(`/detail-book/${listChapter[indexChapter].id}`);
     }
   };
@@ -103,7 +104,6 @@ const DetailBook = () => {
     if (indexChapter > 0) {
       indexChapter = indexChapter - 1;
       setIdChapter(listChapter[indexChapter].id);
-      setChapter(listChapter[indexChapter]);
       navigate(`/detail-book/${listChapter[indexChapter].id}`);
     }
   };
@@ -111,7 +111,6 @@ const DetailBook = () => {
   const handleSelectChapter = (e) => {
     indexChapter = e.target.value;
     setIdChapter(listChapter[indexChapter].id);
-    setChapter(listChapter[indexChapter]);
     navigate(`/detail-book/${listChapter[indexChapter].id}`);
   };
 
@@ -130,8 +129,6 @@ const DetailBook = () => {
   const handleChangeText = (e) => {
     setText(e.target.value);
   };
-
-
 
   const handleClickPost = async () => {
 
@@ -211,11 +208,6 @@ const DetailBook = () => {
     }
   };
 
-
-
-
-
-
   return (
     <DefaultLayout>
       <ToastContainer />
@@ -252,7 +244,7 @@ const DetailBook = () => {
             <div className="container_bookDetail_nav_1_displayBook_body">
               <div className="container_bookDetail_nav_1_displayBook_body_tittle">
                 <span>
-                  Chương {chapter.index}: {chapter.title}
+                  Chương {listChapter[indexChapter]?.index}: {listChapter[indexChapter]?.title}
                 </span>
               </div>
               <div className="container_bookDetail_nav_1_display_paragraph">

@@ -14,6 +14,10 @@ class UserApi {
         const url = '/user/follow/book';
         return axiosPrivate.get(url);
     }
+    buyChapter = (chapterId) => {
+        const url = `/user/buy/${chapterId}`;
+        return axiosPrivate.post(url);
+    }
 }
 
 export default new UserApi();

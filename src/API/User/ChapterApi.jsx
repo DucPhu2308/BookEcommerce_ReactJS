@@ -12,7 +12,7 @@ class ChapterApi {
     getChapterByBook = (id) => {
         // const url = `chapter/book/${id}`;
         const url = `book/${id}/chapter`;
-        return axiosClient.get(url);
+        return axiosPrivate.get(url);
     }
     
     postChapter = (data) => {
