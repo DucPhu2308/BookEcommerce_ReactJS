@@ -1,18 +1,13 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import ChapterApi from "../../../API/User/ChapterApi";
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import { MonetizationOnRounded } from "@mui/icons-material";
+import { Switch, FormControlLabel } from "@mui/material";
+import UpdatePriceDialog from "./UpdatePriceDialog";
 
-const ItemListChapter = ({ list, checkEdit }) => {
-    const [listChapter, setListChapter] = useState([]);
-    const [edit, setEdit] = useState(null);
-    const [inputValue, setInputValue] = useState('');
-
-    useEffect(() => {
-        setListChapter(list);
-    },[list]);
+const ItemListChapter = ({ list, checkEdit, onToggleActiveChapter }) => {
+    const [edit, setEdit] = useState(false);
 
     const renderButton = (chapter) => {
         if (checkEdit) { // book owner
@@ -24,7 +19,9 @@ const ItemListChapter = ({ list, checkEdit }) => {
                     <Link to={`/edit-chapter/${chapter.id}`}>
                         <button className="dark_btn_next">Edit</button>
                     </Link>
-                    <button className="dark_btn_next">
+                    <button className="dark_btn_next" onClick={() => {
+                        setEdit(chapter);
+                    }}>
                         <MonetizationOnRounded sx={{ fontSize: 20 }}  />
                         {chapter.price}
                     </button>
@@ -64,9 +61,12 @@ const ItemListChapter = ({ list, checkEdit }) => {
     return (
         <ul>
             <ToastContainer />
-            {listChapter.map((chapter, index) => (
+            {edit && <UpdatePriceDialog onClose={() => setEdit(false)} chapter={edit} />}
+            {list?.map((chapter, index) => (
                 list.sort((a, b) => a.index - b.index),
                 <li key={index}>
+                    {checkEdit && <FormControlLabel 
+                        control={<Switch onChange={() => onToggleActiveChapter(chapter, index)} checked={chapter.active}/>} label="Phát hành" />}
                     <div className="box_item_info_chapter">
                         <span className="title_bold">Chương {chapter.index}:
 

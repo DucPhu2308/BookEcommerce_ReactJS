@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import DefaultLayout from "../../../layouts/DefaultLayout/DefaultLayout";
 import "./InfoBook.css";
 import PlaceholderImage from "@/assets/images/placeholder-image.png";
@@ -7,6 +8,8 @@ import ItemListGenre from "./ItemListGenre";
 import ItemListLoveBook from "./ItemListLoveBook";
 import BookApi from "../../../API/User/BookApi";
 import UserApi from "../../../API/User/UserApi";
+import ChapterApi from "../../../API/User/ChapterApi";
+
 const InfoBook = () => {
     const [book, setBook] = useState({});
     const id = window.location.pathname.split("/")[2];
@@ -78,6 +81,17 @@ const InfoBook = () => {
         }
     }
 
+    const handleToggleActiveChapter = (chapter, index) => {
+        const newChapter = { ...chapter, active: !chapter.active, book: chapter.bookId};
+        ChapterApi.updateChapter(newChapter, chapter.id)
+            .then(() => {
+                const newChapterList = [...listChapter];
+                newChapterList[index] = newChapter;
+                console.log(newChapterList[index]);
+                setListChapter(newChapterList);
+                toast.success("Cập nhật trạng thái chương thành công");
+            });
+    }
     return (
         <DefaultLayout>
             <div className="container_info_book">
@@ -121,7 +135,7 @@ const InfoBook = () => {
                                         <span>Danh sách chương</span>
                                     </div>
 
-                                    <ItemListChapter list={listChapter} checkEdit={checkEdit} />
+                                    <ItemListChapter onToggleActiveChapter={handleToggleActiveChapter} list={listChapter} checkEdit={checkEdit} />
                                 </div>
                             </div>
                         </div>

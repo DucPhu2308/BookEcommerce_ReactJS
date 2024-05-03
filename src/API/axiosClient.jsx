@@ -26,6 +26,7 @@ axiosPrivate.interceptors.request.use(async (config) => {
 axiosPrivate.interceptors.response.use((response) => {
     return response;
 }, (error) => {
+    console.log(error);
     if (error.response.status === 401) {
         localStorage.removeItem('token');
         window.location.href = '/login';
