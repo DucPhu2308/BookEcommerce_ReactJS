@@ -133,6 +133,7 @@ const DetailBook = () => {
     selectChapter(indexChapter);
   };
 
+  // fetch comment list
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -144,7 +145,7 @@ const DetailBook = () => {
       }
     };
     fetchData();
-  }, []);
+  }, [idChapter]);
 
   const handleChangeText = (e) => {
     setText(e.target.value);
