@@ -26,6 +26,14 @@ const DetailBook = () => {
   const [idChapter, setIdChapter] = useState(
     window.location.pathname.split("/")[2]
   );
+
+  const [boxReply, setBoxReply] = useState(false);
+  const [idReply, setIdReply] = useState(null);
+  const [textReply, setTextReply] = useState("");
+
+  const [replyCount, setReplyCount] = useState({});
+
+
   const idBook = localStorage.getItem("idBook");
   // var listChapter = book.chapters;
   const [listChapter, setListChapter] = useState([]);
@@ -128,8 +136,9 @@ const DetailBook = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await CommentApi.getByChapter(1);
+        const response = await CommentApi.getByChapter(idChapter);
         setListComment(response.data.data);
+        console.log(response.data.data);
       } catch (error) {
         console.log("Failed to fetch data", error);
       }
@@ -214,6 +223,121 @@ const DetailBook = () => {
         </button>
       );
     }
+  };
+
+
+
+
+  const handleReply = (id) => {
+    setBoxReply(!boxReply);
+    setIdReply(id);
+    console.log(idReply)
+  }
+  const handleChangeTextReply = (e) => {
+    setTextReply(e.target.value);
+  }
+
+  
+
+  const handleClickPostReply = async (id) => {
+    try {
+      const newComment = {
+        content: textReply,
+        parent: id,
+        chapter: idChapter
+      };
+      const response = await CommentApi.add(newComment);
+      const updatedListComment = updateCommentList(listComment, id, response.data.data);
+      setListComment(updatedListComment);
+      setTextReply('');
+      setBoxReply(false);
+      toast.success('Trả lời thành công');
+    } catch (error) {
+      console.log('Failed to post data', error);
+      toast.error('Trả lời thất bại');
+    }
+  };
+  
+  const updateCommentList = (commentList, parentId, newReply) => {
+    return commentList.map((comment) => {
+      if (comment.id === parentId) {
+        return { ...comment, children: [...(comment.children || []), newReply] };
+      }
+      if (comment.children) {
+        return {
+          ...comment,
+          children: updateCommentList(comment.children, parentId, newReply)
+        };
+      }
+      return comment;
+    });
+  };
+  
+  const renderBoxReply = (id) => {
+    if (boxReply && idReply === id) {
+      return (
+        <>
+          <div className="container_bookDetail_nav_1_displayBook_comment_form">
+            <div className="container_bookDetail_nav_1_displayBook_comment_form_img">
+              <img src={imageAccount} alt="account" />
+            </div>
+            <div className="container_bookDetail_nav_1_displayBook_comment_form_box">
+              <form action="">
+                <textarea
+                  value={textReply}
+                  placeholder="Viết bình luận của bạn...."
+                  onChange={handleChangeTextReply}
+                ></textarea>
+              </form>
+              <button onClick={() => handleClickPostReply(id)}>
+                <i className="fas fa-paper-plane"></i>
+              </button>
+            </div>
+          </div>
+        </>
+      )
+    }
+  }
+
+  const handleSeeMore = (parentId) => {
+    setReplyCount({ ...replyCount, [parentId]: (replyCount[parentId] || 3) + 3 });
+  };
+
+  const renderReplies = (replies, parentId) => {
+    const totalReplies = replyCount[parentId] || 0;
+    const visibleReplies = replies.slice(0, totalReplies);
+
+    const renderReplyRecursive = (reply) => {
+      return (
+        <div className="container_bookDetail_nav_1_comment_reply" key={reply.id}>
+          <div className="container_bookDetail_nav_1_comment_reply_box">
+            <div className="container_bookDetail_nav_1_comment_reply_box_img">
+              <img src={imageAccount} alt="account" />
+            </div>
+            <div className="container_bookDetail_nav_1_comment_reply_box_content">
+              <span className="author">{reply.user?.displayName}</span>
+              <span className="content">{reply.content}</span>
+            </div>
+          </div>
+          <div className="container_bookDetail_nav_1_comment_action">
+            <button onClick={() => handleReply(reply.id)}>Trả lời</button>
+            {renderActionEditDelete(reply.id)}
+          </div>
+          {reply.children && renderReplies(reply.children, reply.id)}
+        </div>
+      );
+    };
+
+    return (
+      <>
+        {visibleReplies.map((reply) => renderReplyRecursive(reply))}
+        {totalReplies < replies.length && (
+          <div className="box_line_seeMore">
+            <button className="button_addReplyMore" onClick={() => handleSeeMore(parentId)}>Xem thêm</button>
+          </div>
+        )}
+      </>
+    );
   };
 
   return (
@@ -322,10 +446,10 @@ const DetailBook = () => {
               </div>
 
               <div className="container_bookDetail_nav_1_displayBook_comment_form_listComments">
-                {listComment.map((comment, index) => (
+                {listComment.map((comment) => (
                   <>
                     <div
-                      key={index}
+                      key={comment.id}
                       className="container_bookDetail_nav_1_displayBook_comment_form_listComments_item"
                     >
                       <div className="container_bookDetail_nav_1_displayBook_comment_form_listComments_item_img">
@@ -339,20 +463,12 @@ const DetailBook = () => {
                       </div>
                     </div>
                     <div className="container_bookDetail_nav_1_comment_action">
-                      <button>Trả lời</button>
+                      <button onClick={() => handleReply(comment.id)}>Trả lời</button>
+
                       {renderActionEditDelete(comment.id)}
                     </div>
-                    <div className="container_bookDetail_nav_1_comment_reply">
-                      <div className="container_bookDetail_nav_1_comment_reply_box">
-                        <div className="container_bookDetail_nav_1_comment_reply_box_img">
-                          <img src={imageAccount} alt="account" />
-                        </div>
-                        <div className="container_bookDetail_nav_1_comment_reply_box_content">
-                          <span className="author">account</span>
-                          <span className="content">Chương hay quá</span>
-                        </div>
-                      </div>
-                    </div>
+                    {renderBoxReply(comment.id)}
+                    {comment.children && renderReplies(comment.children, comment.id)}
                   </>
                 ))}
               </div>

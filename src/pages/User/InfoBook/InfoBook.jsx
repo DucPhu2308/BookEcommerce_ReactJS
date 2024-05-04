@@ -90,13 +90,13 @@ const InfoBook = () => {
                         <button className="btn_add_chapter" onClick={() => { window.location.href = `/add-chapter` }}>Thêm chương</button>
                     </div>
                 </>
- 
+
             )
         }
     }
 
     const handleToggleActiveChapter = (chapter, index) => {
-        const newChapter = { ...chapter, active: !chapter.active, book: chapter.bookId};
+        const newChapter = { ...chapter, active: !chapter.active, book: chapter.bookId };
         ChapterApi.updateChapter(newChapter, chapter.id)
             .then(() => {
                 const newChapterList = [...listChapter];
@@ -144,10 +144,11 @@ const InfoBook = () => {
                             </div>
 
                             <div className="container_info_book_body_description_left_list_genre">
+                                <div className="box_item_info_title">
+                                    <span>Danh sách chương</span>
+                                </div>
+
                                 <div className="container_info_book_body_description_left_list_genre_box">
-                                    <div className="box_item_info_title">
-                                        <span>Danh sách chương</span>
-                                    </div>
 
                                     <ItemListChapter onToggleActiveChapter={handleToggleActiveChapter} list={listChapter} checkEdit={checkEdit} />
                                 </div>

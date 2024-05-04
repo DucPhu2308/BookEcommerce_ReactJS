@@ -24,7 +24,7 @@ const ItemListChapter = ({ list, checkEdit, onToggleActiveChapter, onBuyChapter 
                     <button className="dark_btn_next" onClick={() => {
                         setEdit(chapter);
                     }}>
-                        <MonetizationOnRounded sx={{ fontSize: 20 }}  />
+                        <MonetizationOnRounded sx={{ fontSize: 20 }} />
                         {chapter.price}
                     </button>
                 </>
@@ -35,8 +35,11 @@ const ItemListChapter = ({ list, checkEdit, onToggleActiveChapter, onBuyChapter 
             if (chapter.price > 0 && !chapter.bought) { // not buy
                 return (
                     <>
+                        <Link to={`/detail-book/${chapter.id}`} >
+                            <button className="dark_btn_next">Xem</button>
+                        </Link>
                         <button className="dark_btn_next" onClick={() => setBuy(chapter)}>
-                            <MonetizationOnRounded sx={{ fontSize: 20 }}  />
+                            <MonetizationOnRounded sx={{ fontSize: 20 }} />
                             {chapter.price}
                         </button>
                     </>
@@ -55,11 +58,11 @@ const ItemListChapter = ({ list, checkEdit, onToggleActiveChapter, onBuyChapter 
     const timeCreate = document.querySelectorAll('.title_solid');
     // console.log(timeCreate);
 
-    const timeUpdate = (timeCreate,timeUpdate) => {
-        if(timeCreate === timeUpdate){
+    const timeUpdate = (timeCreate, timeUpdate) => {
+        if (timeCreate === timeUpdate) {
             return timeCreate;
         }
-        else{
+        else {
             return timeUpdate;
         }
     }
@@ -78,8 +81,8 @@ const ItemListChapter = ({ list, checkEdit, onToggleActiveChapter, onBuyChapter 
             {list?.map((chapter, index) => (
                 list.sort((a, b) => a.index - b.index),
                 <li key={index}>
-                    {checkEdit && <FormControlLabel 
-                        control={<Switch onChange={() => onToggleActiveChapter(chapter, index)} checked={chapter.active}/>} label="Phát hành" />}
+                    {checkEdit && <FormControlLabel
+                        control={<Switch onChange={() => onToggleActiveChapter(chapter, index)} checked={chapter.active} />} label="Phát hành" />}
                     <div className="box_item_info_chapter">
                         <span className="title_bold">Chương {chapter.index}:
 
@@ -90,7 +93,7 @@ const ItemListChapter = ({ list, checkEdit, onToggleActiveChapter, onBuyChapter 
                         <div className="box_item_info_chapter_right">
                             {renderButton(chapter)}
                             <span className="title_solid">
-                                {timeUpdate(chapter.createdAt,chapter.updatedAt)}
+                                {timeUpdate(chapter.createdAt, chapter.updatedAt)}
                             </span>
                         </div>
 
