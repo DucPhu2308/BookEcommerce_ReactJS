@@ -35,9 +35,6 @@ const ItemListChapter = ({ list, checkEdit, onToggleActiveChapter, onBuyChapter 
             if (chapter.price > 0 && !chapter.bought) { // not buy
                 return (
                     <>
-                        <Link to={`/detail-book/${chapter.id}`} >
-                            <button className="dark_btn_next">Xem</button>
-                        </Link>
                         <button className="dark_btn_next" onClick={() => setBuy(chapter)}>
                             <MonetizationOnRounded sx={{ fontSize: 20 }} />
                             {chapter.price}
