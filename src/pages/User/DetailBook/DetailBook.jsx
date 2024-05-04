@@ -24,6 +24,14 @@ const DetailBook = () => {
   const [idChapter, setIdChapter] = useState(
     window.location.pathname.split("/")[2]
   );
+
+  const [boxReply, setBoxReply] = useState(false);
+  const [idReply, setIdReply] = useState(null);
+  const [textReply, setTextReply] = useState("");
+
+  const [replyCount, setReplyCount] = useState({});
+
+
   const idBook = localStorage.getItem("idBook");
   // var listChapter = book.chapters;
   const [listChapter, setListChapter] = useState([]);
@@ -117,7 +125,7 @@ const DetailBook = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await CommentApi.getByChapter(1);
+        const response = await CommentApi.getByChapter(idChapter);
         setListComment(response.data.data);
       } catch (error) {
         console.log("Failed to fetch data", error);
@@ -207,6 +215,69 @@ const DetailBook = () => {
       );
     }
   };
+
+
+
+
+  const handleReply = (id) => {
+    setBoxReply(!boxReply);
+    setIdReply(id);
+  }
+  const handleChangeTextReply = (e) => {
+    setTextReply(e.target.value);
+  }
+  const handleClickPostReply = async (id) => {
+    try {
+      const newComment = {
+        content: textReply,
+        parent: id,
+        chapter: idChapter
+      }
+      const response = await CommentApi.add(newComment)
+      const newListComment = listComment.map((comment) => {
+        if (comment.id === id) {
+          return {
+            ...comment,
+            children: [...comment.children, response.data.data]
+          }
+        }
+        return comment
+      })
+      setListComment(newListComment)
+      setTextReply('')
+      setBoxReply(false)
+      toast.success('Trả lời thành công')
+    } catch (error) {
+      console.log('Failed to post data', error)
+      toast.error('Trả lời thất bại')
+    }
+  }
+
+  const renderBoxReply = (id) => {
+    if (boxReply && idReply === id) {
+      return (
+        <>
+          <div className="container_bookDetail_nav_1_displayBook_comment_form">
+            <div className="container_bookDetail_nav_1_displayBook_comment_form_img">
+              <img src={imageAccount} alt="account" />
+            </div>
+            <div className="container_bookDetail_nav_1_displayBook_comment_form_box">
+              <form action="">
+                <textarea
+                  value={textReply}
+                  placeholder="Viết bình luận của bạn...."
+                  onChange={handleChangeTextReply}
+                ></textarea>
+              </form>
+              <button onClick={() => handleClickPostReply(id)}>
+                <i className="fas fa-paper-plane"></i>
+              </button>
+            </div>
+          </div>
+        </>
+      )
+    }
+  }
 
   return (
     <DefaultLayout>
@@ -330,19 +401,35 @@ const DetailBook = () => {
                       </div>
                     </div>
                     <div className="container_bookDetail_nav_1_comment_action">
-                      <button>Trả lời</button>
+                      <button onClick={() => handleReply(comment.id)}>Trả lời</button>
+
                       {renderActionEditDelete(comment.id)}
                     </div>
-                    <div className="container_bookDetail_nav_1_comment_reply">
-                      <div className="container_bookDetail_nav_1_comment_reply_box">
-                        <div className="container_bookDetail_nav_1_comment_reply_box_img">
-                          <img src={imageAccount} alt="account" />
+                    {renderBoxReply(comment.id)}
+                    {comment.children.slice(0, replyCount[comment.id] || 3).map((reply, index) => (
+                      <>
+                        <div className="container_bookDetail_nav_1_comment_reply" key={index}>
+                          <div className="container_bookDetail_nav_1_comment_reply_box">
+                            <div className="container_bookDetail_nav_1_comment_reply_box_img">
+                              <img src={imageAccount} alt="account" />
+                            </div>
+                            <div className="container_bookDetail_nav_1_comment_reply_box_content">
+                              <span className="author">{reply.user?.displayName}</span>
+                              <span className="content">{reply.content}</span>
+                            </div>
+                          </div>
                         </div>
-                        <div className="container_bookDetail_nav_1_comment_reply_box_content">
-                          <span className="author">account</span>
-                          <span className="content">Chương hay quá</span>
+                        <div className="container_bookDetail_nav_1_comment_action">
+                          <button onClick={() => handleReply(reply.id)}>Trả lời</button>
+
+                          {renderActionEditDelete(reply.id)}
                         </div>
-                      </div>
+                      </>
+
+
+                    ))}
+                    <div className="box_line_seeMore">
+                      {comment.children.length > 3 && <button className="button_addReplyMore" onClick={() => setReplyCount({ ...replyCount, [comment.id]: (replyCount[comment.id] || 3) + 3 })}>Xem thêm</button>}
                     </div>
                   </>
                 ))}
