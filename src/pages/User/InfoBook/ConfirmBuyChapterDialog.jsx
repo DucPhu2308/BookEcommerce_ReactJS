@@ -15,6 +15,7 @@ const ConfirmBuyChapterDialog = ({ onClose, chapter }) => {
         UserApi.buyChapter(chapter.id)
             .then(() => {
                 toast.success("Mua chương thành công");
+                chapter.bought = true;
                 onClose();
             })
             .catch((error) => {

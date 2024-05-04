@@ -8,10 +8,11 @@ import BookApi from "../../../API/User/BookApi";
 import ParagraphApi from "../../../API/User/ParagraphApi";
 import ChapterApi from "../../../API/User/ChapterApi";
 import UserApi from "../../../API/User/UserApi";
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import ConfirmBuyChapterDialog from "../InfoBook/ConfirmBuyChapterDialog";
 
-import { Select, MenuItem, FormControl, Grid } from "@mui/material";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { Select, MenuItem, FormControl, Grid, Stack } from "@mui/material";
 import { useNavigate } from "react-router";
 
 const DetailBook = () => {
@@ -21,13 +22,16 @@ const DetailBook = () => {
   const [listFollowBook, setListFollowBook] = useState([]);
   const [text, setText] = useState("");
   const [book, setBook] = useState({});
+  const [buy, setBuy] = useState(false);
   const [idChapter, setIdChapter] = useState(
     window.location.pathname.split("/")[2]
   );
   const idBook = localStorage.getItem("idBook");
   // var listChapter = book.chapters;
   const [listChapter, setListChapter] = useState([]);
-  var indexChapter = listChapter?.findIndex((chapter) => chapter.id == idChapter);
+  var indexChapter = listChapter?.findIndex(
+    (chapter) => chapter.id == idChapter
+  );
 
   // fetch book by id
   useEffect(() => {
@@ -42,7 +46,7 @@ const DetailBook = () => {
     fetchData();
   }, [idBook]);
 
-  // fetch chapter list 
+  // fetch chapter list
   useEffect(() => {
     const fetchChapter = async () => {
       try {
@@ -92,26 +96,33 @@ const DetailBook = () => {
     fetchParagraphs();
   }, [idChapter]);
 
+  // handle select chapter
+  const selectChapter = (index) => {
+    const chapter = listChapter[index];
+    if (chapter.price > 0 && !chapter.bought) {
+      setBuy(chapter);
+    } else {
+      setIdChapter(listChapter[index].id);
+      navigate(`/detail-book/${listChapter[index].id}`);
+    }
+  };
   const handleNextChapter = () => {
     if (indexChapter < listChapter.length - 1) {
       indexChapter = indexChapter + 1;
-      setIdChapter(listChapter[indexChapter].id);
-      navigate(`/detail-book/${listChapter[indexChapter].id}`);
+      selectChapter(indexChapter);
     }
   };
 
   const handleBackChapter = () => {
     if (indexChapter > 0) {
       indexChapter = indexChapter - 1;
-      setIdChapter(listChapter[indexChapter].id);
-      navigate(`/detail-book/${listChapter[indexChapter].id}`);
+      selectChapter(indexChapter);
     }
   };
 
   const handleSelectChapter = (e) => {
     indexChapter = e.target.value;
-    setIdChapter(listChapter[indexChapter].id);
-    navigate(`/detail-book/${listChapter[indexChapter].id}`);
+    selectChapter(indexChapter);
   };
 
   useEffect(() => {
@@ -131,20 +142,19 @@ const DetailBook = () => {
   };
 
   const handleClickPost = async () => {
-
     try {
       const newComment = {
         content: text,
         parent: null,
-        chapter: idChapter
-      }
-      const response = await CommentApi.add(newComment)
-      setListComment([...listComment, response.data.data])
-      setText('')
+        chapter: idChapter,
+      };
+      const response = await CommentApi.add(newComment);
+      setListComment([...listComment, response.data.data]);
+      setText("");
     } catch (error) {
-      console.log('Failed to post data', error)
+      console.log("Failed to post data", error);
     }
-  }
+  };
   const handleDeleteComment = async (id) => {
     try {
       await CommentApi.remove(id);
@@ -166,19 +176,17 @@ const DetailBook = () => {
     }
   };
 
-
-
   const handleFollowBook = async (bookId) => {
-    if (!localStorage.getItem('token')) {
-      toast.error('Vui lòng đăng nhập để theo dõi truyện')
-      return
+    if (!localStorage.getItem("token")) {
+      toast.error("Vui lòng đăng nhập để theo dõi truyện");
+      return;
     }
     try {
-      await UserApi.followBook(bookId)
-      const response = await UserApi.getFollowBooks()
-      setListFollowBook(response.data.data)
+      await UserApi.followBook(bookId);
+      const response = await UserApi.getFollowBooks();
+      setListFollowBook(response.data.data);
     } catch (error) {
-      console.log('Failed to fetch data', error)
+      console.log("Failed to fetch data", error);
     }
   };
   const checkFollowBook = (bookId) => {
@@ -211,14 +219,13 @@ const DetailBook = () => {
   return (
     <DefaultLayout>
       <ToastContainer />
+      {buy && <ConfirmBuyChapterDialog onClose={() => setBuy(false)} chapter={buy} />}
       <div className="container_bookDetail_body">
         <div className="container_bookDetail_taskbar">
           <ul>
             <li>
               <div className="container_bookDetail_taskbar_box">
-                <div className="container_bookDetail_taskbar_box_img">
-
-                </div>
+                <div className="container_bookDetail_taskbar_box_img"></div>
                 <div className="container_bookDetail_taskbar_box_title">
                   <h3>{book.title}</h3>
                   <span>{book.userOwn?.displayName}</span>
@@ -244,7 +251,8 @@ const DetailBook = () => {
             <div className="container_bookDetail_nav_1_displayBook_body">
               <div className="container_bookDetail_nav_1_displayBook_body_tittle">
                 <span>
-                  Chương {listChapter[indexChapter]?.index}: {listChapter[indexChapter]?.title}
+                  Chương {listChapter[indexChapter]?.index}:{" "}
+                  {listChapter[indexChapter]?.title}
                 </span>
               </div>
               <div className="container_bookDetail_nav_1_display_paragraph">
@@ -271,13 +279,14 @@ const DetailBook = () => {
                 </Grid>
                 <Grid item xs={8}>
                   <FormControl fullWidth>
-                    <Select
-                      value={indexChapter}
-                      onChange={handleSelectChapter}
-                    >
+                    <Select value={indexChapter} onChange={handleSelectChapter}>
                       {listChapter?.map((chapter, index) => (
                         <MenuItem key={index} value={index}>
-                          {chapter.index + '. ' + chapter.title}
+                            <span style={{
+                              color: chapter.price > 0 && !chapter.bought ? "red" : "black"
+                            }}>{chapter.index + ". " + chapter.title}
+                              {chapter.price > 0 && !chapter.bought ? ` (${chapter.price} xu)` : ""}
+                            </span>
                         </MenuItem>
                       ))}
                     </Select>
