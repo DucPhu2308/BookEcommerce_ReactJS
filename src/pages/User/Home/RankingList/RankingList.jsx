@@ -2,7 +2,15 @@ import "./RankingList.css";
 import RankItem from "./RankItem";
 import goldmedal from "@/assets/images/goldmedal.svg";
 import Reveal from "../../../../components/utils/Reveal";
+
+import { useNavigate } from "react-router";
 const RankingList = ({ title, list }) => {
+    const navigate = useNavigate();
+
+    const handleBookClick = (book) => {
+        navigate(`/infoBook/${book.id}`);
+    };
+
     return (
         <div className="card">
             <div className="card-title">
@@ -11,7 +19,7 @@ const RankingList = ({ title, list }) => {
             <Reveal>
                 {
                 list.length > 0 &&
-                <div className="rank-1">
+                <div onClick={() => handleBookClick(list[0])} className="rank-1">
                     <img className="medal-icon" src={goldmedal} alt="goldmedal" />
                     {/* TODO: change img src */}
                     <img className="item-image" src={list[0].coverImage} alt={list[0].title} />
@@ -25,7 +33,7 @@ const RankingList = ({ title, list }) => {
 
             <div className="rank-list">
                 {list.slice(1, 9).map((book, index) => (
-                    <RankItem key={index} rank={index + 2} book={book} />
+                    <RankItem onClick={() => handleBookClick(book)} key={index} rank={index + 2} book={book} />
                 ))}
             </div>
 
