@@ -25,7 +25,6 @@ const ChangeInfo = () => {
         e.preventDefault();
         const data = {
             displayName: username,
-            email: email,
             introduction: introduce,
             coin: user.coin,
         }
@@ -59,7 +58,7 @@ const ChangeInfo = () => {
 
                 <div className="container_user_change_info_item">
                     <label>Email</label>
-                    <input type="text" value={email} onChange={handleEmail} />
+                    <input type="text" value={email} disabled />
                 </div>
 
                 <div className="container_user_change_info_item">
