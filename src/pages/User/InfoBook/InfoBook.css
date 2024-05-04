@@ -164,6 +164,37 @@
 .container_info_book_body_description_left_list_genre li{
     border-bottom: 1px solid #333;
 }
+.container_info_book_body_description_left_rating{
+    width:100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    align-items: center;
+
+}
+.container_info_book_body_description_left_rating_title span{
+    font-size: 20px;
+    font-weight: bold;
+    font-family: sans-serif;
+    color: #333;
+
+}
+
+.container_info_book_body_description_left_rating_body button{
+    width: auto;
+    height: 30px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 15px;
+    cursor: pointer;
+
+}
+.container_info_book_body_description_left_rating_body button:hover{
+    outline: 1px solid #b8b7b7;
+}
 
 .box_item_info_chapter{
     padding:10px;

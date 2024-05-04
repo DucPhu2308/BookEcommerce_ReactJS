@@ -9,7 +9,8 @@ import ItemListLoveBook from "./ItemListLoveBook";
 import BookApi from "../../../API/User/BookApi";
 import UserApi from "../../../API/User/UserApi";
 import ChapterApi from "../../../API/User/ChapterApi";
-
+import RatingApi from "../../../API/User/RatingApi";
+import Rating from "@mui/material/Rating";
 const InfoBook = () => {
     const [book, setBook] = useState({});
     const id = window.location.pathname.split("/")[2];
@@ -17,6 +18,7 @@ const InfoBook = () => {
     const [listFollowBook, setListFollowBook] = useState([]);
     const [checkEdit, setCheckEdit] = useState(false);
     const [listGenre, setListGenre] = useState([]);
+    const [valueRating, setValueRating] = useState(0);
     localStorage.setItem("idBook", id);
 
     // fetch book by id
@@ -94,6 +96,7 @@ const InfoBook = () => {
             )
         }
     }
+    
 
     const handleToggleActiveChapter = (chapter, index) => {
         const newChapter = { ...chapter, active: !chapter.active, book: chapter.bookId };
@@ -153,6 +156,30 @@ const InfoBook = () => {
                                     <ItemListChapter onToggleActiveChapter={handleToggleActiveChapter} list={listChapter} checkEdit={checkEdit} />
                                 </div>
                             </div>
+
+                            <div className="container_info_book_body_description_left_rating">
+                                <div className="container_info_book_body_description_left_rating_title">
+                                    <span>Đánh giá</span>
+                                </div>
+                                <div className="container_info_book_body_description_left_rating_body">
+                                    <Rating
+                                        name="simple-controlled"
+                                        value={valueRating}
+                                        onChange={(event, newValue) => {
+                                            setValueRating(newValue);
+                                        }}
+                                    />
+                                    <button className="btn_rating" onClick={() => {
+                                        RatingApi.createRating({ rating: valueRating, book: id, content: ""})
+                                            .then(() => {
+                                                toast.success("Đánh giá thành công");
+                                            })
+                                            .catch(() => {
+                                                toast.error("Đánh giá thất bại");
+                                            });
+                                    }}>Đánh giá</button>
+                                </div>
+                            </div>
                         </div>
 
                         <div className="container_info_book_body_description_right">
@@ -163,10 +190,8 @@ const InfoBook = () => {
                                 <button className="btn_liked_book">
                                     <i className="fas fa-heart"></i>Đã yêu thích</button>
 
-
                                 <button className="btn_report_book">
                                     <i className="fas fa-exclamation-triangle"></i>Báo cáo</button>
-
                                 {renderButton(checkEdit)}
                             </div>
                             <div className="container_info_book_body_description_right_maybe_like">

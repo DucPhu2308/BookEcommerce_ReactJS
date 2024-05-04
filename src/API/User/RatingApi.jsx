@@ -3,10 +3,10 @@ import axiosClient, {axiosPrivate} from '../axiosClient';
 
 class RatingApi {
     createRating=(data) =>{
-        const url='/rating/create';
+        const url='/rating';
         return axiosPrivate.post(url,data);
     } 
-    getRating=(id) =>{
+    getRatingByBook=(id) =>{
         const url=`/rating/book/${id}`;
         return axiosClient.get(url);
     }
