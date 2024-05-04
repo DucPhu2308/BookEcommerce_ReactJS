@@ -127,6 +127,7 @@ const DetailBook = () => {
       try {
         const response = await CommentApi.getByChapter(idChapter);
         setListComment(response.data.data);
+        console.log(response.data.data);
       } catch (error) {
         console.log("Failed to fetch data", error);
       }
@@ -222,37 +223,48 @@ const DetailBook = () => {
   const handleReply = (id) => {
     setBoxReply(!boxReply);
     setIdReply(id);
+    console.log(idReply)
   }
   const handleChangeTextReply = (e) => {
     setTextReply(e.target.value);
   }
+
+  
+
   const handleClickPostReply = async (id) => {
     try {
       const newComment = {
         content: textReply,
         parent: id,
         chapter: idChapter
-      }
-      const response = await CommentApi.add(newComment)
-      const newListComment = listComment.map((comment) => {
-        if (comment.id === id) {
-          return {
-            ...comment,
-            children: [...comment.children, response.data.data]
-          }
-        }
-        return comment
-      })
-      setListComment(newListComment)
-      setTextReply('')
-      setBoxReply(false)
-      toast.success('Trả lời thành công')
+      };
+      const response = await CommentApi.add(newComment);
+      const updatedListComment = updateCommentList(listComment, id, response.data.data);
+      setListComment(updatedListComment);
+      setTextReply('');
+      setBoxReply(false);
+      toast.success('Trả lời thành công');
     } catch (error) {
-      console.log('Failed to post data', error)
-      toast.error('Trả lời thất bại')
+      console.log('Failed to post data', error);
+      toast.error('Trả lời thất bại');
     }
-  }
-
+  };
+  
+  const updateCommentList = (commentList, parentId, newReply) => {
+    return commentList.map((comment) => {
+      if (comment.id === parentId) {
+        return { ...comment, children: [...(comment.children || []), newReply] };
+      }
+      if (comment.children) {
+        return {
+          ...comment,
+          children: updateCommentList(comment.children, parentId, newReply)
+        };
+      }
+      return comment;
+    });
+  };
+  
   const renderBoxReply = (id) => {
     if (boxReply && idReply === id) {
       return (
@@ -278,6 +290,38 @@ const DetailBook = () => {
       )
     }
   }
+
+  const renderReplies = (replies) => {
+    return (
+      <>
+        {replies.map((reply) => (
+          <>
+            <div className="container_bookDetail_nav_1_comment_reply" key={reply.id}>
+              <div className="container_bookDetail_nav_1_comment_reply_box">
+                <div className="container_bookDetail_nav_1_comment_reply_box_img">
+                  <img src={imageAccount} alt="account" />
+                </div>
+                <div className="container_bookDetail_nav_1_comment_reply_box_content">
+                  <span className="author">{reply.user?.displayName}</span>
+                  <span className="content">{reply.content}</span>
+                </div>
+              </div>
+              <div className="container_bookDetail_nav_1_comment_action">
+                <button onClick={() => handleReply(reply.id)}>Trả lời</button>
+                {renderActionEditDelete(reply.id)}
+              </div>
+              {renderBoxReply(reply.id)}
+              {reply.children && reply.children.length > 0 && (
+                <div className="container_bookDetail_nav_1_comment_replies">
+                  {renderReplies(reply.children)}
+                </div>
+              )}
+            </div>
+          </>
+        ))}
+      </>
+    );
+  };
 
   return (
     <DefaultLayout>
@@ -384,10 +428,10 @@ const DetailBook = () => {
               </div>
 
               <div className="container_bookDetail_nav_1_displayBook_comment_form_listComments">
-                {listComment.map((comment, index) => (
+                {listComment.map((comment) => (
                   <>
                     <div
-                      key={index}
+                      key={comment.id}
                       className="container_bookDetail_nav_1_displayBook_comment_form_listComments_item"
                     >
                       <div className="container_bookDetail_nav_1_displayBook_comment_form_listComments_item_img">
@@ -406,28 +450,11 @@ const DetailBook = () => {
                       {renderActionEditDelete(comment.id)}
                     </div>
                     {renderBoxReply(comment.id)}
-                    {comment.children.slice(0, replyCount[comment.id] || 3).map((reply, index) => (
-                      <>
-                        <div className="container_bookDetail_nav_1_comment_reply" key={index}>
-                          <div className="container_bookDetail_nav_1_comment_reply_box">
-                            <div className="container_bookDetail_nav_1_comment_reply_box_img">
-                              <img src={imageAccount} alt="account" />
-                            </div>
-                            <div className="container_bookDetail_nav_1_comment_reply_box_content">
-                              <span className="author">{reply.user?.displayName}</span>
-                              <span className="content">{reply.content}</span>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="container_bookDetail_nav_1_comment_action">
-                          <button onClick={() => handleReply(reply.id)}>Trả lời</button>
-
-                          {renderActionEditDelete(reply.id)}
-                        </div>
-                      </>
-
-
-                    ))}
+                    {comment.children && comment.children.length > 0 && (
+                      <div className="container_bookDetail_nav_1_comment_replies">
+                        {renderReplies(comment.children)}
+                      </div>
+                    )}
                     <div className="box_line_seeMore">
                       {comment.children.length > 3 && <button className="button_addReplyMore" onClick={() => setReplyCount({ ...replyCount, [comment.id]: (replyCount[comment.id] || 3) + 3 })}>Xem thêm</button>}
                     </div>

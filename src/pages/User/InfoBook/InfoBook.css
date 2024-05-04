@@ -112,12 +112,10 @@
 .container_info_book_body_description_left{
     width: 70%;
     height:100%;
-    margin-left: 200px;
 }
 
 .container_info_book_body_description_left_item_long_desc{
-    
-    height: 500px;
+    height: auto;
     margin-top: 10px;
     padding: 10px;
     border-right:1px solid #b5b2b2;
@@ -151,8 +149,6 @@
     width:100%;
     display: flex;
     justify-content: center;
-    position: relative;
-    top:-22px;
 }
 .box_item_info_title span{
     font-size: 28px;
