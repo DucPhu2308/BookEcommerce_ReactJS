@@ -291,34 +291,43 @@ const DetailBook = () => {
     }
   }
 
-  const renderReplies = (replies) => {
+  const handleSeeMore = (parentId) => {
+    setReplyCount({ ...replyCount, [parentId]: (replyCount[parentId] || 3) + 3 });
+  };
+
+  const renderReplies = (replies, parentId) => {
+    const totalReplies = replyCount[parentId] || 0;
+    const visibleReplies = replies.slice(0, totalReplies);
+
+    const renderReplyRecursive = (reply) => {
+      return (
+        <div className="container_bookDetail_nav_1_comment_reply" key={reply.id}>
+          <div className="container_bookDetail_nav_1_comment_reply_box">
+            <div className="container_bookDetail_nav_1_comment_reply_box_img">
+              <img src={imageAccount} alt="account" />
+            </div>
+            <div className="container_bookDetail_nav_1_comment_reply_box_content">
+              <span className="author">{reply.user?.displayName}</span>
+              <span className="content">{reply.content}</span>
+            </div>
+          </div>
+          <div className="container_bookDetail_nav_1_comment_action">
+            <button onClick={() => handleReply(reply.id)}>Trả lời</button>
+            {renderActionEditDelete(reply.id)}
+          </div>
+          {reply.children && renderReplies(reply.children, reply.id)}
+        </div>
+      );
+    };
+
     return (
       <>
-        {replies.map((reply) => (
-          <>
-            <div className="container_bookDetail_nav_1_comment_reply" key={reply.id}>
-              <div className="container_bookDetail_nav_1_comment_reply_box">
-                <div className="container_bookDetail_nav_1_comment_reply_box_img">
-                  <img src={imageAccount} alt="account" />
-                </div>
-                <div className="container_bookDetail_nav_1_comment_reply_box_content">
-                  <span className="author">{reply.user?.displayName}</span>
-                  <span className="content">{reply.content}</span>
-                </div>
-              </div>
-              <div className="container_bookDetail_nav_1_comment_action">
-                <button onClick={() => handleReply(reply.id)}>Trả lời</button>
-                {renderActionEditDelete(reply.id)}
-              </div>
-              {renderBoxReply(reply.id)}
-              {reply.children && reply.children.length > 0 && (
-                <div className="container_bookDetail_nav_1_comment_replies">
-                  {renderReplies(reply.children)}
-                </div>
-              )}
-            </div>
-          </>
-        ))}
+        {visibleReplies.map((reply) => renderReplyRecursive(reply))}
+        {totalReplies < replies.length && (
+          <div className="box_line_seeMore">
+            <button className="button_addReplyMore" onClick={() => handleSeeMore(parentId)}>Xem thêm</button>
+          </div>
+        )}
       </>
     );
   };
@@ -450,14 +459,7 @@ const DetailBook = () => {
                       {renderActionEditDelete(comment.id)}
                     </div>
                     {renderBoxReply(comment.id)}
-                    {comment.children && comment.children.length > 0 && (
-                      <div className="container_bookDetail_nav_1_comment_replies">
-                        {renderReplies(comment.children)}
-                      </div>
-                    )}
-                    <div className="box_line_seeMore">
-                      {comment.children.length > 3 && <button className="button_addReplyMore" onClick={() => setReplyCount({ ...replyCount, [comment.id]: (replyCount[comment.id] || 3) + 3 })}>Xem thêm</button>}
-                    </div>
+                    {comment.children && renderReplies(comment.children, comment.id)}
                   </>
                 ))}
               </div>
