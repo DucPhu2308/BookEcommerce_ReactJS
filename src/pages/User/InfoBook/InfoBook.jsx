@@ -52,7 +52,7 @@ const InfoBook = () => {
             }
         };
         fetchChapter();
-    }, [id]);
+    }, [id, listChapter]);
 
     useEffect(() => {
         const fetchFollowBook = async () => {
@@ -96,7 +96,7 @@ const InfoBook = () => {
             )
         }
     }
-    
+
 
     const handleToggleActiveChapter = (chapter, index) => {
         const newChapter = { ...chapter, active: !chapter.active, book: chapter.bookId };
@@ -170,7 +170,7 @@ const InfoBook = () => {
                                         }}
                                     />
                                     <button className="btn_rating" onClick={() => {
-                                        RatingApi.createRating({ rating: valueRating, book: id, content: ""})
+                                        RatingApi.createRating({ rating: valueRating, book: id, content: "" })
                                             .then(() => {
                                                 toast.success("Đánh giá thành công");
                                             })

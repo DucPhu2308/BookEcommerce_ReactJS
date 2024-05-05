@@ -140,7 +140,7 @@ const InfoUser = () => {
     
     useEffect(() => {
         setUser(JSON.parse(localStorage.getItem('user')));
-    }, [user]);
+    }, []);
     return (
         <DefaultLayout>
             <div className="container_user_page">

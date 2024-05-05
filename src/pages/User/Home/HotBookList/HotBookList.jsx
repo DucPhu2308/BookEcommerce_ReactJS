@@ -1,56 +1,49 @@
 import './HotBookList.css';
 import HotBookItem from '@/components/User/HotBookItem/HotBookItem';
-import { useEffect,useRef } from 'react';
-
-const listBooks = [
-    {
-      id: 1,
-      title: "Truyện 1",
-      coverImage: "https://picsum.photos/200",
-    },
-    {
-      id: 2,
-      title: "Truyện 2",
-      coverImage: "https://placehold.jp/150x150.png",
-    },
-    {
-      id: 2,
-      title: "Truyện 2",
-      coverImage: "https://i.imgur.com/0y5CnXh.jpg",
-    },
-    {
-      id: 2,
-      title: "Truyện 2",
-      coverImage: "https://i.imgur.com/0y5CnXh.jpg",
-    },
-    {
-      id: 2,
-      title: "Truyện 2",
-      coverImage: "https://i.imgur.com/0y5CnXh.jpg",
-    },
-  ];
+import { useEffect, useRef, useState } from 'react';
 
 const HotBookList = () => {
     const boxListBooks = useRef(null);
     const btnLeft = useRef(null);
     const btnRight = useRef(null);
     const lineCircle = useRef(null);
+    const [isDataLoaded, setIsDataLoaded] = useState(false);
 
-    const renderLineCircle = () => {
-        let length = listBooks.length;
-        let numberCircle = length / 3;
-        let html = '';
-        for (let i = 0; i < numberCircle; i++) {
-            html += '<li><div class="circle"></div></li>';
-        }
-        return html;
-    }
+    const listBooks = [
+        {
+            id: 1,
+            title: "Truyện 1",
+            coverImage: "https://picsum.photos/200",
+        },
+        {
+            id: 2,
+            title: "Truyện 2",
+            coverImage: "https://placehold.jp/150x150.png",
+        },
+        {
+            id: 3,
+            title: "Truyện 3",
+            coverImage: "https://i.imgur.com/0y5CnXh.jpg",
+        },
+        {
+            id: 4,
+            title: "Truyện 4",
+            coverImage: "https://i.imgur.com/0y5CnXh.jpg",
+        },
+        {
+            id: 5,
+            title: "Truyện 5",
+            coverImage: "https://i.imgur.com/0y5CnXh.jpg",
+        },
+    ];
 
-   
-
-    
-    
     useEffect(() => {
+        setIsDataLoaded(true);
+    }, []);
+
+    useEffect(() => {
+        if (!isDataLoaded) return;
+
         const listBook = boxListBooks.current;
         const books = boxListBooks.current.querySelectorAll('li');
         const btnPre = btnLeft.current;
@@ -62,8 +55,8 @@ const HotBookList = () => {
 
         const firstDot = lineCircle.current.querySelector('.circle');
         firstDot.classList.add('been');
-        
-        const clickDot = ()=>{
+
+        const clickDot = () => {
             let dots = lineCircle.current.querySelectorAll('.circle');
             dots.forEach((dot, index) => {
                 dot.onclick = function () {
@@ -101,18 +94,34 @@ const HotBookList = () => {
             let checkLeft = books[active].offsetLeft;
             checkLeft = checkLeft - 70;
             listBook.style.left = -checkLeft + 'px';
-            
+
             let activeDot = lineCircle.current.querySelector('.circle.been');
             activeDot.classList.remove('been');
             lineCircle.current.querySelectorAll('.circle')[active / 3].classList.add('been');
-            
+
             clearInterval(autoSlide);
             autoSlide = setInterval(() => { btnNext.click() }, 5000);
         }
 
-        
+        return () => {
+            // Cleanup
+            btnNext.onclick = null;
+            btnPre.onclick = null;
+            clearInterval(autoSlide);
+        }
+
     }, []);
-    
+
+    const renderLineCircle = () => {
+        let length = listBooks.length;
+        let numberCircle = length / 3;
+        let html = '';
+        for (let i = 0; i < numberCircle; i++) {
+            html += '<li><div class="circle"></div></li>';
+        }
+        return html;
+    }
+
     return (
         <>
             <div className="container_nav_1_title">
@@ -133,9 +142,9 @@ const HotBookList = () => {
             </div>
             <div className="container_nav_1_listBooks_button">
                 <div className="btn_nav_1_listBooks left" ref={btnLeft}>
-                    <span> 
-                        <i className="fas fa-chevron-left"></i>    
-                     </span>
+                    <span>
+                        <i className="fas fa-chevron-left"></i>
+                    </span>
 
                 </div>
                 <div className="btn_nav_1_listBooks right" ref={btnRight}>
@@ -147,15 +156,6 @@ const HotBookList = () => {
             </div>
             <div className="container_nav_1_listBooks_circles" >
                 <ul ref={lineCircle}>
-                    {/* <li>
-                        <div className="circle been"></div>
-                    </li>
-                    <li>
-                        <div className="circle"></div>
-                    </li>
-                    <li>
-                        <div className="circle"></div>
-                    </li> */}
                 </ul>
             </div>
         </>

@@ -13,8 +13,16 @@ const ConfirmBuyChapterDialog = ({ onClose, chapter }) => {
             return;
         }
         UserApi.buyChapter(chapter.id)
-            .then(() => {
+            .then((res) => {
                 toast.success("Mua chương thành công");
+                chapter.bought = true;
+
+                // update balance
+                const newBalance = res.data.data;
+                const user = JSON.parse(localStorage.getItem("user"));
+                user.coin = newBalance;
+                localStorage.setItem("user", JSON.stringify(user));
+                
                 onClose();
             })
             .catch((error) => {

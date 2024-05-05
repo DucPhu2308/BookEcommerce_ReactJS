@@ -8,9 +8,11 @@ import BookApi from "../../../API/User/BookApi";
 import ParagraphApi from "../../../API/User/ParagraphApi";
 import ChapterApi from "../../../API/User/ChapterApi";
 import UserApi from "../../../API/User/UserApi";
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { Select, MenuItem, FormControl, Grid } from "@mui/material";
+import ConfirmBuyChapterDialog from "../InfoBook/ConfirmBuyChapterDialog";
+
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { Select, MenuItem, FormControl, Grid, Stack } from "@mui/material";
 import { useNavigate } from "react-router";
 
 const DetailBook = () => {
@@ -20,6 +22,7 @@ const DetailBook = () => {
   const [listFollowBook, setListFollowBook] = useState([]);
   const [text, setText] = useState("");
   const [book, setBook] = useState({});
+  const [buy, setBuy] = useState(false);
   const [idChapter, setIdChapter] = useState(
     window.location.pathname.split("/")[2]
   );
@@ -27,14 +30,16 @@ const DetailBook = () => {
   const [boxReply, setBoxReply] = useState(false);
   const [idReply, setIdReply] = useState(null);
   const [textReply, setTextReply] = useState("");
-
   const [replyCount, setReplyCount] = useState({});
+  const [expandedReplies, setExpandedReplies] = useState([]);
 
 
   const idBook = localStorage.getItem("idBook");
   // var listChapter = book.chapters;
   const [listChapter, setListChapter] = useState([]);
-  var indexChapter = listChapter?.findIndex((chapter) => chapter.id == idChapter);
+  var indexChapter = listChapter?.findIndex(
+    (chapter) => chapter.id == idChapter
+  );
 
   // fetch book by id
   useEffect(() => {
@@ -49,7 +54,7 @@ const DetailBook = () => {
     fetchData();
   }, [idBook]);
 
-  // fetch chapter list 
+  // fetch chapter list
   useEffect(() => {
     const fetchChapter = async () => {
       try {
@@ -99,60 +104,66 @@ const DetailBook = () => {
     fetchParagraphs();
   }, [idChapter]);
 
+  // handle select chapter
+  const selectChapter = (index) => {
+    const chapter = listChapter[index];
+    if (chapter.price > 0 && !chapter.bought) {
+      setBuy(chapter);
+    } else {
+      setIdChapter(listChapter[index].id);
+      navigate(`/detail-book/${listChapter[index].id}`);
+    }
+  };
   const handleNextChapter = () => {
     if (indexChapter < listChapter.length - 1) {
       indexChapter = indexChapter + 1;
-      setIdChapter(listChapter[indexChapter].id);
-      navigate(`/detail-book/${listChapter[indexChapter].id}`);
+      selectChapter(indexChapter);
     }
   };
 
   const handleBackChapter = () => {
     if (indexChapter > 0) {
       indexChapter = indexChapter - 1;
-      setIdChapter(listChapter[indexChapter].id);
-      navigate(`/detail-book/${listChapter[indexChapter].id}`);
+      selectChapter(indexChapter);
     }
   };
 
   const handleSelectChapter = (e) => {
     indexChapter = e.target.value;
-    setIdChapter(listChapter[indexChapter].id);
-    navigate(`/detail-book/${listChapter[indexChapter].id}`);
+    selectChapter(indexChapter);
   };
 
+  // fetch comment list
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await CommentApi.getByChapter(idChapter);
         setListComment(response.data.data);
-        console.log(response.data.data);
       } catch (error) {
         console.log("Failed to fetch data", error);
       }
     };
     fetchData();
-  }, []);
+  }, [idChapter]);
 
   const handleChangeText = (e) => {
     setText(e.target.value);
   };
 
   const handleClickPost = async () => {
-
     try {
       const newComment = {
         content: text,
         parent: null,
-        chapter: idChapter
-      }
-      const response = await CommentApi.add(newComment)
-      setListComment([...listComment, response.data.data])
-      setText('')
+        chapter: idChapter,
+      };
+      const response = await CommentApi.add(newComment);
+      setListComment([...listComment, response.data.data]);
+      setText("");
     } catch (error) {
-      console.log('Failed to post data', error)
+      console.log("Failed to post data", error);
     }
-  }
+  };
   const handleDeleteComment = async (id) => {
     try {
       await CommentApi.remove(id);
@@ -162,31 +173,30 @@ const DetailBook = () => {
       console.log("Failed to delete data", error);
     }
   };
-  const renderActionEditDelete = (id) => {
+  const renderActionEditDelete = (id, userId) => {
+    
     const user = JSON.parse(localStorage.getItem("user"));
-    if (user) {
+    if (user && user.id === userId){
       return (
-        <>
+        <Stack direction="row" spacing={0}>
           <button>Sửa</button>
           <button onClick={() => handleDeleteComment(id)}>Xóa</button>
-        </>
+        </Stack>
       );
     }
   };
 
-
-
   const handleFollowBook = async (bookId) => {
-    if (!localStorage.getItem('token')) {
-      toast.error('Vui lòng đăng nhập để theo dõi truyện')
-      return
+    if (!localStorage.getItem("token")) {
+      toast.error("Vui lòng đăng nhập để theo dõi truyện");
+      return;
     }
     try {
-      await UserApi.followBook(bookId)
-      const response = await UserApi.getFollowBooks()
-      setListFollowBook(response.data.data)
+      await UserApi.followBook(bookId);
+      const response = await UserApi.getFollowBooks();
+      setListFollowBook(response.data.data);
     } catch (error) {
-      console.log('Failed to fetch data', error)
+      console.log("Failed to fetch data", error);
     }
   };
   const checkFollowBook = (bookId) => {
@@ -228,7 +238,7 @@ const DetailBook = () => {
     setTextReply(e.target.value);
   }
 
-  
+
 
   const handleClickPostReply = async (id) => {
     try {
@@ -244,11 +254,10 @@ const DetailBook = () => {
       setBoxReply(false);
       toast.success('Trả lời thành công');
     } catch (error) {
-      console.log('Failed to post data', error);
       toast.error('Trả lời thất bại');
     }
   };
-  
+
   const updateCommentList = (commentList, parentId, newReply) => {
     return commentList.map((comment) => {
       if (comment.id === parentId) {
@@ -263,7 +272,9 @@ const DetailBook = () => {
       return comment;
     });
   };
+
   
+
   const renderBoxReply = (id) => {
     if (boxReply && idReply === id) {
       return (
@@ -290,13 +301,19 @@ const DetailBook = () => {
     }
   }
 
-  const handleSeeMore = (parentId) => {
-    setReplyCount({ ...replyCount, [parentId]: (replyCount[parentId] || 3) + 3 });
+
+  const toggleReplies = (commentId) => {
+    if (expandedReplies.includes(commentId)) {
+      setExpandedReplies(expandedReplies.filter((id) => id !== commentId));
+    } else {
+      setExpandedReplies([...expandedReplies, commentId]);
+    }
   };
 
   const renderReplies = (replies, parentId) => {
     const totalReplies = replyCount[parentId] || 0;
-    const visibleReplies = replies.slice(0, totalReplies);
+    const isExpanded = expandedReplies.includes(parentId);
+    const visibleReplies = isExpanded ? replies : replies.slice(0, totalReplies);
 
     const renderReplyRecursive = (reply) => {
       return (
@@ -307,13 +324,14 @@ const DetailBook = () => {
             </div>
             <div className="container_bookDetail_nav_1_comment_reply_box_content">
               <span className="author">{reply.user?.displayName}</span>
-              <span className="content">{reply.content}</span>
+              <pre className="content">{reply.content}</pre>
             </div>
           </div>
           <div className="container_bookDetail_nav_1_comment_action">
             <button onClick={() => handleReply(reply.id)}>Trả lời</button>
-            {renderActionEditDelete(reply.id)}
+            {renderActionEditDelete(reply.id, reply.user?.id)}
           </div>
+          {renderBoxReply(reply.id)}
           {reply.children && renderReplies(reply.children, reply.id)}
         </div>
       );
@@ -324,7 +342,9 @@ const DetailBook = () => {
         {visibleReplies.map((reply) => renderReplyRecursive(reply))}
         {totalReplies < replies.length && (
           <div className="box_line_seeMore">
-            <button className="button_addReplyMore" onClick={() => handleSeeMore(parentId)}>Xem thêm</button>
+            <button className="button_addReplyMore" onClick={() => toggleReplies(parentId)}>
+              {isExpanded ? "Thu gọn" : "Xem thêm"}
+            </button>
           </div>
         )}
       </>
@@ -334,14 +354,13 @@ const DetailBook = () => {
   return (
     <DefaultLayout>
       <ToastContainer />
+      {buy && <ConfirmBuyChapterDialog onClose={() => setBuy(false)} chapter={buy} />}
       <div className="container_bookDetail_body">
         <div className="container_bookDetail_taskbar">
           <ul>
             <li>
               <div className="container_bookDetail_taskbar_box">
-                <div className="container_bookDetail_taskbar_box_img">
-
-                </div>
+                <div className="container_bookDetail_taskbar_box_img"></div>
                 <div className="container_bookDetail_taskbar_box_title">
                   <h3>{book.title}</h3>
                   <span>{book.userOwn?.displayName}</span>
@@ -367,7 +386,8 @@ const DetailBook = () => {
             <div className="container_bookDetail_nav_1_displayBook_body">
               <div className="container_bookDetail_nav_1_displayBook_body_tittle">
                 <span>
-                  Chương {listChapter[indexChapter]?.index}: {listChapter[indexChapter]?.title}
+                  Chương {listChapter[indexChapter]?.index}:{" "}
+                  {listChapter[indexChapter]?.title}
                 </span>
               </div>
               <div className="container_bookDetail_nav_1_display_paragraph">
@@ -394,13 +414,14 @@ const DetailBook = () => {
                 </Grid>
                 <Grid item xs={8}>
                   <FormControl fullWidth>
-                    <Select
-                      value={indexChapter}
-                      onChange={handleSelectChapter}
-                    >
+                    <Select value={indexChapter} onChange={handleSelectChapter}>
                       {listChapter?.map((chapter, index) => (
                         <MenuItem key={index} value={index}>
-                          {chapter.index + '. ' + chapter.title}
+                          <span style={{
+                            color: chapter.price > 0 && !chapter.bought ? "red" : "black"
+                          }}>{chapter.index + ". " + chapter.title}
+                            {chapter.price > 0 && !chapter.bought ? ` (${chapter.price} xu)` : ""}
+                          </span>
                         </MenuItem>
                       ))}
                     </Select>
@@ -449,13 +470,13 @@ const DetailBook = () => {
                         <span className="author">
                           {comment.user?.displayName}
                         </span>
-                        <span className="content">{comment.content}</span>
+                        <pre className="content">{comment.content}</pre>
                       </div>
                     </div>
                     <div className="container_bookDetail_nav_1_comment_action">
                       <button onClick={() => handleReply(comment.id)}>Trả lời</button>
 
-                      {renderActionEditDelete(comment.id)}
+                      {renderActionEditDelete(comment.id, comment.user?.id)}
                     </div>
                     {renderBoxReply(comment.id)}
                     {comment.children && renderReplies(comment.children, comment.id)}

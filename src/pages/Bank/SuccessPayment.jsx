@@ -7,7 +7,6 @@ const SuccessPayment = () => {
     const data={
         coin: parseInt(user.coin) + parseInt(amount),
         displayName: user.displayName,
-        email: user.email,
         introduction: user.introduction,
     }
     const handleUpdateUser = async () => {

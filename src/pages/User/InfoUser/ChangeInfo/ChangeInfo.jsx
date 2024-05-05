@@ -6,16 +6,12 @@ import 'react-toastify/dist/ReactToastify.css';
 const ChangeInfo = () => {
     const user = JSON.parse(localStorage.getItem('user'));
     const [username, setUsername] = useState(user.displayName);
-    const [email, setEmail] = useState(user.email);
     const [introduce, setIntroduce] = useState(user.introduction);
     
     
 
     const handleUserName = (e) => {
         setUsername(e.target.value);
-    }
-    const handleEmail = (e) => {
-        setEmail(e.target.value);
     }
     const handleIntroduce = (e) => {
         setIntroduce(e.target.value);
@@ -58,7 +54,7 @@ const ChangeInfo = () => {
 
                 <div className="container_user_change_info_item">
                     <label>Email</label>
-                    <input type="text" value={email} disabled />
+                    <input type="text" value={user.email} disabled />
                 </div>
 
                 <div className="container_user_change_info_item">
