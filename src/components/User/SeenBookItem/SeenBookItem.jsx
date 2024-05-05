@@ -1,14 +1,16 @@
 import "./SeenBookItem.css"
 import PropTypes from 'prop-types';
 import Reveal from "../../../components/utils/Reveal";
+import { useNavigate } from "react-router";
 function SeenBookItem({ book }) {
+  const navigate = useNavigate();
   return (
     <Reveal>
-      <div className="container_nav_2_seenBooks_item">
+      <div onClick={() => navigate(`/infoBook/${book.id}`)} className="container_nav_2_seenBooks_item">
         <img src={book.coverImage} alt={book.title} />
         <div className="container_nav_2_seenBooks_item_discuss">
           <h2>{book.title}</h2>
-          <span>add text</span>
+          <span>{book.description}</span>
         </div>
       </div>
     </Reveal>

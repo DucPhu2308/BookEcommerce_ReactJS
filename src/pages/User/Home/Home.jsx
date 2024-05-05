@@ -14,15 +14,39 @@ import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 
 const UserHome = () => {
-  const [listBooks, setListBooks] = useState([]);
+  const [listNewBooks, setListNewBooks] = useState([]);
+  const [listBestRateBooks, setListBestRateBooks] = useState([]);
+  const [listMostViewBooks, setListMostViewBooks] = useState([]);
+  const [listMostFollowBooks, setListMostFollowBooks] = useState([]);
+  const [listSeenBooks, setListSeenBooks] = useState([]);
   const [post, setPost] = useState(null);
 
   // load books
   useEffect(() => {
     BookApi.getTopNBooksSortByDate(10).then((res) => {
-      setListBooks(res.data.data);
+      setListNewBooks(res.data.data);
       setPost(res.data.data);
     });
+
+    BookApi.getBestRateBooks().then((res) => {
+      setListBestRateBooks(res.data.data);
+    });
+
+    BookApi.getMostViewBooks().then((res) => {
+      setListMostViewBooks(res.data.data);
+    });
+
+    BookApi.getMostFollowBooks().then((res) => {
+      setListMostFollowBooks(res.data.data);
+    });
+
+    if (localStorage.getItem("token")) {
+      BookApi.getBookInHistory().then((res) => {
+        setListSeenBooks(res.data.data);
+        console.log(res.data.data);
+      });
+    }
+    
   }, []);
   return (
     <>
@@ -45,18 +69,16 @@ const UserHome = () => {
           </div>
           <div className="container_nav_2">
             {/* Truyện mới cập nhật */}
-
-            <UpdateBookList list={listBooks} />
+            <UpdateBookList list={listNewBooks} />
 
             {/* Truyện đã xem */}
-
-            <SeenBookList />
+            <SeenBookList list={listSeenBooks} max={3} />
           </div>
           <div className="container_nav_3">
 
-            <RankingList title="Đọc nhiều" list={listBooks} />
-            <RankingList title="Đề cử nhiều" list={listBooks} />
-            <RankingList title="Thịnh hành" list={listBooks} />
+            <RankingList title="Thịnh hành" list={listMostViewBooks} />
+            <RankingList title="Theo dõi nhiều" list={listMostFollowBooks} />
+            <RankingList title="Đánh giá tốt" list={listBestRateBooks} />
 
           </div>
         </div>
