@@ -15,3 +15,21 @@
     width:100px;
     height:auto;
 }
+.container_nav_2_seenBooks_item_discuss{
+    display:flex;
+    flex-direction: column;
+}
+.title{
+    font-size: 20px !important;
+    font-weight: bold;
+    font-family: Arial;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 235px;
+}
+.container_nav_2_seenBooks_item_discuss span{
+    font-size: 15px;
+    font-family: Arial;
+    color: #000;
+}

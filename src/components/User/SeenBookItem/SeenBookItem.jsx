@@ -9,7 +9,7 @@ function SeenBookItem({ book }) {
       <div onClick={() => navigate(`/infoBook/${book.id}`)} className="container_nav_2_seenBooks_item">
         <img src={book.coverImage} alt={book.title} />
         <div className="container_nav_2_seenBooks_item_discuss">
-          <h2>{book.title}</h2>
+          <span className="title">{book.title}</span>
           <span>{book.description}</span>
         </div>
       </div>

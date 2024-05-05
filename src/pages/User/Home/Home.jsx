@@ -43,7 +43,6 @@ const UserHome = () => {
     if (localStorage.getItem("token")) {
       BookApi.getBookInHistory().then((res) => {
         setListSeenBooks(res.data.data);
-        console.log(res.data.data);
       });
     }
     
