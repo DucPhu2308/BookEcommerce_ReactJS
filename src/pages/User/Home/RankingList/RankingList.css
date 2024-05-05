@@ -38,6 +38,11 @@
     border: rgba(0, 0, 0, 0.1) solid 1px;
     padding: 10px 10px;
 }
+
+.rank-1:hover, .rank-item:hover {
+    background-color: #f9f9f9;
+    cursor: pointer;
+}
 .rank-number {
     font-size: 20px;
     font-weight: bold;
