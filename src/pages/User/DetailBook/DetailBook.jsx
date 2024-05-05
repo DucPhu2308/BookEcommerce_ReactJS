@@ -174,9 +174,9 @@ const DetailBook = () => {
     }
   };
   const renderActionEditDelete = (id, userId) => {
-    
+
     const user = JSON.parse(localStorage.getItem("user"));
-    if (user && user.id === userId){
+    if (user && user.id === userId) {
       return (
         <Stack direction="row" spacing={0}>
           <button>Sửa</button>
@@ -273,7 +273,7 @@ const DetailBook = () => {
     });
   };
 
-  
+
 
   const renderBoxReply = (id) => {
     if (boxReply && idReply === id) {
@@ -458,29 +458,23 @@ const DetailBook = () => {
 
               <div className="container_bookDetail_nav_1_displayBook_comment_form_listComments">
                 {listComment.map((comment) => (
-                  <>
-                    <div
-                      key={comment.id}
-                      className="container_bookDetail_nav_1_displayBook_comment_form_listComments_item"
-                    >
+                  <div key={comment.id}>
+                    <div className="container_bookDetail_nav_1_displayBook_comment_form_listComments_item">
                       <div className="container_bookDetail_nav_1_displayBook_comment_form_listComments_item_img">
                         <img src={imageAccount} alt="account" />
                       </div>
                       <div className="container_bookDetail_nav_1_displayBook_comment_form_listComments_item_content">
-                        <span className="author">
-                          {comment.user?.displayName}
-                        </span>
+                        <span className="author">{comment.user?.displayName}</span>
                         <pre className="content">{comment.content}</pre>
                       </div>
                     </div>
                     <div className="container_bookDetail_nav_1_comment_action">
                       <button onClick={() => handleReply(comment.id)}>Trả lời</button>
-
                       {renderActionEditDelete(comment.id, comment.user?.id)}
                     </div>
                     {renderBoxReply(comment.id)}
                     {comment.children && renderReplies(comment.children, comment.id)}
-                  </>
+                  </div>
                 ))}
               </div>
             </div>
