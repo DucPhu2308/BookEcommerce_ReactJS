@@ -45,7 +45,6 @@ const InfoBook = () => {
         const fetchChapter = async () => {
             try {
                 const response = await ChapterApi.getChapterByBook(id);
-                console.log(response);
                 setListChapter(response.data.data);
             } catch (error) {
                 console.log("Failed to fetch chapter: ", error);
@@ -66,21 +65,11 @@ const InfoBook = () => {
         fetchFollowBook();
     }, [id]);
 
-    useEffect(() => {
-        const script = document.createElement("script");
-        script.src = "/src/pages/User/InfoBook/script.jsx";
-        document.body.appendChild(script);
-
-        return () => {
-            document.body.removeChild(script);
-        };
-    }, [id]);
-
     const renderNumberFollowBook = () => {
         if (listFollowBook.length > 0) {
             return <span>Follow: {listFollowBook.length}</span>;
         }
-        return <span>0</span>;
+        return <span> Follow: 0</span>;
     }
 
     const renderButton = (check) => {
@@ -109,6 +98,74 @@ const InfoBook = () => {
                 toast.success("Cập nhật trạng thái chương thành công");
             });
     }
+
+    const handleFollowBook = (id) => {
+        UserApi.followBook(id)
+            .then(() => {
+                const newFollowBook = [...listFollowBook, { id }];
+                setListFollowBook(newFollowBook);
+            })
+            .catch(() => {
+                toast.error("Follow book thất bại");
+            });
+    }
+
+    const handleUnFollowBook = (id) => {
+        UserApi.followBook(id)
+            .then(() => {
+                const newFollowBook = listFollowBook.filter((item) => item.id !== id);
+                setListFollowBook(newFollowBook);
+            })
+            .catch(() => {
+                toast.error("Unfollow book thất bại");
+            });
+    }
+
+    const renderButtonFollow = (id) => {
+        if (listFollowBook.length > 0) {
+            const check = listFollowBook.find((item) => item.id === id);
+            if (check) {
+                return (
+                    <button className="btn_liked_book" onClick={() => handleUnFollowBook(id)}>
+                        <i className="fas fa-heart"></i>Đã yêu thích</button>
+                )
+            }
+            else {
+                return (
+                    <button className="btn_like_book" onClick={() => handleFollowBook(id)}>
+                        <i className="fas fa-heart"></i>Yêu thích</button>
+                )
+            }
+        }
+        return (
+            <button className="btn_like_book" onClick={() => handleFollowBook(id)}>
+                <i className="fas fa-heart"></i>Yêu thích</button>
+        )
+
+
+        
+        // if (listFollowBook.length > 0) {
+        //     const check = listFollowBook.find((item) => item.id === id);
+        //     if (check) {
+        //         return (
+        //             <button className="btn_liked_book" onClick={() => handleUnFollowBook(id)}>
+        //                 <i className="fas fa-heart"></i>Đã yêu thích</button>
+        //         )
+        //     }
+        //     else{
+        //         return (
+        //             <button className="btn_like_book" onClick={() => handleFollowBook(id)}>
+        //                 <i className="fas fa-heart"></i>Yêu thích</button>
+        //         )
+        //     }
+        // }
+        // return (
+        //     <button className="btn_like_book" onClick={() => handleFollowBook(id)}>
+        //         <i className="fas fa-heart"></i>Yêu thích</button>
+        // )
+    }
+
+
     return (
         <DefaultLayout>
             <div className="container_info_book">
@@ -184,11 +241,7 @@ const InfoBook = () => {
 
                         <div className="container_info_book_body_description_right">
                             <div className="container_info_book_body_description_right_action">
-                                <button className="btn_like_book">
-                                    <i className="fas fa-heart"></i>Yêu thích</button>
-
-                                <button className="btn_liked_book">
-                                    <i className="fas fa-heart"></i>Đã yêu thích</button>
+                                {renderButtonFollow(book.id)}
 
                                 <button className="btn_report_book">
                                     <i className="fas fa-exclamation-triangle"></i>Báo cáo</button>
