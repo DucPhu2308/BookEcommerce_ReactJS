@@ -29,5 +29,25 @@ class BookApi {
         const url = `book/${id}`;
         return axiosPrivate.delete(url);
     }
+
+    getBestRateBooks = () => {
+        const url = `book/best-rate`;
+        return axiosClient.get(url);
+    }
+
+    getMostViewBooks = () => {
+        const url = `book/most-view`;
+        return axiosClient.get(url);
+    }
+
+    getMostFollowBooks = () => {
+        const url = `book/most-follow`;
+        return axiosClient.get(url);
+    }
+
+    getBookInHistory = () => {
+        const url = `book/history`;
+        return axiosPrivate.get(url);
+    }
 }
 export default new BookApi();
