@@ -71,7 +71,7 @@ const UserHome = () => {
             <UpdateBookList list={listNewBooks} />
 
             {/* Truyện đã xem */}
-            <SeenBookList list={listSeenBooks} max={3} />
+            <SeenBookList list={listSeenBooks} max={4} />
           </div>
           <div className="container_nav_3">
 

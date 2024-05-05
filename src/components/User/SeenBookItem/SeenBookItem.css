@@ -33,3 +33,16 @@
     font-family: Arial;
     color: #000;
 }
+.container_nav_2_seenBooks_message {
+    border-radius:10px;
+    display: flex;
+    padding:0 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 1.4rem;
+}
+
+.container_nav_2_seenBooks_message a:hover {
+    color: #00725f;
+    cursor: pointer;
+}
