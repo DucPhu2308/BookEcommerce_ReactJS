@@ -1,13 +1,15 @@
 import { Dialog, DialogContent, DialogActions, DialogTitle, Button, TextField, DialogContentText } from "@mui/material";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
+import { useContext } from "react";
 import UserApi from "../../../API/User/UserApi";
+import { UserContext } from "../../../providers/UserProvider";
 
 const ConfirmBuyChapterDialog = ({ onClose, chapter }) => {
+    const { user, updateUser } = useContext(UserContext);
     const navigate = useNavigate();
 
     const handleConfirmBuyChapter = () => {
-        const user = localStorage.getItem("user");
         if (!user) {
             navigate("/login");
             return;
@@ -19,10 +21,8 @@ const ConfirmBuyChapterDialog = ({ onClose, chapter }) => {
 
                 // update balance
                 const newBalance = res.data.data;
-                const user = JSON.parse(localStorage.getItem("user"));
-                user.coin = newBalance;
-                localStorage.setItem("user", JSON.stringify(user));
-                
+                const newUser = { ...user, coin: newBalance };
+                updateUser(newUser);
                 onClose();
             })
             .catch((error) => {

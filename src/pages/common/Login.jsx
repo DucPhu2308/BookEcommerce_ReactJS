@@ -10,7 +10,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const { setUser } = useContext(UserContext);
+  const { updateUser } = useContext(UserContext);
 
   const handleLogin = async () => {
    
@@ -21,7 +21,7 @@ const Login = () => {
           localStorage.setItem("token", res.data.data.token);
           localStorage.setItem("user", JSON.stringify(res.data.data.user));
           localStorage.setItem("roles", JSON.stringify(res.data.data.roles));
-          setUser(res.data.data.user);
+          updateUser(res.data.data.user);
           navigate("/");
           
         } else {

@@ -1,12 +1,15 @@
 import './ChangeInfo.css';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import UserApi from '../../../../API/User/UserApi';
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
+import { UserContext } from '../../../../providers/UserProvider';
+
 const ChangeInfo = () => {
     const user = JSON.parse(localStorage.getItem('user'));
+    const { updateUser } = useContext(UserContext);
     const [username, setUsername] = useState(user.displayName);
-    const [introduce, setIntroduce] = useState(user.introduction);
+    const [introduce, setIntroduce] = useState(user.introduction || '');
     
     
 
@@ -28,7 +31,7 @@ const ChangeInfo = () => {
             const response = await UserApi.updateUserInfo(data);
             if (response.status === 200) {
                 toast.success('Cập nhật thông tin thành công');
-                localStorage.setItem('user', JSON.stringify(response.data.data));
+                updateUser(response.data.data);
             }
         } catch (error) {
             toast.error('Cập nhật thông tin thất bại');

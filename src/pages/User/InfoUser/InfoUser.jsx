@@ -5,6 +5,8 @@ import React, { useEffect, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import { Link } from 'react-router-dom';
+import { Backdrop, CircularProgress } from "@mui/material";
+
 import ChangeInfo from './ChangeInfo/ChangeInfo';
 import ChangePassword from './ChangePassword/ChangePassword';
 import HistoryBuy from './HistoryBuy/HistoryBuy';
@@ -143,12 +145,12 @@ const Form = ({ selectedItem }) => {
 
 
 const InfoUser = () => {
+    const [loading, setLoading] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
-    // const [user,setUser]=useState(JSON.parse(localStorage.getItem('user')));
-    const { user, setUser } = useContext(UserContext);
+    const { user, updateUser } = useContext(UserContext);
     
     useEffect(() => {
-        setUser(JSON.parse(localStorage.getItem('user')));
+        updateUser(JSON.parse(localStorage.getItem('user')));
     }, []);
 
     const handleUploadAvt = () => {
@@ -156,20 +158,28 @@ const InfoUser = () => {
         input.type = 'file';
         input.accept = 'image/*';
         input.onchange = async (e) => {
+            setLoading(true);
             const file = e.target.files[0];
             UploadApi.uploadFile(file, UploadType.USER)
                 .then((res) => {
                     const newUser = { ...user };
                     newUser.avatar = res.data.data;
-                    setUser(newUser);
+                    console.log(newUser);
                     UserApi.updateUserInfo(newUser)
-                    localStorage.setItem('user', JSON.stringify(newUser));
-                    toast.success('Cập nhật ảnh đại diện thành công');
+                        .then((res) => {
+                            updateUser(newUser); // updateUser = setUser + update local storage
+                            toast.success('Cập nhật ảnh đại diện thành công');
+                        })
+                        .catch((err) => {
+                            console.log(err);
+                            toast.error(`Cập nhật ảnh đại diện thất bại: ${err.response.data.message}`)
+                        });
                 })
                 .catch((err) => {
                     console.log(err);
                     toast.error(`Cập nhật ảnh đại diện thất bại: ${err}`)
-                });
+                })
+                .finally(() => setLoading(false));
         };
         input.click();
     };
@@ -177,6 +187,14 @@ const InfoUser = () => {
     return (
         <DefaultLayout>
             <ToastContainer />
+            {loading && (
+                <Backdrop
+                sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                open
+                >
+                <CircularProgress color="inherit" />
+                </Backdrop>
+            )}
             <div className="container_user_page">
                 <div className="container_user_page_body">
                     <div className="container_user_page_body_nav"></div>
