@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import BookItem from "@/components/User/BookItem/BookItem";
 import './UpdateBookList.css';
 import Reveal from "../../../../../components/utils/Reveal";
@@ -9,39 +9,43 @@ const UpdateBookList = ({ list }) => {
     <div className="container_nav_2_listBooks">
       <div className="container_nav_2_listBooks_title">
         <span className="SeeUpdate">Truyện mới cập nhật</span>
-        <Link to="/NewBook">
+        <NavLink to="/NewBook">
           <div className="SeeTotal">
             Xem tất cả {">>"}
           </div>
-        </Link>
+        </NavLink>
       </div>
       <table>
-        {/* display list in colNumber column */}
-        {list.map((book, index) => {
-          if (index % colNumber === 0) {
-            return (
-              <tr key={index}>
-                <Link to={`/infoBook/${book.id}`}>
+        <tbody>
+          {/* display list in colNumber column */}
+          {list.map((book, index) => {
+            if (index % colNumber === 0) {
+              return (
+                <tr key={index}>
                   <td>
-                    <Reveal>
-                      <BookItem book={book} />
-                    </Reveal>
-                  </td>
-                </Link>
-
-                {index + 1 < list.length && (
-                  <td>
-                    <Link to={`/infoBook/${list[index + 1].id}`}>
+                    <NavLink to={`/infoBook/${book.id}`}>
                       <Reveal>
-                        <BookItem book={list[index + 1]} />
+                        <BookItem book={book} />
                       </Reveal>
-                    </Link>
+                    </NavLink>
                   </td>
-                )}
-              </tr>
-            );
-          }
-        })}
+
+                  {index + 1 < list.length && (
+                    <td>
+                      <NavLink to={`/infoBook/${list[index + 1].id}`}>
+                        <Reveal>
+                          <BookItem book={list[index + 1]} />
+                        </Reveal>
+                      </NavLink>
+                    </td>
+                  )}
+                </tr>
+              );
+            }
+            return null; // Add this line to handle the case when the condition is not met
+          })}
+        </tbody>
+
       </table>
     </div>
   )

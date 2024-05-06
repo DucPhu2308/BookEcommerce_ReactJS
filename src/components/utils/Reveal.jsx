@@ -11,12 +11,11 @@ const Reveal = ({ children }) => {
     const animation = useAnimation();
     const slideControls= useAnimation();
     useEffect(() => {
-        console.log(isInView);
         if(isInView){
             animation.start("visible");
             slideControls.start("visible");
         }
-    },[isInView]);
+    });
 
     return (
         <div ref={ref} style={{overflow:'hidden',position:'relative'}} >

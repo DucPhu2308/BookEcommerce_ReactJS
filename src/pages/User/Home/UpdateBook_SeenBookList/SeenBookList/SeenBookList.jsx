@@ -4,6 +4,7 @@ import "./SeenBookList.css";
 import { Link } from "react-router-dom";
 
 const SeenBookList = ({ list, max }) => {
+  if(!list) return null;
   const token = localStorage.getItem("token");
 
   return (
