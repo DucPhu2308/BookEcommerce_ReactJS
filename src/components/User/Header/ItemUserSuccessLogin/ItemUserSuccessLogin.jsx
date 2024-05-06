@@ -1,9 +1,13 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import "./ItemUserSuccessLogin.css"
 import accountImage from "@/assets/images/account.png"
 import { Link } from 'react-router-dom';
+import { UserContext } from "@/providers/UserProvider";
 
 const ItemUserSuccessLogin = () => {
+    const navigate = useNavigate();
+    const { user, setUser, logout } = useContext(UserContext);
     const selectWriteRef = useRef(null);
     const selectBoxRef = useRef(null);
     const selectIconRef = useRef(null);
@@ -94,8 +98,8 @@ const ItemUserSuccessLogin = () => {
     }, []);
 
     const handleLogout = () => {
-        localStorage.clear();
-        window.location.reload();
+        logout();
+        navigate("/");
     };
 
     return (
@@ -121,8 +125,8 @@ const ItemUserSuccessLogin = () => {
 
             <li>
                 <div className="header_nav_user" ref={selectInfoUserRef}>
-                    <img src={accountImage} alt="user" />
-                    <span>{JSON.parse(localStorage.getItem("user")).displayName}
+                    <img src={user.avatar || accountImage} alt="user" />
+                    <span>{user.displayName}
                         <i className="fas fa-circle-chevron-down" ref={selectInfoUserIconRef}></i>
                     </span>
                 </div>

@@ -6,9 +6,14 @@ class AuthApi {
         return axiosClient.post(url, { email, password });
     }
 
-    register = async (userName, email, password) => {
+    register = async (displayName, email, password) => {
         const url = "/auth/register";
-        return axiosClient.post(url, { userName, email, password });
+        return axiosClient.post(url, { displayName, email, password });
+    }
+
+    confirmEmail = async (email, token) => {
+        const url = "/auth/confirm";
+        return axiosClient.post(url, null, { params: { email, token } });
     }
 }
 

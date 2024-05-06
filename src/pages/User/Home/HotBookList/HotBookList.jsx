@@ -10,7 +10,6 @@ const HotBookList = ({list}) => {
     
 
     useEffect(() => {
-
         const listBook = boxListBooks.current;
         const books = boxListBooks.current.querySelectorAll('li');
         const btnPre = btnLeft.current;

@@ -1,14 +1,16 @@
 import LoginLayout from "@/layouts/LoginLayout/LoginLayout";
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import "./LoginRegister.css";
 import AuthApi from "../../API/Auth/AuthApi";
+import { UserContext } from "../../providers/UserProvider";
 
 const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const { setUser } = useContext(UserContext);
 
   const handleLogin = async () => {
    
@@ -19,6 +21,7 @@ const Login = () => {
           localStorage.setItem("token", res.data.data.token);
           localStorage.setItem("user", JSON.stringify(res.data.data.user));
           localStorage.setItem("roles", JSON.stringify(res.data.data.roles));
+          setUser(res.data.data.user);
           navigate("/");
           
         } else {
@@ -40,7 +43,7 @@ const Login = () => {
             <span>Log In to Leet Truyen</span>
           </div>
           <div className="inputBox">
-            <label>Username or email</label>
+            <label>Email</label>
             <br />
             <input value={email} type="text" name="username" required 
               onChange={(e) => setEmail(e.target.value)} />

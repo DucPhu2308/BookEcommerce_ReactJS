@@ -39,6 +39,12 @@ body{
   .loginBoxImage {
     position: relative;
   }
+
+  .loginBoxImage img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
   /* make .loginBoxImage backgound on small screen*/
   @media (max-width: 768px) {
     .loginBoxImage {
