@@ -2,40 +2,12 @@ import './HotBookList.css';
 import HotBookItem from '@/components/User/HotBookItem/HotBookItem';
 import { useEffect, useRef, useState } from 'react';
 
-const HotBookList = () => {
+const HotBookList = ({list}) => {
     const boxListBooks = useRef(null);
     const btnLeft = useRef(null);
     const btnRight = useRef(null);
     const lineCircle = useRef(null);
     const [isDataLoaded, setIsDataLoaded] = useState(false);
-
-    const listBooks = [
-        {
-            id: 1,
-            title: "Truyện 1",
-            coverImage: "https://picsum.photos/200",
-        },
-        {
-            id: 2,
-            title: "Truyện 2",
-            coverImage: "https://placehold.jp/150x150.png",
-        },
-        {
-            id: 3,
-            title: "Truyện 3",
-            coverImage: "https://i.imgur.com/0y5CnXh.jpg",
-        },
-        {
-            id: 4,
-            title: "Truyện 4",
-            coverImage: "https://i.imgur.com/0y5CnXh.jpg",
-        },
-        {
-            id: 5,
-            title: "Truyện 5",
-            coverImage: "https://i.imgur.com/0y5CnXh.jpg",
-        },
-    ];
 
     useEffect(() => {
         setIsDataLoaded(true);
@@ -113,7 +85,7 @@ const HotBookList = () => {
     }, []);
 
     const renderLineCircle = () => {
-        let length = listBooks.length;
+        let length = list.length;
         let numberCircle = length / 3;
         let html = '';
         for (let i = 0; i < numberCircle; i++) {
@@ -125,12 +97,12 @@ const HotBookList = () => {
     return (
         <>
             <div className="container_nav_1_title">
-                <span>Truyện hot trong ngày</span>
+                <span>Được xem nhiều nhất</span>
             </div>
             <div className="container_nav_1_listBooks">
                 <div className="container_nav_1_listBooks_box" ref={boxListBooks}>
                     <ul>
-                        {listBooks.map((book, index) => (
+                        {list.map((book, index) => (
                             <li key={index}>
                                 <a href="#">
                                     <HotBookItem book={book} />

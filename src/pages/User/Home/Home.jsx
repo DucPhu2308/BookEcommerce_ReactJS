@@ -19,6 +19,7 @@ const UserHome = () => {
   const [listMostViewBooks, setListMostViewBooks] = useState([]);
   const [listMostFollowBooks, setListMostFollowBooks] = useState([]);
   const [listSeenBooks, setListSeenBooks] = useState([]);
+  const [listMostBuyBooks, setListMostBuyBooks] = useState([]);
   const [post, setPost] = useState(null);
 
   // load books
@@ -40,10 +41,14 @@ const UserHome = () => {
       setListMostFollowBooks(res.data.data);
     });
 
+    BookApi.getMostBuyBooks().then((res) => {
+      console.log(res.data.data);
+      setListMostBuyBooks(res.data.data);
+    });
+
     if (localStorage.getItem("token")) {
       BookApi.getBookInHistory().then((res) => {
         setListSeenBooks(res.data.data);
-        console.log(res.data.data);
       });
     }
     
@@ -65,7 +70,7 @@ const UserHome = () => {
           {/* Truyện hot trong ngày */}
 
           <div className="container_nav_1">
-            <HotBookList />
+            <HotBookList list={listMostViewBooks} />
           </div>
           <div className="container_nav_2">
             {/* Truyện mới cập nhật */}
@@ -76,7 +81,7 @@ const UserHome = () => {
           </div>
           <div className="container_nav_3">
 
-            <RankingList title="Thịnh hành" list={listMostViewBooks} />
+            <RankingList title="Trả phí phổ biến nhất" list={listMostBuyBooks} />
             <RankingList title="Theo dõi nhiều" list={listMostFollowBooks} />
             <RankingList title="Đánh giá tốt" list={listBestRateBooks} />
 

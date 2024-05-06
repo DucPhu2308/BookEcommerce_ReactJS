@@ -49,5 +49,10 @@ class BookApi {
         const url = `book/history`;
         return axiosPrivate.get(url);
     }
+
+    getMostBuyBooks = () => {
+        const url = `book/most-buy`;
+        return axiosClient.get(url);
+    }
 }
 export default new BookApi();
