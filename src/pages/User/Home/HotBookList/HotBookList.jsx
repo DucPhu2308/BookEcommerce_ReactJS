@@ -101,7 +101,7 @@ const HotBookList = ({list}) => {
                     <ul>
                         {list.map((book, index) => (
                             <li key={index}>
-                                <a href="#">
+                                <a href="/infoBook/{book.id}">
                                     <HotBookItem book={book} />
                                 </a>
                             </li>
