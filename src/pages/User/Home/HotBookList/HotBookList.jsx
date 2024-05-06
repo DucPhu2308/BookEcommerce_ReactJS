@@ -7,14 +7,9 @@ const HotBookList = ({list}) => {
     const btnLeft = useRef(null);
     const btnRight = useRef(null);
     const lineCircle = useRef(null);
-    const [isDataLoaded, setIsDataLoaded] = useState(false);
+    
 
     useEffect(() => {
-        setIsDataLoaded(true);
-    }, []);
-
-    useEffect(() => {
-        if (!isDataLoaded) return;
 
         const listBook = boxListBooks.current;
         const books = boxListBooks.current.querySelectorAll('li');
@@ -25,8 +20,11 @@ const HotBookList = ({list}) => {
 
         lineCircle.current.innerHTML = renderLineCircle();
 
-        const firstDot = lineCircle.current.querySelector('.circle');
-        firstDot.classList.add('been');
+        if (lineCircle.current && lineCircle.current.querySelectorAll('.circle').length > 0) {
+            lineCircle.current.querySelectorAll('.circle')[0].classList.add('been'); // Thêm class cho dot đầu tiên
+        }
+
+        
 
         const clickDot = () => {
             let dots = lineCircle.current.querySelectorAll('.circle');
@@ -82,7 +80,7 @@ const HotBookList = ({list}) => {
             clearInterval(autoSlide);
         }
 
-    }, []);
+    }, [list]);
 
     const renderLineCircle = () => {
         let length = list.length;
