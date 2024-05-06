@@ -42,7 +42,6 @@ const UserHome = () => {
     });
 
     BookApi.getMostBuyBooks().then((res) => {
-      console.log(res.data.data);
       setListMostBuyBooks(res.data.data);
     });
 

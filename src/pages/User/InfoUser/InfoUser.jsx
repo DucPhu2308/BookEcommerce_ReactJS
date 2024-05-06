@@ -1,7 +1,8 @@
 import DefaultLayout from '../../../layouts/DefaultLayout/DefaultLayout';
 import './InfoUser.css';
 import accountImage from '../../../assets/images/account.png';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
+import { toast, ToastContainer } from 'react-toastify';
 import { Link } from 'react-router-dom';
 import ChangeInfo from './ChangeInfo/ChangeInfo';
 import ChangePassword from './ChangePassword/ChangePassword';
@@ -11,10 +12,12 @@ import SubcribeBook from './SubcribeBook/SubcribeBook';
 import OwnBook from './OwnBook/OwnBook';
 import Comment from './Comment/Comment';
 import Notification from './Notification/Notification'
+import UploadApi, { UploadType } from "../../../API/User/UploadApi";
+import UserApi from '../../../API/User/UserApi';
+import { UserContext } from '../../../providers/UserProvider';
+
 // left menu
 const Menu = ({ onSelect }) => {
-    
-
     useEffect(() => {
         const script = document.createElement("script");
         script.src = "/src/pages/User/InfoUser/script.js";
@@ -136,19 +139,44 @@ const Form = ({ selectedItem }) => {
 
 const InfoUser = () => {
     const [selectedItem, setSelectedItem] = useState(null);
-    const [user,setUser]=useState(()=>JSON.parse(localStorage.getItem('user')));
+    // const [user,setUser]=useState(JSON.parse(localStorage.getItem('user')));
+    const { user, setUser } = useContext(UserContext);
     
     useEffect(() => {
         setUser(JSON.parse(localStorage.getItem('user')));
     }, []);
+
+    const handleUploadAvt = () => {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = 'image/*';
+        input.onchange = async (e) => {
+            const file = e.target.files[0];
+            UploadApi.uploadFile(file, UploadType.USER)
+                .then((res) => {
+                    const newUser = { ...user };
+                    newUser.avatar = res.data.data;
+                    setUser(newUser);
+                    UserApi.updateUserInfo(newUser)
+                    localStorage.setItem('user', JSON.stringify(newUser));
+                    toast.success('Cập nhật ảnh đại diện thành công');
+                })
+                .catch((err) => {
+                    console.log(err);
+                    toast.error(`Cập nhật ảnh đại diện thất bại: ${err}`)
+                });
+        };
+        input.click();
+    };
     return (
         <DefaultLayout>
+            <ToastContainer />
             <div className="container_user_page">
                 <div className="container_user_page_body">
                     <div className="container_user_page_body_nav"></div>
                     <div className="container_user_page_body_info">
-                        <div className="container_user_page_body_info_avatar">
-                            <img src={accountImage} alt="avatar" />
+                        <div onClick={handleUploadAvt} className="container_user_page_body_info_avatar">
+                            <img src={user.avatar || accountImage} alt="avatar" />
                         </div>
                         <div className="container_user_page_body_info_name">
                             <div className="container_user_page_body_info_name_title">

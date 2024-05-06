@@ -1,7 +1,7 @@
 import DefaultLayout from "../../../layouts/DefaultLayout/DefaultLayout";
 import "./DetailBook.css";
 import imageAccount from "../../../assets/images/account.png";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import DOMPurify from "dompurify";
 import CommentApi from "../../../API/User/CommentApi";
 import BookApi from "../../../API/User/BookApi";
@@ -9,6 +9,7 @@ import ParagraphApi from "../../../API/User/ParagraphApi";
 import ChapterApi from "../../../API/User/ChapterApi";
 import UserApi from "../../../API/User/UserApi";
 import ConfirmBuyChapterDialog from "../InfoBook/ConfirmBuyChapterDialog";
+import { UserContext } from "../../../providers/UserProvider";
 
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -17,6 +18,7 @@ import { useNavigate } from "react-router";
 
 const DetailBook = () => {
   const navigate = useNavigate();
+  const { user } = useContext(UserContext);
   const [listComment, setListComment] = useState([]);
   const [listParagraph, setListParagraph] = useState([]);
   const [listFollowBook, setListFollowBook] = useState([]);
@@ -46,6 +48,8 @@ const DetailBook = () => {
     const fetchData = async () => {
       try {
         const response = await BookApi.getBookById(idBook);
+        console.log(response.data.data.userOwn.id);
+        console.log(user.id);
         setBook(response.data.data);
       } catch (error) {
         console.log("Failed to fetch data", error);
@@ -107,7 +111,8 @@ const DetailBook = () => {
   // handle select chapter
   const selectChapter = (index) => {
     const chapter = listChapter[index];
-    if (chapter.price > 0 && !chapter.bought) {
+    // check if chapter is bought
+    if (chapter.price > 0 && !chapter.bought && user.id !== book.userOwn.id) {
       setBuy(chapter);
     } else {
       setIdChapter(listChapter[index].id);
@@ -378,7 +383,7 @@ const DetailBook = () => {
         <div className="container_bookDetail_nav_1">
           <div className="container_bookDetail_nav_1_author">
             <div className="container_bookDetail_nav_1_author_info">
-              <img src="download.png" alt="account" />
+              <img src={book.userOwn?.avatar} alt="account" />
               <span>{book.userOwn?.displayName}</span>
             </div>
           </div>
@@ -418,9 +423,10 @@ const DetailBook = () => {
                       {listChapter?.map((chapter, index) => (
                         <MenuItem key={index} value={index}>
                           <span style={{
-                            color: chapter.price > 0 && !chapter.bought ? "red" : "black"
+                            color: chapter.price > 0 && !chapter.bought && user.id !== book.userOwn?.id  ? "red" : "black"
                           }}>{chapter.index + ". " + chapter.title}
-                            {chapter.price > 0 && !chapter.bought ? ` (${chapter.price} xu)` : ""}
+                            {chapter.price > 0 && !chapter.bought && user.id !== book.userOwn?.id 
+                            ? ` (${chapter.price} xu)` : ""}
                           </span>
                         </MenuItem>
                       ))}
