@@ -6,7 +6,7 @@ function BookItem({ book }) {
             <img src={book.coverImage} alt={book.title} />
             <div className="container_nav_2_listBooks_item_discuss">
                 <h2>{book.title}</h2>
-                <span>{book.description}</span>
+                <span>{book.title}</span>
             </div>
         </div>
     );

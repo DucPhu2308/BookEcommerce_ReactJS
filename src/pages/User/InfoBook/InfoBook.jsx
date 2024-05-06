@@ -19,6 +19,10 @@ const InfoBook = () => {
     const [checkEdit, setCheckEdit] = useState(false);
     const [listGenre, setListGenre] = useState([]);
     const [valueRating, setValueRating] = useState(0);
+    const [valueContent, setValueContent] = useState("");
+    const [checkRating, setCheckRating] = useState(false);
+    const [checkFollow, setCheckFollow] = useState(false);
+    const [view, setView] = useState(0);
     localStorage.setItem("idBook", id);
 
     // fetch book by id
@@ -29,6 +33,11 @@ const InfoBook = () => {
                 setBook(response.data.data);
                 // setListChapter(response.data.data.chapters);
                 setListGenre(response.data.data.genres);
+                setListFollowBook(response.data.data.users_follow);
+                if(response.data.data.users_follow.find((item) => item.id === JSON.parse(localStorage.getItem("user")).id)){
+                    setCheckFollow(true);
+                }
+                setView(response.data.data.views);
                 localStorage.setItem("nameBook", response.data.data.title);
                 if (response.data.data.userOwn.id === JSON.parse(localStorage.getItem("user")).id) {
                     setCheckEdit(true);
@@ -53,17 +62,7 @@ const InfoBook = () => {
         fetchChapter();
     }, [id, listChapter]);
 
-    useEffect(() => {
-        const fetchFollowBook = async () => {
-            try {
-                const response = await UserApi.getFollowBooks();
-                setListFollowBook(response.data.data);
-            } catch (error) {
-                console.log("Failed to fetch follow book: ", error);
-            }
-        };
-        fetchFollowBook();
-    }, [id]);
+    
 
     const renderNumberFollowBook = () => {
         if (listFollowBook.length > 0) {
@@ -102,8 +101,10 @@ const InfoBook = () => {
     const handleFollowBook = (id) => {
         UserApi.followBook(id)
             .then(() => {
-                const newFollowBook = [...listFollowBook, { id }];
+                const newFollowBook = [...listFollowBook];
+                newFollowBook.push({ id: JSON.parse(localStorage.getItem("user")).id });
                 setListFollowBook(newFollowBook);
+                setCheckFollow(true);
             })
             .catch(() => {
                 toast.error("Follow book thất bại");
@@ -113,8 +114,9 @@ const InfoBook = () => {
     const handleUnFollowBook = (id) => {
         UserApi.followBook(id)
             .then(() => {
-                const newFollowBook = listFollowBook.filter((item) => item.id !== id);
+                const newFollowBook = listFollowBook.filter((item) => item.id !== JSON.parse(localStorage.getItem("user")).id);
                 setListFollowBook(newFollowBook);
+                setCheckFollow(false);
             })
             .catch(() => {
                 toast.error("Unfollow book thất bại");
@@ -123,8 +125,7 @@ const InfoBook = () => {
 
     const renderButtonFollow = (id) => {
         if (listFollowBook.length > 0) {
-            const check = listFollowBook.find((item) => item.id === id);
-            if (check) {
+            if (checkFollow) {
                 return (
                     <button className="btn_liked_book" onClick={() => handleUnFollowBook(id)}>
                         <i className="fas fa-heart"></i>Đã yêu thích</button>
@@ -141,30 +142,67 @@ const InfoBook = () => {
             <button className="btn_like_book" onClick={() => handleFollowBook(id)}>
                 <i className="fas fa-heart"></i>Yêu thích</button>
         )
-
-
-        
-        // if (listFollowBook.length > 0) {
-        //     const check = listFollowBook.find((item) => item.id === id);
-        //     if (check) {
-        //         return (
-        //             <button className="btn_liked_book" onClick={() => handleUnFollowBook(id)}>
-        //                 <i className="fas fa-heart"></i>Đã yêu thích</button>
-        //         )
-        //     }
-        //     else{
-        //         return (
-        //             <button className="btn_like_book" onClick={() => handleFollowBook(id)}>
-        //                 <i className="fas fa-heart"></i>Yêu thích</button>
-        //         )
-        //     }
-        // }
-        // return (
-        //     <button className="btn_like_book" onClick={() => handleFollowBook(id)}>
-        //         <i className="fas fa-heart"></i>Yêu thích</button>
-        // )
+    }
+    const handleChangeContent = (event) => {
+        setValueContent(event.target.value);
     }
 
+    const handleBoxRating = () => {
+        setCheckRating(true);
+    }
+    const handlePostRating = () => {
+        const data = {
+            content: valueContent,
+            rating: valueRating,
+            book: book.id
+        }
+        RatingApi.createRating(data)
+            .then(() => {
+                toast.success("Đánh giá thành công");
+                setCheckRating(false);
+                setValueContent("");
+                setValueRating(0);
+            })
+            .catch(() => {
+                toast.error("Đánh giá thất bại");
+            });
+    }
+    const renderBoxRating = () => {
+        if (checkRating) {
+            return (
+                <>
+
+                    <div className="container_info_book_body_description_left_rating_body">
+                        <div className="container_info_book_body_description_left_rating_title">
+                            <span>Đánh giá</span>
+                        </div>
+                        <Rating
+                            name="simple-controlled"
+                            value={valueRating}
+                            onChange={(event, newValue) => {
+                                setValueRating(newValue);
+                            }}
+                        />
+                        <div className="container_info_book_body_description_left_rating_body_textarea">
+                            <textarea placeholder="Nhập đánh giá của bạn" value={valueContent} onChange={handleChangeContent} />
+                        </div>
+                    </div>
+                    <div className="container_info_book_body_description_left_rating_buttonAction">
+                        <button className="btn_cancel_rating" onClick={() => setCheckRating(false)}>Hủy</button>
+                        <button className="btn_rating" onClick={handlePostRating}>Gửi</button>
+                    </div>
+
+                </>
+            )
+        }
+        else {
+            return (
+                <button onClick={handleBoxRating}>
+                    <i className="fas fa-star"></i>Đánh giá
+                </button>
+            )
+        }
+    }
 
     return (
         <DefaultLayout>
@@ -173,7 +211,7 @@ const InfoBook = () => {
                     <div className="container_info_book_body_image_title_box">
                         <div className="container_info_book_body_image_title_left">
                             <span className="title_bold">{book.title}</span>
-                            <span>Lượt xem</span>
+                            <span>Lượt xem:{view}</span>
                             <span>Rate: {book.avgRating}</span>
                             {renderNumberFollowBook()}
                         </div>
@@ -215,27 +253,7 @@ const InfoBook = () => {
                             </div>
 
                             <div className="container_info_book_body_description_left_rating">
-                                <div className="container_info_book_body_description_left_rating_title">
-                                    <span>Đánh giá</span>
-                                </div>
-                                <div className="container_info_book_body_description_left_rating_body">
-                                    <Rating
-                                        name="simple-controlled"
-                                        value={valueRating}
-                                        onChange={(event, newValue) => {
-                                            setValueRating(newValue);
-                                        }}
-                                    />
-                                    <button className="btn_rating" onClick={() => {
-                                        RatingApi.createRating({ rating: valueRating, book: id, content: "" })
-                                            .then(() => {
-                                                toast.success("Đánh giá thành công");
-                                            })
-                                            .catch(() => {
-                                                toast.error("Đánh giá thất bại");
-                                            });
-                                    }}>Đánh giá</button>
-                                </div>
+                                {renderBoxRating()}
                             </div>
                         </div>
 
