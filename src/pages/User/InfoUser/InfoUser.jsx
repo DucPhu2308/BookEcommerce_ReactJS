@@ -2,6 +2,7 @@ import DefaultLayout from '../../../layouts/DefaultLayout/DefaultLayout';
 import './InfoUser.css';
 import accountImage from '../../../assets/images/account.png';
 import React, { useEffect, useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import { Link } from 'react-router-dom';
 import ChangeInfo from './ChangeInfo/ChangeInfo';
@@ -97,6 +98,8 @@ const Menu = ({ onSelect }) => {
 
 const Form = ({ selectedItem }) => {
     let form;
+    const { logout } = useContext(UserContext);
+    const navigate = useNavigate();
     
     switch (selectedItem) {
         case "Thông tin cá nhân":
@@ -124,6 +127,8 @@ const Form = ({ selectedItem }) => {
             form = <Notification />;
             break;
         case "Đăng xuất":
+            logout();
+            navigate('/');
             break;
         default:
             form = <HistoryTrans />;
