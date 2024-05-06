@@ -168,6 +168,7 @@ const InfoUser = () => {
         };
         input.click();
     };
+    
     return (
         <DefaultLayout>
             <ToastContainer />
