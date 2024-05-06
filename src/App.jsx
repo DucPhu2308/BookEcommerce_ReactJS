@@ -19,6 +19,8 @@ import AddParagraph from './pages/User/AddParagraph/AddParagraph'
 import AddChapter from './pages/User/AddChapter/AddChapter'
 import UpdateBook from './pages/User/UpdateBook/UpdateBook'
 import SuccessPayment from './pages/Bank/SuccessPayment'
+import EnterCode from './pages/common/EnterCode'
+
 const ROLES = {
   'USER': 'USER',
   'SALER': 'SALER',
@@ -36,6 +38,8 @@ function App() {
         <Route path="/detail-book/:id" element={<DetailBook />} />
         <Route path="/newbook" element={<NewBookPage />} />
         <Route path="/infoBook/:id" element={<InfoBook />} />
+        <Route path="/confirm-email" element={<EnterCode />} />
+        
 
         <Route element={<RequireAuth allowedRoles={[ROLES.USER]} />}>
           <Route path="/admin" element={<AdminHome />} />

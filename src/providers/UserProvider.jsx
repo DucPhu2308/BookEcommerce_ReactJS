@@ -9,7 +9,7 @@ const UserProvider = ({ children }) => {
         localStorage.removeItem("token");
         localStorage.removeItem("user");
         localStorage.removeItem("roles");
-        setUser({});
+        setUser(null);
     };
     
     return (

@@ -1,15 +1,16 @@
-import { useState, useEffect,useRef } from "react";
+import { useState, useEffect,useRef, useContext } from "react";
 import "./Header.css";
 import { Link } from "react-router-dom";
 import logo from "@/assets/images/logo.png";
 import ItemUserSuccessLogin from "./ItemUserSuccessLogin/ItemUserSuccessLogin";
 import BookApi from "../../../API/User/BookApi";
 import ItemBoxSearchName from "./ItemBoxSearchName/ItemBoxSearchName";
+import { UserContext } from "@/providers/UserProvider";
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 
 const Header = () => {
-  const loggedIn = localStorage.getItem("token");
+  const { user } = useContext(UserContext);
   const [books, setBooks] = useState([]);
   
   const inputSearch = useRef(null);
@@ -110,7 +111,7 @@ const Header = () => {
 
             </div>
           </li>
-          {loggedIn ? (
+          {user ? (
             <ItemUserSuccessLogin />
           ) : (
             <li>

@@ -2,6 +2,7 @@ import LoginLayout from "@/layouts/LoginLayout/LoginLayout";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Backdrop, CircularProgress } from "@mui/material";
 import "./LoginRegister.css" 
 import AuthApi from "../../API/Auth/AuthApi";
 
@@ -12,6 +13,7 @@ const Register = () => {
   const [password, setPassword] = useState("123456");
   const [confirmPassword, setConfirmPassword] = useState("123456");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleRegister = (e) => {
     e.preventDefault();
@@ -19,15 +21,12 @@ const Register = () => {
       setError("Password and confirm password must be the same");
       return;
     }
+    setLoading(true);
     AuthApi.register(userName, email, password)
       .then((res) => {
-        console.log(res.data);
-        // res = res.response;
         if (res.data.status == "ok") {
-          localStorage.setItem("token", res.data.data.token);
-          localStorage.setItem("user", JSON.stringify(res.data.data.user));
-          localStorage.setItem("roles", JSON.stringify(res.data.data.roles));
-          navigate("/");
+          localStorage.setItem("email", email);
+          navigate("/confirm-email");
         } else {
           setError(res.data.message);
         }
@@ -35,11 +34,20 @@ const Register = () => {
       .catch((err) => {
         console.log(err.response.data.message);
         setError(err.response.data.message);
-      });
+      })
+      .finally(() => setLoading(false));
       
   }
   return (
     <LoginLayout>
+      {loading && (
+        <Backdrop
+          sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+          open
+        >
+          <CircularProgress color="inherit" />
+        </Backdrop>
+      )}
       <div className="loginBoxBodyForm">
         <form action="login.php" method="post">
           <div className="loginBoxBodyFormTitle">

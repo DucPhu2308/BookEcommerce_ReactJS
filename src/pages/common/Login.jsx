@@ -43,7 +43,7 @@ const Login = () => {
             <span>Log In to Leet Truyen</span>
           </div>
           <div className="inputBox">
-            <label>Username or email</label>
+            <label>Email</label>
             <br />
             <input value={email} type="text" name="username" required 
               onChange={(e) => setEmail(e.target.value)} />
