@@ -136,11 +136,12 @@ const Form = ({ selectedItem }) => {
 
 const InfoUser = () => {
     const [selectedItem, setSelectedItem] = useState(null);
-    const [user,setUser]=useState(()=>JSON.parse(localStorage.getItem('user')));
-    
+    const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
+
     useEffect(() => {
         setUser(JSON.parse(localStorage.getItem('user')));
     }, []);
+    
     return (
         <DefaultLayout>
             <div className="container_user_page">
