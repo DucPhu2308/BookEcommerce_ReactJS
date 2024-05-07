@@ -2,7 +2,6 @@ import LeftAdmin from "../../../components/Admin/Left/LeftAdmin";
 import DefaultLayoutAdmin from "../../../layouts/DefaultLayoutAdmin/DefaultLayoutAdmin"
 import ManageUser from "../ManageUser/ManageUser";
 import { useState } from 'react';
-import PropTypes from 'prop-types';
 import ManageGenre from "../ManageGenre/ManageGenre";
 import DashBoard from "../DashBoard/DashBoard";
 import ManageComment from "../ManageComment/ManageComment";
@@ -42,9 +41,7 @@ const Form = ({ selectItem }) => {
 };
 
 
-Form.propTypes = {
-    selectItem: PropTypes.string.isRequired,
-};
+
 
 const AdminHome = () => {
     const [selectedItem, setSelectedItem] = useState(null);

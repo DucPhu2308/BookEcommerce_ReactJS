@@ -16,6 +16,7 @@ const InfoBook = () => {
     const id = window.location.pathname.split("/")[2];
     const [listChapter, setListChapter] = useState([]);
     const [listFollowBook, setListFollowBook] = useState([]);
+    const [listRating, setListRating] = useState([]);
     const [checkEdit, setCheckEdit] = useState(false);
     const [listGenre, setListGenre] = useState([]);
     const [valueRating, setValueRating] = useState(0);
@@ -34,7 +35,7 @@ const InfoBook = () => {
                 // setListChapter(response.data.data.chapters);
                 setListGenre(response.data.data.genres);
                 setListFollowBook(response.data.data.users_follow);
-                if(response.data.data.users_follow.find((item) => item.id === JSON.parse(localStorage.getItem("user")).id)){
+                if (response.data.data.users_follow.find((item) => item.id === JSON.parse(localStorage.getItem("user")).id)) {
                     setCheckFollow(true);
                 }
                 setView(response.data.data.views);
@@ -62,7 +63,18 @@ const InfoBook = () => {
         fetchChapter();
     }, [id, listChapter]);
 
-    
+    useEffect(() => {
+        const fetchRating = async () => {
+            try {
+                const response = await RatingApi.getRatingByBook(id);
+                setListRating(response.data.data);
+            }
+            catch (error) {
+                console.log("Failed to fetch rating: ", error);
+            }
+        }
+        fetchRating();
+    }, []);
 
     const renderNumberFollowBook = () => {
         if (listFollowBook.length > 0) {
@@ -167,6 +179,42 @@ const InfoBook = () => {
                 toast.error("Đánh giá thất bại");
             });
     }
+
+    const renderListRating = () => {
+        if (listRating.length > 0) {
+            return listRating.map((item, index) => {
+                return (
+                    <div className="container_info_book_body_description_left_listRating_body" key={index}>
+
+                        <div className="container_info_book_body_description_left_listRating_body_item">
+                            <div className="container_info_book_body_description_left_listRating_body_item_left">
+                                <img src={item.user?.avatar || PlaceholderImage} alt="avatar" />
+                            </div>
+                            <div className="container_info_book_body_description_left_listRating_body_item_right">
+                                <div className="title_1">
+                                    <div className="title_2">
+                                        <span>{item.user?.displayName}</span>
+                                        <Rating
+                                            name="read-only"
+                                            value={item.star}
+                                            readOnly
+                                        />
+                                    </div>
+                                    <div className="title_3">
+                                        <pre>{item.content}</pre>
+                                    </div>
+
+                                </div>
+                                <span>{item.createdAt}</span>
+                            </div>
+                        </div>
+                    </div>
+                )
+            })
+        }
+    }
+
+
     const renderBoxRating = () => {
         if (checkRating) {
             return (
@@ -254,6 +302,15 @@ const InfoBook = () => {
 
                             <div className="container_info_book_body_description_left_rating">
                                 {renderBoxRating()}
+                            </div>
+
+                            <div className="container_info_book_body_description_left_listRating">
+                                <div className="box_item_info_title">
+                                    <span>Đánh giá</span>
+                                </div>
+
+                                {renderListRating()}
+
                             </div>
                         </div>
 

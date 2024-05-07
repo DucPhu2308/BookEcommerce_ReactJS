@@ -53,14 +53,6 @@ const LeftAdmin = ({onSelect}) => {
                         </div>
                     </li>
                     <li>
-                        <div className="left_admin_container_option" onClick={()=>onSelect('Cấp quyền')}>
-                            <div className="left_admin_container_option_icon">
-                                <i className="fas fa-user-shield"></i>
-                            </div>
-                            <span>Cấp quyền</span>
-                        </div>
-                    </li>
-                    <li>
                         <div className="left_admin_container_option" onClick={()=>onSelect('Theo dõi doanh thu')}>
                             <div className="left_admin_container_option_icon">
                                 <i className="fas fa-chart-line"></i>
