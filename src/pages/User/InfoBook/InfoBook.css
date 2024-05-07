@@ -447,6 +447,11 @@
     height: 100px;
     background-color: #fff;
 }
+.box_item_info_maybe_like_image img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
 .box_item_info_maybe_like_title{
     display: flex;
     flex-direction: column;

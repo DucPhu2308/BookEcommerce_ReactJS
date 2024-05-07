@@ -15,6 +15,7 @@ const InfoBook = () => {
     const [book, setBook] = useState({});
     const id = window.location.pathname.split("/")[2];
     const [listChapter, setListChapter] = useState([]);
+    const [listBook, setListBook] = useState([]);
     const [listFollowBook, setListFollowBook] = useState([]);
     const [listRating, setListRating] = useState([]);
     const [checkEdit, setCheckEdit] = useState(false);
@@ -26,6 +27,7 @@ const InfoBook = () => {
     const [view, setView] = useState(0);
     const [avg_rating, setAvg_rating] = useState(0);
     localStorage.setItem("idBook", id);
+
 
     // fetch book by id
     useEffect(() => {
@@ -41,7 +43,7 @@ const InfoBook = () => {
                 }
                 setView(response.data.data.views);
                 localStorage.setItem("nameBook", response.data.data.title);
-                if (response.data.data.userOwn.id === JSON.parse(localStorage.getItem("user")).id) {
+                if (response.data.data.userOwn?.id === JSON.parse(localStorage.getItem("user")).id) {
                     setCheckEdit(true);
                 }
             } catch (error) {
@@ -49,7 +51,21 @@ const InfoBook = () => {
             }
         };
         fetchBook();
-    }, [id, listChapter]);
+    }, []);
+
+    useEffect(() => {
+        const fetchBook = async () => {
+            try {
+                const response = await BookApi.getAll();
+                setListBook(response.data.data);
+                
+            } catch (error) {
+                console.log("Failed to fetch book: ", error);
+            }
+        };
+        fetchBook();
+    }, []);
+
 
     // fetch chapter by book id
     useEffect(() => {
@@ -348,7 +364,7 @@ const InfoBook = () => {
                                     <span>Có thể bạn thích</span>
                                 </div>
                                 <div className="container_info_book_body_description_right_maybe_like_body">
-                                    <ItemListLoveBook />
+                                    <ItemListLoveBook listBook={listBook} userOwn={book.userOwn?.id}/>
                                 </div>
                             </div>
                         </div>

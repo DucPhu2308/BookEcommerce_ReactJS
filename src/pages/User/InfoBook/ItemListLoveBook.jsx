@@ -1,34 +1,17 @@
-const loveBook = [
-    {
-        id: 1,
-        title: "Title",
-        coverImage: "book.jpg",
-        author: "Author 1"
-    },
-    {
-        id: 2,
-        title: "Title",
-        coverImage: "book.jpg",
-        author: "Author 2"
-    },
-    {
-        id: 3,
-        title: "Title",
-        coverImage: "book.jpg",
-        author: "Author 3"
-    },
-    {
-        id: 4,
-        title: "Title",
-        coverImage: "book.jpg",
-        author: "Author 4"
-    }
-];
+import { useState, useEffect } from 'react';
 
-const ItemListLoveBook = () => {
+const ItemListLoveBook = ({listBook, userOwn}) => {
+    const [Books, setBooks] = useState([]);
+    useEffect(() => {
+        const filteredList = listBook.filter(book => book.userOwn?.id === userOwn);
+        setBooks(filteredList);
+    },[listBook]);
+
+    
+        
     return (
         <ul>
-            {loveBook.map((book) => (
+            {Books.map((book) => (
                 <li key={book.id}>
                     <div className="box_item_info_maybe_like">
                         <div className="box_item_info_maybe_like_image">
@@ -36,7 +19,7 @@ const ItemListLoveBook = () => {
                         </div>
                         <div className="box_item_info_maybe_like_title">
                             <span className="title_bold">{book.title}</span>
-                            <span>{book.author}</span>
+                            <span>{book.userOwn?.displayName}</span>
                         </div>
                     </div>
                 </li>
