@@ -1,16 +1,28 @@
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import { MonetizationOnRounded } from "@mui/icons-material";
 import { Switch, FormControlLabel } from "@mui/material";
+import { UserContext } from "../../../providers/UserProvider";
 import UpdatePriceDialog from "./UpdatePriceDialog";
 import ConfirmBuyChapterDialog from "./ConfirmBuyChapterDialog";
+import NotEnoughCoinDialog from "./NotEnoughCoinDialog";
 
 const ItemListChapter = ({ list, checkEdit, onToggleActiveChapter, onBuyChapter }) => {
+    const { user } = useContext(UserContext);
     const [edit, setEdit] = useState(false);
     const [buy, setBuy] = useState(false);
+    const [notEnoughCoin, setNotEnoughCoin] = useState(false);
 
+    const handleBtnBuyClick = (chapter) => {
+        if (user.coin < chapter.price) {
+            setNotEnoughCoin(chapter.price - user.coin);
+        }
+        else {
+            setBuy(chapter);
+        }
+    }
     const renderButton = (chapter) => {
         if (checkEdit) { // book owner
             return (
@@ -35,7 +47,7 @@ const ItemListChapter = ({ list, checkEdit, onToggleActiveChapter, onBuyChapter 
             if (chapter.price > 0 && !chapter.bought) { // not buy
                 return (
                     <>
-                        <button className="dark_btn_next" onClick={() => setBuy(chapter)}>
+                        <button className="dark_btn_next" onClick={() => handleBtnBuyClick(chapter)}>
                             <MonetizationOnRounded sx={{ fontSize: 20 }} />
                             {chapter.price}
                         </button>
@@ -73,6 +85,7 @@ const ItemListChapter = ({ list, checkEdit, onToggleActiveChapter, onBuyChapter 
     return (
         <ul>
             <ToastContainer />
+            {notEnoughCoin && <NotEnoughCoinDialog onClose={() => setNotEnoughCoin(false)} coinNeeded={notEnoughCoin} />}
             {edit && <UpdatePriceDialog onClose={() => setEdit(false)} chapter={edit} />}
             {buy && <ConfirmBuyChapterDialog onClose={() => setBuy(false)} chapter={buy} />}
             {list?.map((chapter, index) => (

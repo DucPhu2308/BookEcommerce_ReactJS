@@ -9,6 +9,7 @@ import ParagraphApi from "../../../API/User/ParagraphApi";
 import ChapterApi from "../../../API/User/ChapterApi";
 import UserApi from "../../../API/User/UserApi";
 import ConfirmBuyChapterDialog from "../InfoBook/ConfirmBuyChapterDialog";
+import NotEnoughCoinDialog from "../InfoBook/NotEnoughCoinDialog";
 import { UserContext } from "../../../providers/UserProvider";
 
 import { toast, ToastContainer } from "react-toastify";
@@ -25,6 +26,7 @@ const DetailBook = () => {
   const [text, setText] = useState("");
   const [book, setBook] = useState({});
   const [buy, setBuy] = useState(false);
+  const [notEnoughCoin, setNotEnoughCoin] = useState(false);
   const [idChapter, setIdChapter] = useState(
     window.location.pathname.split("/")[2]
   );
@@ -113,7 +115,11 @@ const DetailBook = () => {
     const chapter = listChapter[index];
     // check if chapter is bought
     if (chapter.price > 0 && !chapter.bought && user.id !== book.userOwn.id) {
-      setBuy(chapter);
+      if (user.coin < chapter.price) {
+        setNotEnoughCoin(chapter.price - user.coin);
+      } else {
+        setBuy(chapter);
+      }
     } else {
       setIdChapter(listChapter[index].id);
       navigate(`/detail-book/${listChapter[index].id}`);
@@ -360,6 +366,7 @@ const DetailBook = () => {
     <DefaultLayout>
       <ToastContainer />
       {buy && <ConfirmBuyChapterDialog onClose={() => setBuy(false)} chapter={buy} />}
+      {notEnoughCoin && <NotEnoughCoinDialog onClose={() => setNotEnoughCoin(false)} coinNeeded={notEnoughCoin} />}
       <div className="container_bookDetail_body">
         <div className="container_bookDetail_taskbar">
           <ul>
