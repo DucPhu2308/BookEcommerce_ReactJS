@@ -24,6 +24,7 @@ const InfoBook = () => {
     const [checkRating, setCheckRating] = useState(false);
     const [checkFollow, setCheckFollow] = useState(false);
     const [view, setView] = useState(0);
+    const [avg_rating, setAvg_rating] = useState(0);
     localStorage.setItem("idBook", id);
 
     // fetch book by id
@@ -75,6 +76,23 @@ const InfoBook = () => {
         }
         fetchRating();
     }, []);
+
+    useEffect(() => {
+        const fetchRating = async () => {
+            try {
+                const response = await RatingApi.getRatingByBook(id);
+                let sum = 0;
+                response.data.data.map((rating) => {
+                    sum += rating.star;
+                })
+                setAvg_rating(sum / response.data.data.length);
+                console.log(avg_rating);
+            } catch (error) {
+                console.log("Failed to fetch rating: ", error);
+            }
+        }
+        fetchRating();
+    }, [id])
 
     const renderNumberFollowBook = () => {
         if (listFollowBook.length > 0) {
@@ -165,7 +183,7 @@ const InfoBook = () => {
     const handlePostRating = () => {
         const data = {
             content: valueContent,
-            rating: valueRating,
+            star: valueRating,
             book: book.id
         }
         RatingApi.createRating(data)
@@ -174,6 +192,7 @@ const InfoBook = () => {
                 setCheckRating(false);
                 setValueContent("");
                 setValueRating(0);
+                setListRating([...listRating, { user: JSON.parse(localStorage.getItem("user")), content: valueContent, star: valueRating, createdAt: new Date().toLocaleDateString() }]);
             })
             .catch(() => {
                 toast.error("Đánh giá thất bại");
@@ -196,7 +215,7 @@ const InfoBook = () => {
                                         <span>{item.user?.displayName}</span>
                                         <Rating
                                             name="read-only"
-                                            value={item.star}
+                                            value={avg_rating}
                                             readOnly
                                         />
                                     </div>
@@ -260,7 +279,9 @@ const InfoBook = () => {
                         <div className="container_info_book_body_image_title_left">
                             <span className="title_bold">{book.title}</span>
                             <span>Lượt xem:{view}</span>
-                            <span>Rate: {book.avgRating}</span>
+                            <span>Rate: 
+                                <Rating name="read-only" value={avg_rating} readOnly />
+                                {book.avgRating}</span>
                             {renderNumberFollowBook()}
                         </div>
                         <div className="container_info_book_body_image_title_center">

@@ -1,13 +1,49 @@
-import { useState} from "react";
+import { useState, useEffect} from "react";
 import "./RowItemMyBook.css";
 import BookApi from "../../../../API/User/BookApi";
+import RatingApi from "../../../../API/User/RatingApi";
+import CommentApi from "../../../../API/User/CommentApi";
+
 import {ToastContainer, toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
-
+import { Link } from "react-router-dom";
 
 const RowItemMyBook = ({ book, book_id, listBooks }) => {
   const [click, setClick] = useState(false);
   const [listBook, setListBook] = useState(listBooks);
+  const [numberComment, setNumberComment] = useState(0);
+  const [avg_rating, setAvg_rating] = useState(0);
+
+  useEffect(() => {
+    const fetchRating = async () => {
+      try {
+        const response = await RatingApi.getRatingByBook(book_id);
+        let sum = 0;
+        response.data.data.map((rating) => {
+          sum += rating.star;
+        })
+        if(response.data.data.length > 0){
+          setAvg_rating((sum/response.data.data.length).toFixed(1));
+        }
+        
+      } catch (error) {
+        console.log("Failed to fetch rating: ", error);
+      }
+    }
+    fetchRating();
+  }, [book_id])
+
+  useEffect(() => {
+    const fetchComment = async () => {
+      try {
+        const response = await CommentApi.getCommentByBookId(book_id);
+        setNumberComment(response.data.data.length);
+      } catch (error) {
+        console.log("Failed to fetch comment: ", error);
+      }
+    }
+    fetchComment();
+  }, [book_id])
   
   const handleClick = () => {
     setClick(!click);
@@ -24,7 +60,9 @@ const RowItemMyBook = ({ book, book_id, listBooks }) => {
       return (
         data.map((chapter) => (
           data.sort((a, b) => a.index - b.index),
-          <li key={chapter.id}>Chương {chapter.index}: {chapter.title}</li>
+          <Link to={`/detail-Book/${chapter.id}`} style={{textDecoration:"none"}}>
+            <li key={chapter.id}>Chương {chapter.index}: {chapter.title}</li>
+          </Link>
         ))
       )
     }
@@ -92,7 +130,7 @@ const RowItemMyBook = ({ book, book_id, listBooks }) => {
     <div className="container_mybooks_content_body_box_item">
       <ToastContainer />
       <div className="container_mybooks_content_body_box_item_img">
-        <img src="imageBooks/anh1.jpg" alt="book1" />
+        <img src={book.coverImage} alt="book1" />
       </div>
       <div className="container_mybooks_content_body_box_item_info">
         <div className="container_mybooks_content_body_box_item_info_nav">
@@ -119,9 +157,11 @@ const RowItemMyBook = ({ book, book_id, listBooks }) => {
           </div>
         </div>
         <div className="container_mybooks_content_body_box_item_info_nav_desc">
-          <span>Đánh giá</span>
-          <span>Lượt bình luận:200</span>
-          <span>Lượt xem: 1000</span>
+          <span>Đánh giá: {avg_rating}
+            <i className="fas fa-star"></i>
+          </span>
+          <span>Lượt bình luận:{numberComment} </span>
+          <span>Lượt xem: {book.views}</span>
         </div>
       </div>
     </div>

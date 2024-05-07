@@ -41,7 +41,7 @@ function App() {
         <Route path="/confirm-email" element={<EnterCode />} />
         
 
-        <Route element={<RequireAuth allowedRoles={[ROLES.USER]} />}>
+        <Route element={<RequireAuth allowedRoles={[ROLES.USER, ROLES.ADMIN]} />}>
           <Route path="/admin" element={<AdminHome />} />
         </Route>
 

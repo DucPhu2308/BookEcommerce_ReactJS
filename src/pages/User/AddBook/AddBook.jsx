@@ -3,18 +3,21 @@ import DefaultLayout from '../../../layouts/DefaultLayout/DefaultLayout'
 import GenreApi from '../../../API/Admin/GenreApi'
 import './AddBook.css'
 import BookApi from '../../../API/User/BookApi'
+import UploadApi, { UploadType } from "../../../API/User/UploadApi";
 import { Link } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
+import PlaceholderImage from "@/assets/images/placeholder-image.png";
+import { Button } from "@mui/material";
 
 const AddBook = () => {
     const [listGenre, setListGenre] = useState([]);
     const [listGenreAdded, setListGenreAdded] = useState([]);
     const [addBook, setAddBook] = useState('');
     const [addDescription, setAddDescription] = useState('');
-    const [addImage, setAddImage] = useState('');
+    const [imgSrc, setImgSrc] = useState(PlaceholderImage);
 
     const handleChangeAddInput = (e) => {
         setAddBook(e.target.value);
@@ -22,17 +25,14 @@ const AddBook = () => {
     const handleChangeDescriptionInput = (e) => {
         setAddDescription(e.target.value);
     }
-    const handleImage = (e) => {
-        setAddImage(e.target.value);
-    }
 
-    const handleAddBook = () => {
+    const handleAddBook = async () => {
         const user = localStorage.getItem('user');
         if (!user) {
             toast.error('Vui lòng đăng nhập để thêm truyện');
             return;
         }
-        else if (addBook === '' || addDescription === '' || listGenreAdded.length === 0 ) {
+        else if (addBook === '' || addDescription === '' || listGenreAdded.length === 0) {
             toast.error('Vui lòng nhập đầy đủ thông tin');
             return;
         }
@@ -44,8 +44,26 @@ const AddBook = () => {
             const book = {
                 title: addBook,
                 description: addDescription,
-                coverImage: addImage,
                 genresDto: genres,
+            }
+
+            // upload image
+            const file = imgSrc.split(",")[1].slice(0, -2);
+            const byteCharacters = atob(file);
+            const byteNumbers = new Array(byteCharacters.length);
+            for (let i = 0; i < byteCharacters.length; i++) {
+                byteNumbers[i] = byteCharacters.charCodeAt(i);
+            }
+            const byteArray = new Uint8Array(byteNumbers);
+            const blob = new Blob([byteArray], { type: "image/png" });
+            const fileData = new File([blob], "image.png", { type: "image/png" });
+            const res = await UploadApi.uploadFile(fileData, UploadType.BOOK)
+            if (res.status === 200) {
+                setImgSrc(res.data.data);
+                book.coverImage = res.data.data;
+            } else {
+                toast.error("Upload ảnh thất bại");
+                return;
             }
             BookApi.postBook(book)
                 .then((res) => {
@@ -60,15 +78,18 @@ const AddBook = () => {
                     toast.error('Thêm truyện thất bại');
                 });
         }
-
-
-
     }
 
-
-
-
-
+    const imageSelectedHandler = (e) => {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+        reader.onload = () => {
+            if (reader.readyState === 2) {
+                setImgSrc(reader.result);
+            }
+        };
+        reader.readAsDataURL(file);
+    };
 
     const handleDeleteGenreAdded = (genreId) => {
         const newListGenreAdded = listGenreAdded.filter(genre => genre.id !== genreId);
@@ -101,7 +122,7 @@ const AddBook = () => {
         const script = document.createElement("script");
         script.src = "/src/pages/User/AddBook/script.jsx";
         document.body.appendChild(script);
-        
+
         return () => {
             document.body.removeChild(script);
         };
@@ -137,10 +158,12 @@ const AddBook = () => {
                 <div className="container_addBook_nav">
                     <div className="container_addBook_nav_image">
                         <div className="image_form">
-                            {/* <span>+ Add image</span> */}
-                            <img src="#" alt="" id="imageInput" />
+                            <img src={imgSrc} alt="cover" />
+                            <Button variant="contained" component="label">
+                                Upload File
+                                <input onChange={imageSelectedHandler} type="file" accept="image/*" hidden />
+                            </Button>
                         </div>
-                        <input type="file" name="image" id="imageFile" accept="image/*" value={addImage} onChange={handleImage}/>
 
                     </div>
                     <div className="container_addBook_nav_form">

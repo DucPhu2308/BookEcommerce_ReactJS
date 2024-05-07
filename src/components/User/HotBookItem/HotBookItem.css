@@ -24,3 +24,20 @@
     white-space: nowrap; 
     text-overflow: ellipsis;
 }
+
+.container_nav_1_listBooks_item_discuss_chapter{
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    font-style: italic;
+    line-height: 1.5;
+}
+
+.container_nav_1_listBooks_item_discuss_chapter span{
+    font-size: 14px;
+    color: #8c8c8c;
+    width:250px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}

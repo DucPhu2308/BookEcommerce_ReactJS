@@ -17,7 +17,7 @@ const ItemUserSuccessLogin = () => {
     const selectInfoUserIconRef = useRef(null);
 
     useEffect(() => {
-        const selectInfoUser= selectInfoUserRef.current;
+        const selectInfoUser = selectInfoUserRef.current;
         const selectInfoUserBox = selectInfoUserBoxRef.current;
         const selectInfoUserIcon = selectInfoUserIconRef.current;
 
@@ -61,7 +61,7 @@ const ItemUserSuccessLogin = () => {
         const selectWrite = selectWriteRef.current;
         const selectBox = selectBoxRef.current;
         const selectIcon = selectIconRef.current;
-    
+
         const handleClick = () => {
             if (selectIcon.classList.contains('rotate')) {
                 selectIcon.classList.remove('rotate');
@@ -71,7 +71,7 @@ const ItemUserSuccessLogin = () => {
                 selectIcon.classList.remove('rev_rotate');
             }
         };
-    
+
         const handleShowBox = () => {
             if (selectBox.classList.contains('fade_in')) {
                 selectBox.classList.remove('fade_in');
@@ -82,12 +82,12 @@ const ItemUserSuccessLogin = () => {
                 selectBox.classList.remove('fade_down');
             }
         };
-    
+
         if (selectWrite && selectBox && selectIcon) {
             selectWrite.addEventListener('click', handleClick);
             selectWrite.addEventListener('click', handleShowBox);
         }
-    
+
         // Clean-up
         return () => {
             if (selectWrite && selectBox && selectIcon) {
@@ -115,15 +115,17 @@ const ItemUserSuccessLogin = () => {
                         <div className="header_nav_select_rect"></div>
                         <div className="header_nav_select_box">
                             <ul>
-                                <li><Link to="#">Viết bài</Link></li>
-                                <li><Link to="#">Quản lý bài viết</Link></li>
+                                <li><Link to="/add-book">Viết bài</Link></li>
+                                <li><Link to="/my-books">Quản lý bài viết</Link></li>
                             </ul>
                         </div>
                     </div>
                 </div>
             </li>
-
-            <li>
+            <li className="header_li">
+                <div className="header_nav_coin">
+                    <span>Xu:{user.coin}</span>
+                </div>
                 <div className="header_nav_user" ref={selectInfoUserRef}>
                     <img src={user.avatar || accountImage} alt="user" />
                     <span>{user.displayName}

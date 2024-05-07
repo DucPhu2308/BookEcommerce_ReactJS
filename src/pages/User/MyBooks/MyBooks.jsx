@@ -44,7 +44,7 @@ const MyBooks = () => {
   return (
 
     <DefaultLayout>
-      {listBook.length === 0 && (
+      {!listBook && (
         <Backdrop
           sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
           open={true}

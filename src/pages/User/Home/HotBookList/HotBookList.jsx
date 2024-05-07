@@ -1,7 +1,7 @@
 import './HotBookList.css';
 import HotBookItem from '@/components/User/HotBookItem/HotBookItem';
 import { useEffect, useRef, useState } from 'react';
-
+import { Link } from 'react-router-dom';
 const HotBookList = ({list}) => {
     const boxListBooks = useRef(null);
     const btnLeft = useRef(null);
@@ -101,9 +101,9 @@ const HotBookList = ({list}) => {
                     <ul>
                         {list.map((book, index) => (
                             <li key={index}>
-                                <a href="/infoBook/{book.id}">
+                                <Link to={`/infoBook/${book.id}`}>
                                     <HotBookItem book={book} />
-                                </a>
+                                </Link>
                             </li>
                         ))}
                     </ul>

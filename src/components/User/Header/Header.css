@@ -114,11 +114,7 @@
 }
 
 
-.header_nav_user{
-    margin-top:8px;
-    display: flex;
-    justify-content: space-around;
-}
+
 .header_nav_user img{
     width: 40px;
     height: 40px;
@@ -162,7 +158,6 @@
 }
 
 .header_nav_user{
-    margin-top:8px;
     display: flex;
     justify-content: space-around;
     cursor: pointer;

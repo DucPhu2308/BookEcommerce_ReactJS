@@ -48,7 +48,7 @@ const ManageGenre = () => {
             try {
                 const response = await GenreApi.addGenre(newGenre);
                 toast.success('Thêm thể loại thành công');
-                setGenre([...genre, response.data]);
+                setGenre([...genre, response.data.data]);
                 setAddGenre(false);
                 setAddInputValue('');
 
@@ -75,10 +75,11 @@ const ManageGenre = () => {
             color: '#000000'
         };
         try {
+            console.log(newGenre)
             const response = await GenreApi.updateGenre(id, newGenre);
             toast.success('Cập nhật thể loại thành công');
             const newGenres = genre.map((item) =>
-                item.id === id ? response.data : item
+                item.id === id ? response.data.data : item
             );
             setGenre(newGenres);
         } catch (error) {

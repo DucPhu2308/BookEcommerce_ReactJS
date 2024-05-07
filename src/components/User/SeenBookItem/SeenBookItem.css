@@ -46,3 +46,20 @@
     color: #00725f;
     cursor: pointer;
 }
+
+.container_nav_2_seenBooks_item_discuss_listChapter {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    font-style: italic;
+    line-height: 1.5;
+}
+
+.container_nav_2_seenBooks_item_discuss_listChapter span {
+    font-size: 14px;
+    color: #8c8c8c;
+    width: 250px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}

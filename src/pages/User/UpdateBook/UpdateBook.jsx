@@ -87,7 +87,7 @@ const UpdateBook = () => {
         toast.error("Upload ảnh thất bại");
         return;
       }
-
+      console.log(book)
       BookAPI.updateBook(idBook, book)
         .then((res) => {
           console.log(res.data);
