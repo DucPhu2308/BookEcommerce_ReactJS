@@ -2,6 +2,7 @@ import "./SeenBookItem.css"
 import PropTypes from 'prop-types';
 import Reveal from "../../../components/utils/Reveal";
 import { useNavigate } from "react-router";
+import { Link } from "react-router-dom";
 function SeenBookItem({ book }) {
   const navigate = useNavigate();
   return (
@@ -12,7 +13,9 @@ function SeenBookItem({ book }) {
           <span className="title">{book.title}</span>
           <div className="container_nav_2_seenBooks_item_discuss_listChapter">
             {book.chapters.slice(0, 3).map((chapter, index) => (
-              <span key={index}>{chapter.title}</span>
+              
+              <span key={index}>Chương:{chapter.index} {chapter.title}</span>
+              
             ))}
           </div>
         </div>

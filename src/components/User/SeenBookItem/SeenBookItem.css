@@ -63,3 +63,7 @@
     white-space: nowrap;
     text-overflow: ellipsis;
 }
+
+.container_nav_2_seenBooks_item_discuss_listChapter span:hover {
+    color: #312828;
+}

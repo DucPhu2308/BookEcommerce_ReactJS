@@ -289,9 +289,62 @@
     line-height: 1.5 !important;
 }
 
+.container_info_book_body_description_left_list_genre_search{
+    width:100%;
+    display: flex;
+    justify-content: right;
+    margin-top: 10px;
+    align-items: center;
+}
+.container_info_book_body_description_left_list_genre_search input{
+    width: 250px;
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-family: sans-serif;
+    font-size: 15px;
+    z-index: 2;
+}
+.container_info_book_body_description_left_list_genre_search button{
+    width: 40px;
+    height:30px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 15px;
+    cursor: pointer;
+    margin-right: 10px;
+    position: relative;
+    right:10px;
+    z-index: 1;
+}
 
+.container_info_book_body_description_left_list_genre_search button i{
+    margin-left: 5px;
+}
 
-
+.container_info_book_body_description_left_list_genre_search input:focus{
+    outline: 2px solid #878484;
+}
+.line_btn{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+.line_btn button{
+    width: 100px;
+    height: 30px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 15px;
+    cursor: pointer;
+    margin-right: 10px;
+}
 
 
 

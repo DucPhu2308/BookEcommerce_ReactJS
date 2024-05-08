@@ -125,6 +125,10 @@ const RowItemMyBook = ({ book, book_id, listBooks }) => {
       )
     }
   }
+  const handleContinueWrite = () => {
+    const idChapter = book.chapters[book.chapters.length - 1].id;
+    window.location.href = `/edit-chapter/${idChapter}`;
+  }
   return (
     
     <div className="container_mybooks_content_body_box_item">
@@ -140,8 +144,8 @@ const RowItemMyBook = ({ book, book_id, listBooks }) => {
           </div>
           <div className="container_mybooks_content_body_box_item_action">
             <div className="container_mybooks_content_body_box_item_action_edit">
-              <button className="body_box_item_action_edit_btn">
-                Tiếp tục viêt
+              <button className="body_box_item_action_edit_btn" onClick={handleContinueWrite}>
+                Tiếp tục viết
               </button>
               <div className="container_mybooks_content_body_box_item_action_edit_icon" onClick={handleClick}>
                 <i className="fas fa-ellipsis-v"></i>

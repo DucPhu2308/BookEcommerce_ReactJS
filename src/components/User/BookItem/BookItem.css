@@ -1,11 +1,12 @@
 .container_nav_2_listBooks_item{
-    height: 150px;
-    width:350px;
-    box-shadow: 0 0 10px #d3cccc;
+    height: 220px;
+    width:400px;
     border-radius:10px;
     display: flex;
-    padding:0 20px;
+    padding:0 10px;
     cursor: pointer;
+    border:1px solid #d3cccc;
+    box-shadow: 0 0 10px #d3cccc;
     
 }
 .container_nav_2_listBooks_item h2{
@@ -15,9 +16,10 @@
     width:260px;
 }
 .container_nav_2_listBooks_item img{
-    width: 100px;
-    height: 150px;
+    width: 150px;
+    height:100%;
     margin-right: 20px;
+    border-radius: 10px;
 }
 
 @media screen and (max-width: 768px){
@@ -50,4 +52,7 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+}
+.container_nav_2_listBooks_item_discuss_chapter span:hover{
+    color: #312828;
 }

@@ -4,8 +4,6 @@ import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import BookApi from "../../../API/User/BookApi";
 import RowItemMyBook from "../MyBooks/RowItemMyBook/RowItemMyBook";
-import Backdrop from '@mui/material/Backdrop';
-import CircularProgress from '@mui/material/CircularProgress';
 
 const MyBooks = () => {
 
@@ -44,14 +42,6 @@ const MyBooks = () => {
   return (
 
     <DefaultLayout>
-      {!listBook && (
-        <Backdrop
-          sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-          open={true}
-        >
-          <CircularProgress color="inherit" />
-        </Backdrop>
-      )}
       <div className="container_mybooks_body">
         <div className="container_mybooks_content">
           <div className="container_mybooks_content_header">

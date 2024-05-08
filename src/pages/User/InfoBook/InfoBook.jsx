@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState ,} from "react";
 import { toast } from "react-toastify";
 import DefaultLayout from "../../../layouts/DefaultLayout/DefaultLayout";
 import "./InfoBook.css";
@@ -27,7 +27,35 @@ const InfoBook = () => {
     const [view, setView] = useState(0);
     const [avg_rating, setAvg_rating] = useState(0);
     localStorage.setItem("idBook", id);
+    
+    const inputChapterSearch= useRef(null);
+    
 
+    useEffect(() => {
+        const inputChapterSearchRef = inputChapterSearch.current;
+        const handleKeyUp = (e) => {
+            const searchValue = e.target.value.toLowerCase();
+            
+            const searchItems = document.querySelectorAll(".container_info_book_body_description_left_list_genre_box ul li");
+            searchItems.forEach((item) => {
+                if (item.textContent.toLowerCase().indexOf(searchValue) > -1) {
+                    item.style.display = "block";
+                } else {
+                    item.style.display = "none";
+                }
+            });
+        }
+        if (inputChapterSearchRef) {
+            inputChapterSearchRef.addEventListener("keyup", handleKeyUp);
+        }
+        return () => {
+            if (inputChapterSearchRef) {
+                inputChapterSearchRef.removeEventListener("keyup", handleKeyUp);
+            }
+        }
+    }, []);
+
+    
 
     // fetch book by id
     useEffect(() => {
@@ -332,7 +360,10 @@ const InfoBook = () => {
                                 </div>
 
                                 <div className="container_info_book_body_description_left_list_genre_box">
-
+                                    <div className="container_info_book_body_description_left_list_genre_search">
+                                        <input type="text" placeholder="Tìm kiếm chương" ref={inputChapterSearch} />
+                                        <button><i className="fas fa-search"></i></button>
+                                    </div>
                                     <ItemListChapter onToggleActiveChapter={handleToggleActiveChapter} list={listChapter} checkEdit={checkEdit} />
                                 </div>
                             </div>

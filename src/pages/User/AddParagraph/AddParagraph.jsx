@@ -189,7 +189,7 @@ const AddParagraph = () => {
         <div className="container_add_paragraph_taskbar">
           <ul>
             <li>
-              <a href="addBook.html"> Thêm truyện</a>
+              <span> Viết truyện </span>
             </li>
             <li>
               <div className="container_add_paragraph_taskbar_button">
