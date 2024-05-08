@@ -66,7 +66,7 @@ const Header = () => {
   }, []);
 
   const handleDirectInfoBook = (id) => {
-    window.location.href = `/infoBook/${id}`;
+    window.location.href = `/book/${id}`;
   }
 
   

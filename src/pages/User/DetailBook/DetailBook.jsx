@@ -2,6 +2,7 @@ import DefaultLayout from "../../../layouts/DefaultLayout/DefaultLayout";
 import "./DetailBook.css";
 import imageAccount from "../../../assets/images/account.png";
 import { useState, useEffect, useContext } from "react";
+import { useParams } from "react-router";
 import DOMPurify from "dompurify";
 import CommentApi from "../../../API/User/CommentApi";
 import BookApi from "../../../API/User/BookApi";
@@ -27,9 +28,8 @@ const DetailBook = () => {
   const [book, setBook] = useState({});
   const [buy, setBuy] = useState(false);
   const [notEnoughCoin, setNotEnoughCoin] = useState(false);
-  const [idChapter, setIdChapter] = useState(
-    window.location.pathname.split("/")[2]
-  );
+  const { idBook, idChap } = useParams();
+  const [idChapter, setIdChapter] = useState(idChap);
 
   const [boxReply, setBoxReply] = useState(false);
   const [idReply, setIdReply] = useState(null);
@@ -37,8 +37,6 @@ const DetailBook = () => {
   const [replyCount, setReplyCount] = useState({});
   const [expandedReplies, setExpandedReplies] = useState([]);
 
-
-  const idBook = localStorage.getItem("idBook");
   // var listChapter = book.chapters;
   const [listChapter, setListChapter] = useState([]);
   var indexChapter = listChapter?.findIndex(
@@ -122,7 +120,7 @@ const DetailBook = () => {
       }
     } else {
       setIdChapter(listChapter[index].id);
-      navigate(`/detail-book/${listChapter[index].id}`);
+      navigate(`/book/${idBook}/chapter/${listChapter[index].id}`);
     }
   };
   const handleNextChapter = () => {

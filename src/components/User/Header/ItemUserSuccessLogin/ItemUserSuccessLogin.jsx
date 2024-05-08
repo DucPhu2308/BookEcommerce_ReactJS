@@ -115,7 +115,7 @@ const ItemUserSuccessLogin = () => {
                         <div className="header_nav_select_rect"></div>
                         <div className="header_nav_select_box">
                             <ul>
-                                <li><Link to="/add-book">Viết bài</Link></li>
+                                <li><Link to="/book/add">Viết bài</Link></li>
                                 <li><Link to="/my-books">Quản lý bài viết</Link></li>
                             </ul>
                         </div>

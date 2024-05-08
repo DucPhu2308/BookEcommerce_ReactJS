@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useParams } from "react-router";
 import { toast } from "react-toastify";
 import DefaultLayout from "../../../layouts/DefaultLayout/DefaultLayout";
 import "./InfoBook.css";
@@ -11,9 +12,10 @@ import UserApi from "../../../API/User/UserApi";
 import ChapterApi from "../../../API/User/ChapterApi";
 import RatingApi from "../../../API/User/RatingApi";
 import Rating from "@mui/material/Rating";
+
 const InfoBook = () => {
     const [book, setBook] = useState({});
-    const id = window.location.pathname.split("/")[2];
+    const { idBook } = useParams();
     const [listChapter, setListChapter] = useState([]);
     const [listFollowBook, setListFollowBook] = useState([]);
     const [listRating, setListRating] = useState([]);
@@ -25,13 +27,13 @@ const InfoBook = () => {
     const [checkFollow, setCheckFollow] = useState(false);
     const [view, setView] = useState(0);
     const [avg_rating, setAvg_rating] = useState(0);
-    localStorage.setItem("idBook", id);
+    localStorage.setItem("idBook", idBook);
 
     // fetch book by id
     useEffect(() => {
         const fetchBook = async () => {
             try {
-                const response = await BookApi.getBookById(id);
+                const response = await BookApi.getBookById(idBook);
                 setBook(response.data.data);
                 // setListChapter(response.data.data.chapters);
                 setListGenre(response.data.data.genres);
@@ -49,25 +51,25 @@ const InfoBook = () => {
             }
         };
         fetchBook();
-    }, [id, listChapter]);
+    }, [idBook, listChapter]);
 
     // fetch chapter by book id
     useEffect(() => {
         const fetchChapter = async () => {
             try {
-                const response = await ChapterApi.getChapterByBook(id);
+                const response = await ChapterApi.getChapterByBook(idBook);
                 setListChapter(response.data.data);
             } catch (error) {
                 console.log("Failed to fetch chapter: ", error);
             }
         };
         fetchChapter();
-    }, [id, listChapter]);
+    }, [idBook, listChapter]);
 
     useEffect(() => {
         const fetchRating = async () => {
             try {
-                const response = await RatingApi.getRatingByBook(id);
+                const response = await RatingApi.getRatingByBook(idBook);
                 setListRating(response.data.data);
             }
             catch (error) {
@@ -80,7 +82,7 @@ const InfoBook = () => {
     useEffect(() => {
         const fetchRating = async () => {
             try {
-                const response = await RatingApi.getRatingByBook(id);
+                const response = await RatingApi.getRatingByBook(idBook);
                 let sum = 0;
                 response.data.data.map((rating) => {
                     sum += rating.star;
@@ -92,7 +94,7 @@ const InfoBook = () => {
             }
         }
         fetchRating();
-    }, [id])
+    }, [idBook])
 
     const renderNumberFollowBook = () => {
         if (listFollowBook.length > 0) {
@@ -106,8 +108,8 @@ const InfoBook = () => {
             return (
                 <>
                     <div className="btn_action">
-                        <button className="btn_edit_book" onClick={() => { window.location.href = `/update-book/${id}` }}>Sửa</button>
-                        <button className="btn_add_chapter" onClick={() => { window.location.href = `/add-chapter` }}>Thêm chương</button>
+                        <button className="btn_edit_book" onClick={() => { window.location.href = `/book/${idBook}/update` }}>Sửa</button>
+                        <button className="btn_add_chapter" onClick={() => { window.location.href = `/book/${idBook}/chapter/add` }}>Thêm chương</button>
                     </div>
                 </>
 
@@ -360,6 +362,5 @@ const InfoBook = () => {
 
     )
 }
-
 
 export default InfoBook;

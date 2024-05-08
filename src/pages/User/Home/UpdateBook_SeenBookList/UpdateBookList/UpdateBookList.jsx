@@ -23,7 +23,7 @@ const UpdateBookList = ({ list }) => {
               return (
                 <tr key={index}>
                   <td>
-                    <NavLink to={`/infoBook/${book.id}`}>
+                    <NavLink to={`/book/${book.id}`}>
                       <Reveal>
                         <BookItem book={book} />
                       </Reveal>
@@ -32,7 +32,7 @@ const UpdateBookList = ({ list }) => {
 
                   {index + 1 < list.length && (
                     <td>
-                      <NavLink to={`/infoBook/${list[index + 1].id}`}>
+                      <NavLink to={`/book/${list[index + 1].id}`}>
                         <Reveal>
                           <BookItem book={list[index + 1]} />
                         </Reveal>

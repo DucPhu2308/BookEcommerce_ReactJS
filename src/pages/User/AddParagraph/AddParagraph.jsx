@@ -7,6 +7,7 @@ import {
   Backdrop,
 } from "@mui/material";
 import { useState, useEffect } from "react";
+import { useParams } from "react-router";
 import { useNavigate } from "react-router";
 import { ToastContainer, toast } from "react-toastify";
 
@@ -24,13 +25,12 @@ const AddParagraph = () => {
   const [paragraphs, setParagraphs] = useState([]);
   const [chapter, setChapter] = useState("");
   const navigate = useNavigate();
-  // get id from url
-  const id = window.location.pathname.split("/")[2];
+  const { idChap } = useParams();
 
   useEffect(() => {
     const fetchChapter = async () => {
       try {
-        const response = await ChapterApi.getChapterById(id);
+        const response = await ChapterApi.getChapterById(idChap);
         setChapter(response.data.data);
       } catch (error) {
         console.log("Failed to fetch chapter: ", error);
@@ -40,7 +40,7 @@ const AddParagraph = () => {
 
     const fetchParagraphs = async () => {
       try {
-        const response = await ParagraphApi.getParagraphs(id);
+        const response = await ParagraphApi.getParagraphs(idChap);
         setParagraphs(
           response.data.data.length > 0
             ? response.data.data
@@ -116,10 +116,10 @@ const AddParagraph = () => {
         }
       }
 
-      paragraph.chapter = id;
+      paragraph.chapter = idChap;
       paragraph.index = index; // re-index the paragraphs
       if (paragraph.id === undefined)
-        await ParagraphApi.postParagraph(paragraph, id);
+        await ParagraphApi.postParagraph(paragraph, idChap);
       else await ParagraphApi.updateParagraph(paragraph);
 
       const newParagraphs = [...paragraphs];
@@ -138,12 +138,12 @@ const AddParagraph = () => {
           await UploadApi.deleteFile(fileUrl);
         }
       }
-      await ParagraphApi.deleteParagraph(id);
+      await ParagraphApi.deleteParagraph(idChap);
     }
     deletedParagraphs = [];
   };
   const quit = () => {
-    navigate(`/infoBook/${chapter.bookId}`);
+    navigate(`/book/${chapter.bookId}`);
   };
   const handleSave = async () => {
     setLoading(true);
