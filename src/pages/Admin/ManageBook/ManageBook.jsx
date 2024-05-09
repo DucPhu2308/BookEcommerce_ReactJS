@@ -11,8 +11,8 @@ const ManageBook = () => {
         const fetchBookList = async () => {
             try {
                 const response = await BookApi.getAll();
-                console.log(response.data.data);
                 setBook(response.data.data);
+                
             } catch (error) {
                 console.log("Failed to fetch book list: ", error);
             }

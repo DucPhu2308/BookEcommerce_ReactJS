@@ -107,6 +107,9 @@
     text-transform: none;
     margin-right: 15px;
 }
+.header_nav_coin i{
+    margin-left: 5px;
+}
 .header_li{
     display: flex;
     align-items: center;

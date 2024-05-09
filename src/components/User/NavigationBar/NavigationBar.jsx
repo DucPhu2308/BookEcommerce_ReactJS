@@ -39,7 +39,7 @@ function NavigationBar() {
     }
 
     fetchCategories();
-  }, []); // Empty dependency array ensures this effect runs only once, equivalent to componentDidMount
+  }, []); 
 
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -49,7 +49,7 @@ function NavigationBar() {
     <div className="container_options">
       <ul>
         <li>
-          <NavLink to="/" activeClassName="active" >
+          <NavLink to="/" activeClassName="active">
             Trang chủ
           </NavLink>
         </li>

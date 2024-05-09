@@ -1,27 +1,27 @@
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import './LeftAdmin.css'
 
 
 import PropTypes from 'prop-types';
 
 const LeftAdmin = ({onSelect}) => {
-    useEffect(() => {
-        const script = document.createElement("script");
-        script.src = "/src/components/Admin/Left/script.js";
+    
+    useEffect(()=>{
+        const script = document.createElement('script');
+        script.src = './src/components/Admin/Left/script.js';
+        script.async = true;
         document.body.appendChild(script);
-
         return () => {
             document.body.removeChild(script);
-        };
-    }, []);
-
+        }
+    } ,[])
     return (
         <div className="left_admin">
             <div className="left_admin_container">
                 <ul>
                     <li>
-                        <div className="left_admin_container_option active_block" onClick={()=>onSelect('Quản lý truyện')}>
+                        <div className="left_admin_container_option active_block" onClick={()=>onSelect('Quản lý truyện')} >
                             <div className="left_admin_container_option_icon">
                                 <i className="fas fa-book"></i>
                             </div>
@@ -29,15 +29,7 @@ const LeftAdmin = ({onSelect}) => {
                         </div>
                     </li>
                     <li>
-                        <div className="left_admin_container_option" onClick={()=>onSelect('Quản lý bình luận')} >
-                            <div className="left_admin_container_option_icon">
-                                <i className="fas fa-comments"></i>
-                            </div>
-                            <span>Quản lý bình luận</span>
-                        </div>
-                    </li>
-                    <li>
-                        <div className="left_admin_container_option" onClick={()=>onSelect('Quản lý khách hàng')}>
+                        <div className="left_admin_container_option" onClick={()=>onSelect('Quản lý khách hàng')} >
                             <div className="left_admin_container_option_icon">
                                 <i className="fas fa-users"></i>
                             </div>
@@ -45,7 +37,7 @@ const LeftAdmin = ({onSelect}) => {
                         </div>
                     </li>
                     <li>
-                        <div className="left_admin_container_option" onClick={()=>onSelect('Quản lý thể loại')}>
+                        <div className="left_admin_container_option" onClick={()=>onSelect('Quản lý thể loại')} >
                             <div className="left_admin_container_option_icon">
                                 <i className="fas fa-bookmark"></i>
                             </div>
@@ -53,7 +45,7 @@ const LeftAdmin = ({onSelect}) => {
                         </div>
                     </li>
                     <li>
-                        <div className="left_admin_container_option" onClick={()=>onSelect('Theo dõi doanh thu')}>
+                        <div className="left_admin_container_option" onClick={()=>onSelect('Theo dõi doanh thu')} >
                             <div className="left_admin_container_option_icon">
                                 <i className="fas fa-chart-line"></i>
                             </div>

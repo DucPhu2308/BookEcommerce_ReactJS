@@ -44,7 +44,12 @@
     }
     
 }
-
+.book_page_list table{
+    width:100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 .book_page_list table td{
     padding: 10px;
     text-align: center;

@@ -102,6 +102,9 @@ const ItemUserSuccessLogin = () => {
         navigate("/");
     };
 
+
+
+
     return (
         <>
             <li>
@@ -123,8 +126,17 @@ const ItemUserSuccessLogin = () => {
                 </div>
             </li>
             <li className="header_li">
+
                 <div className="header_nav_coin">
-                    <span>Xu:{user.coin}</span>
+                    {JSON.parse(localStorage.getItem("roles")).includes("ADMIN") ?
+                        <Link to="/admin">
+                            <span>Admin</span>
+                        </Link>
+                        :
+                        <span>Xu:{user.coin}
+                            <i className="fas fa-coins"></i>
+                        </span>
+                    }
                 </div>
                 <div className="header_nav_user" ref={selectInfoUserRef}>
                     <img src={user.avatar || accountImage} alt="user" />
