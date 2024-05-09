@@ -19,6 +19,7 @@ const UpdateBookList = ({ list }) => {
         <tbody>
           {/* display list in colNumber column */}
           {list.map((book, index) => {
+            list.sort((a, b) => b.updatedAt - a.updatedAt);
             if (index % colNumber === 0) {
               return (
                 <tr key={index}>

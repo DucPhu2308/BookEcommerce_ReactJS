@@ -53,6 +53,7 @@ const DetailBook = () => {
         setBook(response.data.data);
       } catch (error) {
         console.log("Failed to fetch data", error);
+        navigate("/not-found");
       }
     };
     fetchData();
@@ -78,6 +79,7 @@ const DetailBook = () => {
         setListParagraph(response.data.data);
       } catch (error) {
         console.log("Failed to fetch data", error);
+        navigate("/not-found");
       }
     };
     fetchData();

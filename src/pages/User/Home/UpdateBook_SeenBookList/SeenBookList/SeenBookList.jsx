@@ -38,6 +38,7 @@ const SeenBookList = ({ list, max }) => {
           (book, index) => (
             (
               <li key={index}>
+                
                 <SeenBookItem book={book.bookRead} />
               </li>
             )

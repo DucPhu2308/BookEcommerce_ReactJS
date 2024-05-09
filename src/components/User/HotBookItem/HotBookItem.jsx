@@ -1,16 +1,19 @@
 import './HotBookItem.css';
-
-import PropTypes from 'prop-types';
+import {Link} from 'react-router-dom';
 
 function HotBookItem({ book }) {
     return (
-        <div className="container_nav_1_listBooks_item">
-            <img src={book.coverImage} alt={book.title} />
-            <div className="container_nav_1_listBooks_item_discuss">
+        <div className="container_nav_1_listBooks_item_hot">
+            <div className="container_nav_1_listBooks_item_hot_image">
+                <img src={book.coverImage} alt={book.title} />
+            </div>
+            
+            <div className="container_nav_1_listBooks_item_hot_discuss">
                 <h2>{book.title}</h2>
-                <div className="container_nav_1_listBooks_item_discuss_chapter">
+                <div className="container_nav_1_listBooks_item_discuss_hot_chapter">
                     {book.chapters.slice(0, 3).map((chapter, index) => (
-                        <span key={index}>{chapter.title}</span>
+                        book.chapters.sort((a, b) => b.index - a.index),
+                        <span key={index}>Chương:{chapter.index} {chapter.title}</span>
                     ))}
                 </div>
             </div>

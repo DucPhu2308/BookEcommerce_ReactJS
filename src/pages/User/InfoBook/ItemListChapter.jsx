@@ -15,10 +15,13 @@ const ItemListChapter = ({ list, checkEdit, onToggleActiveChapter, onBuyChapter 
     const [edit, setEdit] = useState(false);
     const [buy, setBuy] = useState(false);
     const [notEnoughCoin, setNotEnoughCoin] = useState(false);
+    const [visibleItems, setVisibleItems] = useState(3);
     const { idBook } = useParams();
 
     const handleBtnBuyClick = (chapter) => {
-        if (user.coin < chapter.price) {
+        if (!user) {
+            toast.error("Bạn cần đăng nhập để mua chương này");
+        } else if (user.coin < chapter.price) {
             setNotEnoughCoin(chapter.price - user.coin);
         }
         else {
@@ -67,7 +70,7 @@ const ItemListChapter = ({ list, checkEdit, onToggleActiveChapter, onBuyChapter 
     }
 
     const timeCreate = document.querySelectorAll('.title_solid');
-    // console.log(timeCreate);
+    
 
     const timeUpdate = (timeCreate, timeUpdate) => {
         if (timeCreate === timeUpdate) {
@@ -83,36 +86,36 @@ const ItemListChapter = ({ list, checkEdit, onToggleActiveChapter, onBuyChapter 
         const formatTime = newTime.toLocaleDateString();
         item.textContent = formatTime;
     });
-
+    
     return (
         <ul>
             <ToastContainer />
             {notEnoughCoin && <NotEnoughCoinDialog onClose={() => setNotEnoughCoin(false)} coinNeeded={notEnoughCoin} />}
             {edit && <UpdatePriceDialog onClose={() => setEdit(false)} chapter={edit} />}
             {buy && <ConfirmBuyChapterDialog onClose={() => setBuy(false)} chapter={buy} />}
-            {list?.map((chapter, index) => (
+            {list?.slice(0, visibleItems).map((chapter, index) => (
                 list.sort((a, b) => a.index - b.index),
                 <li key={index}>
                     {checkEdit && <FormControlLabel
                         control={<Switch onChange={() => onToggleActiveChapter(chapter, index)} checked={chapter.active} />} label="Phát hành" />}
                     <div className="box_item_info_chapter">
                         <span className="title_bold">Chương {chapter.index}:
-
                             {chapter.title}
-
                         </span>
-
                         <div className="box_item_info_chapter_right">
                             {renderButton(chapter)}
                             <span className="title_solid">
                                 {timeUpdate(chapter.createdAt, chapter.updatedAt)}
                             </span>
                         </div>
-
-
                     </div>
                 </li>
             ))}
+            {visibleItems < list.length && (
+                <div className="line_btn">
+                    <button onClick={() => setVisibleItems(visibleItems + 3)}>Xem thêm</button>
+                </div>
+            )}
 
         </ul>
     )

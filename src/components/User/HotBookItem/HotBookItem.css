@@ -1,43 +1,58 @@
-.container_nav_1_listBooks_item{
+.container_nav_1_listBooks_item_hot{
+    display:flex;
+    flex-direction: row;
+    width:325px;
     height: 150px;
-    width:260px;
-    border-radius:10px;
-    display: flex;
-    padding:0 20px;
-    box-shadow: 0 0 10px #d3cccc;
-    /* animation: slideLeft_7_9 20s infinite linear; */
+    border-radius:5px;
+    box-shadow: 0 0 10px 0 rgba(0,0,0,0.1);
 }
 
-
-
-
-.container_nav_1_listBooks_item img{
-    width: 100px;
-    height: 150px;
-    margin-right: 20px;
-}
-
-
-.container_nav_1_listBooks_item_discuss h2{
+.container_nav_1_listBooks_item_hot_image{
     width: 150px;
+    height: 100%;
     overflow: hidden;
-    white-space: nowrap; 
-    text-overflow: ellipsis;
+}
+.container_nav_1_listBooks_item_hot_image img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 5px 0 0 5px;
 }
 
-.container_nav_1_listBooks_item_discuss_chapter{
+.container_nav_1_listBooks_item_hot_discuss{
     display: flex;
     flex-direction: column;
-    text-align: left;
-    font-style: italic;
-    line-height: 1.5;
+    justify-content: left;
+    width: 100%;
+    margin-left: 10px;
+}
+.container_nav_1_listBooks_item_hot_discuss h2{
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #333;
+    width:200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    
+    
 }
 
-.container_nav_1_listBooks_item_discuss_chapter span{
-    font-size: 14px;
-    color: #8c8c8c;
-    width:250px;
-    overflow: hidden;
+.container_nav_1_listBooks_item_discuss_hot_chapter{
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+}
+
+.container_nav_1_listBooks_item_discuss_hot_chapter span{
+    font-size: 1rem;
+    font-weight: 700;
+    color: #8d8585;
+    width:200px;
+    margin: 0;
+    padding: 0;
     white-space: nowrap;
+    overflow: hidden;
     text-overflow: ellipsis;
+    font-style: italic;
 }

@@ -33,7 +33,9 @@
     width:100%;
     border-collapse: collapse;
     margin-top: 20px;
-    margin-left:50px;
+    display:flex;
+    align-items: center;
+    justify-content: center;
 }
 .container_nav_2_listBooks a{
     text-decoration: none;

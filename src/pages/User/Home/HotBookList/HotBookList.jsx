@@ -61,7 +61,7 @@ const HotBookList = ({list}) => {
         let autoSlide = setInterval(() => { btnNext.click() }, 5000);
         const reloadSlide = () => {
             let checkLeft = books[active].offsetLeft;
-            checkLeft = checkLeft - 70;
+            checkLeft = checkLeft - 50;
             listBook.style.left = -checkLeft + 'px';
 
             let activeDot = lineCircle.current.querySelector('.circle.been');

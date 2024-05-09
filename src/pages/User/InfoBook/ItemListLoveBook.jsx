@@ -1,44 +1,32 @@
-const loveBook = [
-    {
-        id: 1,
-        title: "Title",
-        coverImage: "book.jpg",
-        author: "Author 1"
-    },
-    {
-        id: 2,
-        title: "Title",
-        coverImage: "book.jpg",
-        author: "Author 2"
-    },
-    {
-        id: 3,
-        title: "Title",
-        coverImage: "book.jpg",
-        author: "Author 3"
-    },
-    {
-        id: 4,
-        title: "Title",
-        coverImage: "book.jpg",
-        author: "Author 4"
-    }
-];
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import BookItem from '../../../components/User/BookItem/BookItem';
+const ItemListLoveBook = ({ listBook,  book }) => {
+    const [Books, setBooks] = useState([]);
+    
+    useEffect(() => {
+        const filteredList = listBook.filter((item) => item.id !== book.id && item.userOwn.id === book.userOwn?.id);
 
-const ItemListLoveBook = () => {
+        setBooks(filteredList);
+    }, [listBook, book]);
+
+
+
     return (
         <ul>
-            {loveBook.map((book) => (
+            {Books.map((book) => (
                 <li key={book.id}>
-                    <div className="box_item_info_maybe_like">
-                        <div className="box_item_info_maybe_like_image">
-                            <img src={book.coverImage} alt="book" />
+                    <Link to={`/book/${book.id}`}>
+                        <div className="box_item_info_maybe_like">
+                            <div className="box_item_info_maybe_like_image">
+                                <img src={book.coverImage} alt="book" />
+                            </div>
+                            <div className="box_item_info_maybe_like_title">
+                                <span className="title_bold">{book.title}</span>
+                                <span>{book.userOwn?.displayName}</span>
+                            </div>
                         </div>
-                        <div className="box_item_info_maybe_like_title">
-                            <span className="title_bold">{book.title}</span>
-                            <span>{book.author}</span>
-                        </div>
-                    </div>
+                    </Link>
                 </li>
             ))}
         </ul>
