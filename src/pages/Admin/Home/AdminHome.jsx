@@ -18,9 +18,6 @@ const Form = ({ selectItem }) => {
         case "Quản lý truyện":
             form = <ManageBook/>;
             break;
-        case "Quản lý bình luận":
-            form = <ManageComment />;
-            break;
         case "Quản lý thể loại":
             form = <ManageGenre />;
             break;

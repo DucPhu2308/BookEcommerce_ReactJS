@@ -26,6 +26,7 @@ const ChangeInfo = () => {
             displayName: username,
             introduction: introduce,
             coin: user.coin,
+            active: true,
         }
         try {
             const response = await UserApi.updateUserInfo(data);

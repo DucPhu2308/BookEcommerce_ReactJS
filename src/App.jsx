@@ -21,6 +21,12 @@ import UpdateBook from './pages/User/UpdateBook/UpdateBook'
 import SuccessPayment from './pages/Bank/SuccessPayment'
 import EnterCode from './pages/common/EnterCode'
 import ProfileUser from './pages/User/ProfileUser/ProfileUser'
+import ManageBook from './pages/Admin/ManageBook/ManageBook'
+import ManageUser from './pages/Admin/ManageUser/ManageUser'
+import DetailUser from './pages/Admin/ManageUser/DetailUser/DetailUser'
+import NotFound from './pages/common/NotFound/NotFound'
+import DashBoard from './pages/Admin/DashBoard/DashBoard'
+import ManageGenre from './pages/Admin/ManageGenre/ManageGenre'
 import SearchPage from './pages/User/BookPage/SearchPage'
 
 const ROLES = {
@@ -41,6 +47,7 @@ function App() {
         <Route path="/confirm-email" element={<EnterCode />} />
         <Route path="/newbook" element={<NewBookPage />} />
         <Route path="/profile/:idUser" element={<ProfileUser />} />
+        <Route path="/not-found" element={<NotFound />} />
 
         <Route path="/book">
           <Route path=":idBook">
@@ -69,7 +76,14 @@ function App() {
         </Route>
 
         <Route element={<RequireAuth allowedRoles={[ROLES.USER, ROLES.ADMIN]} />}>
-          <Route path="/admin" element={<AdminHome />} />
+          <Route path="/admin" element={<AdminHome />} >
+            <Route path=":manage-book" element={<ManageBook />} />
+            <Route path=":manage-user" element={<ManageUser />} >
+              <Route path=":idUser" element={<DetailUser />} />
+            </Route>
+            <Route path=":manage-genre" element={<ManageGenre />} />
+            <Route path=":dashboard" element={<DashBoard/>} />
+          </Route>
         </Route>
 
         {/* private routes */}

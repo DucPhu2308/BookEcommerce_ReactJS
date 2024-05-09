@@ -24,6 +24,7 @@ const Pagination = ({ list, colNumber, recordsPerPage }) => {
     return (
         <div className="book_page_pagination_container">
             <table>
+                <tbody>
                 {records.map((book, index) => (
                     index % colNumber === 0 && (
                         <tr key={index / colNumber}>
@@ -39,6 +40,7 @@ const Pagination = ({ list, colNumber, recordsPerPage }) => {
                         </tr>
                     )
                 ))}
+                </tbody>
             </table>
             <nav>
                 <ul className="book_page_pagination">

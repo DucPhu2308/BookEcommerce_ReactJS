@@ -49,7 +49,7 @@ function NavigationBar() {
     <div className="container_options">
       <ul>
         <li>
-          <NavLink to="/" activeClassName="active" >
+          <NavLink to="/" activeClassName="active">
             Trang chủ
           </NavLink>
         </li>

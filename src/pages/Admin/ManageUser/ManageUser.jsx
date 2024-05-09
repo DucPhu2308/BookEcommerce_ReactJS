@@ -1,36 +1,101 @@
-import BanUser from './BanUser/BanUser';
 import DetailUser from './DetailUser/DetailUser';
 import './ManageUser.css';
 import { useState, useEffect } from 'react';
-
-
+import UserApi from '../../../API/User/UserApi';
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css';
 const ManageUser = () => {
     const [users, setUsers] = useState([]);
-
-    
-
-
-
-
+    const [objectUser, setObjectUser] = useState({});
     const [detailUser, setDetailUser] = useState(false);
-    const [banUser, setBanUser] = useState(false);
-    const handleClickDetailUser = () => {
+    useEffect(() => {
+        const fetchUsers = async () => {
+            try {
+                const response = await UserApi.getAll();
+                setUsers(response.data.data);
+                for(let i = 0; i < response.data.data.length; i++){
+                    if(response.data.data[i].displayName === null){
+                        response.data.data[i].displayName = "New User";
+                        UserApi.updateUser({
+                            displayName: response.data.data[i].displayName,
+                            introduction: response.data.data[i].introduction,
+                            coin: response.data.data[i].coin,
+                            active: response.data.data[i].active,
+                        },response.data.data[i].id).then(() => {
+                            console.log('Cập nhật thành công');
+                        }).catch((err) => {
+                            console.log(err);
+                        })
+                    }
+                }
+            } catch (error) {
+                console.log('Failed to fetch users: ', error);
+            }
+        }
+        fetchUsers();
+    }, []);
+
+
+    const handleClickDetailUser = (user) => {
         setDetailUser(true);
+        setObjectUser(user);
     }
-    const handleClickDelete = () => {
-        setBanUser(true);
+    const handleUpdateUser = (user, active) => {
+        UserApi.updateUserInfo({
+            displayName: user.displayName,
+            introduction: user.introduction,
+            coin: user.coin,
+            active: active,
+        }).then(() => {
+            toast.success('Cập nhật thông tin thành công');
+            // cập nhật lại thông tin user đó
+            const newUsers = users.map((item) => {
+                if (item.id === user.id) {
+                    return {
+                        ...item,
+                        active: active,
+                    }
+                }
+                return item;
+            });
+            setUsers(newUsers);
+        }).catch((err) => {
+            console.log(err);
+        });
     }
+    
+    const handleClickUpdate = (user) => {
+        handleUpdateUser(user, false);
+    }
+    
+    const handleClickChangeUpdate = (user) => {
+        handleUpdateUser(user, true);
+    }
+
+
     if (detailUser) {
-        return <DetailUser />
-    }
-    if (banUser) {
-        return <BanUser />
+        return <DetailUser user={objectUser} />
     }
 
-
+    const renderButton = (user) => {
+        if (user.active) {
+            return (
+                <button className="delete" onClick={() => handleClickUpdate(user)}>
+                    <i className="fas fa-trash-alt"></i>
+                </button>
+            )
+        } else {
+            return (
+                <button className="delete" onClick={() => handleClickChangeUpdate(user)}>
+                    <i className="fas fa-check"></i>
+                </button>
+            )
+        }
+    }
 
     return (
         <div className="container_admin_manage_users">
+            <ToastContainer/>
             <div className="container_admin_manage_users_body">
                 <div className="container_admin_manage_users_body_title">
                     <div className="container_admin_manage_users_body_title_paga">
@@ -47,60 +112,38 @@ const ManageUser = () => {
                     <div className="container_admin_manage_users_body_content_box">
                         <table>
                             {users.map((user) => (
+                                users.sort((a, b) => a.id - b.id),
                                 <tr key={user.id}>
                                     <th className="width_check_tick">
                                         <div className="check_tick ">
-                                            <i className="fas fa-check"></i>
+                                            {user.active ? <i className="fas fa-check"></i> : <i className="fas fa-times"></i>}
                                         </div>
                                     </th>
                                     <th>
                                         <div className="user_name_image">
-                                            <img src="/user/download.png" alt="user" />
+                                            <img src={user.avatar} alt="user" />
                                         </div>
                                     </th>
                                     <th className="width_row">
                                         <div className="user_name_title">
-                                            <span>{user.name}</span>
+                                            <span>{user.displayName}</span>
                                             <span>ID: {user.id}</span>
                                         </div>
                                     </th>
                                     <th>
                                         <div className="container_admin_manage_users_body_content_box_actions_btn">
-                                            <button className="detail_user_white" onClick={handleClickDetailUser}>
+                                            <button className="detail_user_white" onClick={() => handleClickDetailUser(user)}>
                                                 <i className="fas fa-info-circle" ></i>
                                             </button>
-                                            <button className="delete" onClick={handleClickDelete}>
-                                                <i className="fas fa-trash-alt"></i>
-                                            </button>
+
+                                            {renderButton(user)}
                                         </div>
                                     </th>
                                 </tr>
-                                
-                            ))}
-                            
-                        </table>
-                        {/* <div className="container_admin_manage_users_body_content_box_title">
-                            <div className="check_tick">
-                                
-                            </div>
-                            <div className="user_name_image">
-                                
-                            </div>
-                            <div className="user_name_title">
-                                <span>Tên khách hàng:</span>
-                                <span>ID: </span>
-                            </div>
 
-                        </div>
-                        <div className="container_admin_manage_users_body_content_box_actions">
-                            <div className="container_admin_manage_users_body_content_box_actions_edit">
-                                <button></button>
-                            </div>
-                            <div className="container_admin_manage_users_body_content_box_actions_delete">
-                                <button></button>
-                            </div>
-                        </div> 
-                    </div> */}
+                            ))}
+
+                        </table>
                     </div>
                 </div>
             </div>

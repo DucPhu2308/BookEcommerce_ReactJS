@@ -79,9 +79,15 @@ const InfoBook = () => {
                 }
                 setView(response.data.data.views);
                 localStorage.setItem("nameBook", response.data.data.title);
-                if (response.data.data.userOwn?.id === JSON.parse(localStorage.getItem("user")).id) {
+                const user=JSON.parse(localStorage.getItem("user"));
+                // Nếu không có user hoặc user không phải là tác giả thì không cho sửa
+                if (!user || user.id !== response.data.data.userOwn.id) {
+                    setCheckEdit(false);
+                }
+                else {
                     setCheckEdit(true);
                 }
+                
             } catch (error) {
                 console.log("Failed to fetch book: ", error);
             }
@@ -170,6 +176,11 @@ const InfoBook = () => {
     }
 
     const handleFollowBook = (id) => {
+        const user = JSON.parse(localStorage.getItem("user"));
+        if (!user) {
+            toast.error("Bạn cần đăng nhập để thực hiện chức năng này");
+            return;
+        }
         UserApi.followBook(id)
             .then(() => {
                 const newFollowBook = [...listFollowBook];
@@ -220,6 +231,10 @@ const InfoBook = () => {
 
     const handleBoxRating = () => {
         const user = JSON.parse(localStorage.getItem("user"));
+        if (!user) {
+            toast.error("Bạn cần đăng nhập để thực hiện chức năng này");
+            return;
+        }
         for (let i = 0; i < listRating.length; i++) {
             console.log(listRating)
             if (listRating[i].user.id === user.id) {
@@ -233,6 +248,11 @@ const InfoBook = () => {
         setCheckRating(true);
     }
     const handlePostRating = () => {
+        const user = JSON.parse(localStorage.getItem("user"));
+        if (!user) {
+            toast.error("Bạn cần đăng nhập để thực hiện chức năng này");
+            return;
+        }
         const data = {
             content: valueContent,
             star: valueRating,
@@ -250,7 +270,17 @@ const InfoBook = () => {
                 toast.error("Đánh giá thất bại");
             });
     }
-
+    const renderDeleteRating = (id) =>{
+        const user = JSON.parse(localStorage.getItem("user"));
+        if(!user){
+            return;
+        }
+        for (let i = 0; i < listRating.length; i++) {
+            if (listRating[i].id === id && listRating[i].user.id === user.id) {
+                return renderButtonDeleteRating(id);
+            }
+        }
+    }
     const renderListRating = () => {
         if (listRating.length > 0) {
             return listRating.map((item, index) => {
@@ -277,7 +307,7 @@ const InfoBook = () => {
 
                                 </div>
                                 <div className="title_right">
-                                    {item.user.id === JSON.parse(localStorage.getItem("user")).id ? renderButtonDeleteRating(item.id) : ""}
+                                    {renderDeleteRating(item.id)}
                                     <span>{
                                         item.updateAt ? new Date(item.updateAt).toLocaleDateString() : new Date(item.createdAt).toLocaleDateString()
                                     }</span>

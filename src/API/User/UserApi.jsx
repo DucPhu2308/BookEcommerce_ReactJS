@@ -2,8 +2,16 @@ import axiosClient, {axiosPrivate} from '../axiosClient'
 
 
 class UserApi {
+    getAll = () => {
+        const url = '/user/all';
+        return axiosClient.get(url);
+    }
     updateUserInfo = (data) => {
         const url = '/user/update';
+        return axiosPrivate.put(url, data);
+    }
+    updateUser = (data, id) => {
+        const url = `/user/updateUser/${id}`;
         return axiosPrivate.put(url, data);
     }
     followBook =(id) => {
