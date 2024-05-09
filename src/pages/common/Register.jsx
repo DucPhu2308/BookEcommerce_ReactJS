@@ -1,19 +1,27 @@
 import LoginLayout from "@/layouts/LoginLayout/LoginLayout";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Backdrop, CircularProgress } from "@mui/material";
+import { UserContext } from "../../providers/UserProvider";
 import "./LoginRegister.css" 
 import AuthApi from "../../API/Auth/AuthApi";
 
 const Register = () => {
   const navigate = useNavigate();
+  const { user } = useContext(UserContext);
   const [userName, setUserName] = useState("PhuDepTrai");
   const [email, setEmail] = useState("Teo16@gmail.com");
   const [password, setPassword] = useState("123456");
   const [confirmPassword, setConfirmPassword] = useState("123456");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, [user]);
 
   const handleRegister = (e) => {
     e.preventDefault();

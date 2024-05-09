@@ -3,6 +3,7 @@ import DefaultLayout from "../../../layouts/DefaultLayout/DefaultLayout";
 import "./ProfileUser.css";
 import AvatarPlaceholder from '@/assets/images/account.png';
 import MyButton from "../../../components/common/MyButton/MyButton";
+import RequireLoginDialog from "../../../components/common/MyButton/RequireLoginDialog";
 import BookItemMui from "./BookItemMui";
 import { UserContext } from "@/providers/UserProvider";
 
@@ -15,22 +16,30 @@ const ProfileUser = () => {
   const navigate = useNavigate();
   const { idUser } = useParams();
   const [profile, setProfile] = useState({});
+  const [requireLogin, setRequireLogin] = useState(false);
   const { user } = useContext(UserContext);
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
         const response = await UserApi.getProfileUser(idUser);
-        console.log(response.data.data);
-        setProfile(response.data.data);
+        if (response.status === 200) {
+          setProfile(response.data.data);
+        } else {
+          console.log("Failed to fetch user");
+        }
       } catch (error) {
-        console.log("Failed to fetch user: ", error);
+        navigate("/not-found");
       }
     };
     fetchUser();
   }, [idUser]);
 
   const handleFollowClick = async () => {
+    if (!user) {
+      setRequireLogin(true);
+      return;
+    }
     const res = await UserApi.followUser(idUser);
     if (res.status === 200) {
       if (profile.follow) {
@@ -45,6 +54,7 @@ const ProfileUser = () => {
   };
   return (
     <DefaultLayout>
+      <RequireLoginDialog open={requireLogin} onClose={() => setRequireLogin(false)} />
       <div className="container_user-info">
         <Container>
           <div className="profile-box">

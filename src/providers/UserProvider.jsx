@@ -3,7 +3,7 @@ import { createContext, useState } from "react";
 const UserContext = createContext();
 
 const UserProvider = ({ children }) => {
-    const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")) || {});
+    const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")) || null);
 
     const logout = () => {
         localStorage.removeItem("token");

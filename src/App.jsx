@@ -9,7 +9,7 @@ import InfoBook from './pages/User/InfoBook/InfoBook'
 import BuyCoins from './pages/User/BuyCoins/BuyCoins'
 import RequireAuth from './components/utils/RequireAuth'
 import './App.css'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
 import AdminHome from './pages/Admin/Home/AdminHome'
 import Bank from './pages/Bank/Bank'
 import NewBookPage from './pages/User/BookPage/NewBookPage'
@@ -21,6 +21,7 @@ import UpdateBook from './pages/User/UpdateBook/UpdateBook'
 import SuccessPayment from './pages/Bank/SuccessPayment'
 import EnterCode from './pages/common/EnterCode'
 import ProfileUser from './pages/User/ProfileUser/ProfileUser'
+import NotFound from './pages/common/NotFound/NotFound'
 
 const ROLES = {
   'USER': 'USER',
@@ -39,6 +40,7 @@ function App() {
         <Route path="/confirm-email" element={<EnterCode />} />
         <Route path="/newbook" element={<NewBookPage />} />
         <Route path="/profile/:idUser" element={<ProfileUser />} />
+        <Route path="/not-found" element={<NotFound/>} />
 
         <Route path="/book">
           <Route path=":idBook">
@@ -80,6 +82,9 @@ function App() {
           <Route path="/bank" element={<Bank />} />
           <Route path="/my-books" element={<MyBooks />} />
         </Route>
+
+        {/* Redirect to unknown to NotFound */}
+        <Route path="*" element={<Navigate to="/not-found" />} />
       </Routes>
     </BrowserRouter>
   )

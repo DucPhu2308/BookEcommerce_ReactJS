@@ -1,6 +1,6 @@
 import LoginLayout from "@/layouts/LoginLayout/LoginLayout";
 import { Link, useNavigate } from "react-router-dom";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import "./LoginRegister.css";
 import AuthApi from "../../API/Auth/AuthApi";
 import { UserContext } from "../../providers/UserProvider";
@@ -10,7 +10,13 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const { updateUser } = useContext(UserContext);
+  const { user, updateUser } = useContext(UserContext);
+
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, [user]);
 
   const handleLogin = async () => {
    

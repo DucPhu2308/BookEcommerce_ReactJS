@@ -18,7 +18,9 @@ const ItemListChapter = ({ list, checkEdit, onToggleActiveChapter, onBuyChapter 
     const { idBook } = useParams();
 
     const handleBtnBuyClick = (chapter) => {
-        if (user.coin < chapter.price) {
+        if (!user) {
+            toast.error("Bạn cần đăng nhập để mua chương này");
+        } else if (user.coin < chapter.price) {
             setNotEnoughCoin(chapter.price - user.coin);
         }
         else {
