@@ -1,4 +1,4 @@
-import {axiosPrivate } from '../axiosClient';
+import { axiosPrivate } from '../axiosClient';
 import axiosClient from '../axiosClient';
 class BookApi {
     getAll = () => {
@@ -21,7 +21,7 @@ class BookApi {
         const url = `book/list-by-date?num=${n}`;
         return axiosClient.get(url);
     }
-    updateBook = (id,data) => {
+    updateBook = (id, data) => {
         const url = `book/${id}`;
         return axiosPrivate.put(url, data);
     }
@@ -52,6 +52,11 @@ class BookApi {
 
     getMostBuyBooks = () => {
         const url = `book/most-buy`;
+        return axiosClient.get(url);
+    }
+
+    AdvancedSearch = (title, genreId) => {
+        const url = `book/advanced-search?title=${title}&genre=${genreId}`;
         return axiosClient.get(url);
     }
 }

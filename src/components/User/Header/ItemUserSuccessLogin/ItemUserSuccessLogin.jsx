@@ -110,7 +110,7 @@ const ItemUserSuccessLogin = () => {
             <li>
                 <div className="header_nav_select">
                     <div className="header_nav_select_title" ref={selectWriteRef}>
-                        <span>viết</span>
+                        <span>Viết</span>
                         <i className="fas fa-chevron-down" ref={selectIconRef}></i>
                     </div>
 
@@ -118,8 +118,8 @@ const ItemUserSuccessLogin = () => {
                         <div className="header_nav_select_rect"></div>
                         <div className="header_nav_select_box">
                             <ul>
-                                <li><Link to="/book/add">Viết bài</Link></li>
-                                <li><Link to="/my-books">Quản lý bài viết</Link></li>
+                                <li><Link to="/book/add">Viết truyện</Link></li>
+                                <li><Link to="/my-books">Quản lý truyện</Link></li>
                             </ul>
                         </div>
                     </div>
