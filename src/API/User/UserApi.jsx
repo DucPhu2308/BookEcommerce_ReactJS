@@ -18,6 +18,16 @@ class UserApi {
         const url = `/user/buy/${chapterId}`;
         return axiosPrivate.post(url);
     }
+
+    getProfileUser = (userId) => {
+        const url = `/user/${userId}/view`;
+        return axiosPrivate.get(url);
+    }
+
+    followUser = (userId) => {
+        const url = `/user/follow/${userId}/user`;
+        return axiosPrivate.post(url);
+    }
 }
 
 export default new UserApi();

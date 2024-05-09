@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import DefaultLayout from "../../../layouts/DefaultLayout/DefaultLayout";
 import "./InfoBook.css";
@@ -27,7 +28,6 @@ const InfoBook = () => {
     const [checkFollow, setCheckFollow] = useState(false);
     const [view, setView] = useState(0);
     const [avg_rating, setAvg_rating] = useState(0);
-    localStorage.setItem("idBook", idBook);
 
     // fetch book by id
     useEffect(() => {
@@ -292,7 +292,7 @@ const InfoBook = () => {
                         <div className="container_info_book_body_image_title_right">
                             <div className="container_info_book_body_image_title_right_author">
                                 <span>
-                                    Tác giả: {book.userOwn?.displayName}
+                                    Tác giả: <Link to={`/profile/${book.userOwn?.id}`} >{book.userOwn?.displayName}</Link> 
                                 </span>
                             </div>
                             <div className="container_info_book_body_image_title_right_list_genre">
