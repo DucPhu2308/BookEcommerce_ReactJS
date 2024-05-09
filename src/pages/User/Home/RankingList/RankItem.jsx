@@ -1,6 +1,8 @@
 import silvermedal from "@/assets/images/silvermedal.svg";
 import bronzemedal from "@/assets/images/bronzemedal.svg";
 import Reveal from "../../../../components/utils/Reveal";
+import VisibilityIcon from '@mui/icons-material/Visibility';
+
 const RankItem = ({ rank, book, onClick }) => {
   return (
     <Reveal>
@@ -9,7 +11,7 @@ const RankItem = ({ rank, book, onClick }) => {
         {rank === 3 && <img className="medal-icon" src={bronzemedal} alt="bronzemedal" />}
         {rank > 3 && <span className="rank-number">{rank}</span>}
         <span>{book.title}</span>
-        <span className="view-number">lượt xem</span>
+        <span className="view-number">{book.views} lượt xem</span>
       </div>
     </Reveal>
 

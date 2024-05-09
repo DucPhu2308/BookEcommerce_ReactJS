@@ -46,7 +46,7 @@ const MyBooks = () => {
         <div className="container_mybooks_content">
           <div className="container_mybooks_content_header">
             <span>Truyện của tôi</span>
-            <Link to="/add-book" >
+            <Link to="/book/add" >
               <button>Thêm truyện mới
                 <i className="fas fa-circle-plus"></i>
               </button>

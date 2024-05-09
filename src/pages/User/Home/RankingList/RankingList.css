@@ -52,6 +52,8 @@
     float: right;
     font-style: italic;
     font-size: smaller;
+    align-items: center;
+    display: flex;
 }
 .rank-1 .medal-icon {
     /* make it stick to top */

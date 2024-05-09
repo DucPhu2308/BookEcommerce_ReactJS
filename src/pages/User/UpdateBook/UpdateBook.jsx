@@ -2,6 +2,7 @@ import "../AddBook/AddBook.css";
 import { Link } from "react-router-dom";
 import DefaultLayout from "../../../layouts/DefaultLayout/DefaultLayout";
 import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { Button } from "@mui/material";
 import "react-toastify/dist/ReactToastify.css";
@@ -11,7 +12,7 @@ import UploadApi, { UploadType } from "../../../API/User/UploadApi";
 import PlaceholderImage from "@/assets/images/placeholder-image.png";
 
 const UpdateBook = () => {
-  const idBook = window.location.pathname.split("/")[2];
+  const { idBook } = useParams();
   const [listGenre, setListGenre] = useState([]);
   const [updateNameBook, setUpdateNameBook] = useState("");
   const [updateDescription, setUpdateDescription] = useState("");

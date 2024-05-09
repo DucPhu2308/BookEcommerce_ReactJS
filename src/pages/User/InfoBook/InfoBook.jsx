@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState ,} from "react";
+import { useEffect, useState, useRef } from "react";
+import { useParams } from "react-router";
 import { toast } from "react-toastify";
 import DefaultLayout from "../../../layouts/DefaultLayout/DefaultLayout";
 import "./InfoBook.css";
@@ -11,9 +12,10 @@ import UserApi from "../../../API/User/UserApi";
 import ChapterApi from "../../../API/User/ChapterApi";
 import RatingApi from "../../../API/User/RatingApi";
 import Rating from "@mui/material/Rating";
+
 const InfoBook = () => {
     const [book, setBook] = useState({});
-    const id = window.location.pathname.split("/")[2];
+    const { idBook } = useParams();
     const [listChapter, setListChapter] = useState([]);
     const [listBook, setListBook] = useState([]);
     const [listFollowBook, setListFollowBook] = useState([]);
@@ -26,16 +28,16 @@ const InfoBook = () => {
     const [checkFollow, setCheckFollow] = useState(false);
     const [view, setView] = useState(0);
     const [avg_rating, setAvg_rating] = useState(0);
-    localStorage.setItem("idBook", id);
-    
-    const inputChapterSearch= useRef(null);
-    
+
+
+    const inputChapterSearch = useRef(null);
+
 
     useEffect(() => {
         const inputChapterSearchRef = inputChapterSearch.current;
         const handleKeyUp = (e) => {
             const searchValue = e.target.value.toLowerCase();
-            
+
             const searchItems = document.querySelectorAll(".container_info_book_body_description_left_list_genre_box ul li");
             searchItems.forEach((item) => {
                 if (item.textContent.toLowerCase().indexOf(searchValue) > -1) {
@@ -55,13 +57,14 @@ const InfoBook = () => {
         }
     }, []);
 
-    
+
+    localStorage.setItem("idBook", idBook);
 
     // fetch book by id
     useEffect(() => {
         const fetchBook = async () => {
             try {
-                const response = await BookApi.getBookById(id);
+                const response = await BookApi.getBookById(idBook);
                 setBook(response.data.data);
                 // setListChapter(response.data.data.chapters);
                 setListGenre(response.data.data.genres);
@@ -79,39 +82,38 @@ const InfoBook = () => {
             }
         };
         fetchBook();
-    }, []);
+    }, [idBook, listChapter]);
 
     useEffect(() => {
         const fetchBook = async () => {
             try {
                 const response = await BookApi.getAll();
                 setListBook(response.data.data);
-                
+
             } catch (error) {
                 console.log("Failed to fetch book: ", error);
             }
         };
         fetchBook();
-    }, []);
-
+    }, [idBook, listChapter]);
 
     // fetch chapter by book id
     useEffect(() => {
         const fetchChapter = async () => {
             try {
-                const response = await ChapterApi.getChapterByBook(id);
+                const response = await ChapterApi.getChapterByBook(idBook);
                 setListChapter(response.data.data);
             } catch (error) {
                 console.log("Failed to fetch chapter: ", error);
             }
         };
         fetchChapter();
-    }, [id, listChapter]);
+    }, [idBook, listChapter]);
 
     useEffect(() => {
         const fetchRating = async () => {
             try {
-                const response = await RatingApi.getRatingByBook(id);
+                const response = await RatingApi.getRatingByBook(idBook);
                 setListRating(response.data.data);
             }
             catch (error) {
@@ -124,7 +126,7 @@ const InfoBook = () => {
     useEffect(() => {
         const fetchRating = async () => {
             try {
-                const response = await RatingApi.getRatingByBook(id);
+                const response = await RatingApi.getRatingByBook(idBook);
                 let sum = 0;
                 response.data.data.map((rating) => {
                     sum += rating.star;
@@ -136,7 +138,7 @@ const InfoBook = () => {
             }
         }
         fetchRating();
-    }, [id])
+    }, [idBook])
 
     const renderNumberFollowBook = () => {
         if (listFollowBook.length > 0) {
@@ -150,8 +152,8 @@ const InfoBook = () => {
             return (
                 <>
                     <div className="btn_action">
-                        <button className="btn_edit_book" onClick={() => { window.location.href = `/update-book/${id}` }}>Sửa</button>
-                        <button className="btn_add_chapter" onClick={() => { window.location.href = `/add-chapter` }}>Thêm chương</button>
+                        <button className="btn_edit_book" onClick={() => { window.location.href = `/book/${idBook}/update` }}>Sửa</button>
+                        <button className="btn_add_chapter" onClick={() => { window.location.href = `/book/${idBook}/chapter/add` }}>Thêm chương</button>
                     </div>
                 </>
 
@@ -290,6 +292,7 @@ const InfoBook = () => {
                         <Rating
                             name="simple-controlled"
                             value={valueRating}
+                            precision={0.5}
                             onChange={(event, newValue) => {
                                 setValueRating(newValue);
                             }}
@@ -323,9 +326,21 @@ const InfoBook = () => {
                         <div className="container_info_book_body_image_title_left">
                             <span className="title_bold">{book.title}</span>
                             <span>Lượt xem:{view}</span>
-                            <span>Rate: 
-                                <Rating name="read-only" value={avg_rating} readOnly />
-                                {book.avgRating}</span>
+                            <span>Rate:
+                                {book.avg_rating === null ? "Chưa có đánh giá" :
+
+                                    <>
+                                        <Rating
+                                            name="half-rating-read"
+                                            value={avg_rating}
+                                            precision={0.5}
+                                            readOnly
+                                        />
+                                        {avg_rating}
+                                    </>
+
+                                }
+                            </span>
                             {renderNumberFollowBook()}
                         </div>
                         <div className="container_info_book_body_image_title_center">
@@ -395,7 +410,7 @@ const InfoBook = () => {
                                     <span>Có thể bạn thích</span>
                                 </div>
                                 <div className="container_info_book_body_description_right_maybe_like_body">
-                                    <ItemListLoveBook listBook={listBook} userOwn={book.userOwn?.id}/>
+                                    <ItemListLoveBook listBook={listBook} userOwn={book.userOwn?.id} />
                                 </div>
                             </div>
                         </div>
@@ -407,6 +422,5 @@ const InfoBook = () => {
 
     )
 }
-
 
 export default InfoBook;

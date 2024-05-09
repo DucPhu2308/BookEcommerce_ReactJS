@@ -35,9 +35,34 @@ function App() {
         <Route path="/" element={<UserHome />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/detail-book/:id" element={<DetailBook />} />
         <Route path="/newbook" element={<NewBookPage />} />
-        <Route path="/infoBook/:id" element={<InfoBook />} />
+
+        <Route path="/book">
+          <Route path=":idBook">
+            <Route path="" element={<InfoBook />} />
+            <Route path="chapter" >
+              <Route path=":idChap" >
+                <Route path="" element={<DetailBook />} />
+                <Route element={<RequireAuth allowedRoles={[ROLES.USER]} />}>
+                  <Route path="edit" element={<AddParagraph />} />
+                </Route>
+              </Route>
+              <Route element={<RequireAuth allowedRoles={[ROLES.USER]} />}>
+                <Route path="add" element={<AddChapter />} />
+              </Route>
+            </Route>
+
+            <Route element={<RequireAuth allowedRoles={[ROLES.USER]} />}>
+              <Route path="update" element={<UpdateBook />} />
+            </Route>
+          </Route>
+
+          {/* private route */}
+          <Route element={<RequireAuth allowedRoles={[ROLES.USER]} />}>
+            <Route path="add" element={<AddBook />} />
+          </Route>
+        </Route>
+
         <Route path="/confirm-email" element={<EnterCode />} />
         
 
@@ -50,14 +75,10 @@ function App() {
           <Route path="/subcribebook" element={<SubcribeBookPage />} />
           <Route path="/infoUser" element={<InfoUser />} />
           <Route path="/historybook" element={<HistoryBookPage />} />
-          <Route path="/update-book/:id" element={<UpdateBook />} />
           <Route path="/buy-coins" element={<BuyCoins />} />
           <Route path="/paymentSuccess" element={<SuccessPayment />} />
           <Route path="/bank" element={<Bank />} />
-          <Route path="/edit-chapter/:id" element={<AddParagraph />} />
           <Route path="/my-books" element={<MyBooks />} />
-          <Route path="/add-chapter" element={<AddChapter />} />
-          <Route path="/add-book" element={<AddBook />} />
         </Route>
       </Routes>
     </BrowserRouter>

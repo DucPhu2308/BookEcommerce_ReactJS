@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
+import { useParams } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import { MonetizationOnRounded } from "@mui/icons-material";
@@ -15,6 +16,7 @@ const ItemListChapter = ({ list, checkEdit, onToggleActiveChapter, onBuyChapter 
     const [buy, setBuy] = useState(false);
     const [notEnoughCoin, setNotEnoughCoin] = useState(false);
     const [visibleItems, setVisibleItems] = useState(3);
+    const { idBook } = useParams();
 
     const handleBtnBuyClick = (chapter) => {
         if (user.coin < chapter.price) {
@@ -28,10 +30,10 @@ const ItemListChapter = ({ list, checkEdit, onToggleActiveChapter, onBuyChapter 
         if (checkEdit) { // book owner
             return (
                 <>
-                    <Link to={`/detail-book/${chapter.id}`} >
+                    <Link to={`/book/${idBook}/chapter/${chapter.id}`} >
                         <button className="dark_btn_next">Xem</button>
                     </Link>
-                    <Link to={`/edit-chapter/${chapter.id}`}>
+                    <Link to={`chapter/${chapter.id}/edit`}>
                         <button className="dark_btn_next">Edit</button>
                     </Link>
                     <button className="dark_btn_next" onClick={() => {
@@ -57,7 +59,7 @@ const ItemListChapter = ({ list, checkEdit, onToggleActiveChapter, onBuyChapter 
             }
             return ( // bought or free
                 <>
-                    <Link to={`/detail-book/${chapter.id}`} >
+                    <Link to={`/book/${idBook}/chapter/${chapter.id}`} >
                         <button className="dark_btn_next">Xem</button>
                     </Link>
                 </>

@@ -13,7 +13,6 @@ const RowItemMyBook = ({ book, book_id, listBooks }) => {
   const [listBook, setListBook] = useState(listBooks);
   const [numberComment, setNumberComment] = useState(0);
   const [avg_rating, setAvg_rating] = useState(0);
-
   useEffect(() => {
     const fetchRating = async () => {
       try {
@@ -49,9 +48,7 @@ const RowItemMyBook = ({ book, book_id, listBooks }) => {
     setClick(!click);
   }
   const handleDirectGenre = () => {
-    localStorage.setItem("idBook", book_id);
-    localStorage.setItem("nameBook", book.title);
-    window.location.href = "/add-chapter";
+    window.location.href = `/book/${book_id}/chapter/add`;
 
   }
   
@@ -60,7 +57,7 @@ const RowItemMyBook = ({ book, book_id, listBooks }) => {
       return (
         data.map((chapter) => (
           data.sort((a, b) => a.index - b.index),
-          <Link to={`/detail-Book/${chapter.id}`} style={{textDecoration:"none"}}>
+          <Link to={`/book/${book_id}/chapter/${chapter.id}`} style={{textDecoration:"none"}}>
             <li key={chapter.id}>Chương {chapter.index}: {chapter.title}</li>
           </Link>
         ))
@@ -74,7 +71,7 @@ const RowItemMyBook = ({ book, book_id, listBooks }) => {
   }
 
   const handleClickUpdate = () => {
-    window.location.href = `/update-book/${book_id}`;
+    window.location.href = `/book/${book_id}/update`;
   }
 
   const handleDeleteBook = (id) => {
