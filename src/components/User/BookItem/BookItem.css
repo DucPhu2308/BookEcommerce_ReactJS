@@ -1,6 +1,6 @@
 .container_nav_2_listBooks_item{
     height: 220px;
-    width:400px;
+    width:380px;
     border-radius:10px;
     display: flex;
     padding:0 10px;
@@ -48,7 +48,7 @@
 .container_nav_2_listBooks_item_discuss_chapter span{
     font-size: 14px;
     color: #8c8c8c;
-    width:250px;
+    width:210px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
