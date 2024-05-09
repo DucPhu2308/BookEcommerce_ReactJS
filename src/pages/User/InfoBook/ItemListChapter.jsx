@@ -68,7 +68,7 @@ const ItemListChapter = ({ list, checkEdit, onToggleActiveChapter, onBuyChapter 
     }
 
     const timeCreate = document.querySelectorAll('.title_solid');
-    // console.log(timeCreate);
+    
 
     const timeUpdate = (timeCreate, timeUpdate) => {
         if (timeCreate === timeUpdate) {

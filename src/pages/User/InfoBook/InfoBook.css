@@ -237,7 +237,15 @@
     align-items: center;
 
 }
+.notice_list_empty{
+    font-size: 15px;
+    font-weight: bold;
+    font-family: sans-serif;
+    color: #333;
+    font-style: italic;
+    margin-top: 10px;
 
+}
 .container_info_book_body_description_left_listRating_body{
     width:100%;
     display: flex;
@@ -491,7 +499,15 @@
     border-bottom:1px solid #c1bfbf;
     padding:5px 0;
 }
+.container_info_book_body_description_right_maybe_like_body li:hover{
+    background-color: #f5f5f5;
+    cursor: pointer;
+}
+.container_info_book_body_description_right_maybe_like_body a{
+    text-decoration: none;
+    color: #000;
 
+}
 .box_item_info_maybe_like{
     display: flex;
 }
@@ -510,7 +526,30 @@
     flex-direction: column;
     margin-left:10px;
 }
+.title_right{
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+.title_2{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+.title_right button{
+    width: 50px;
+    height: 30px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 15px;
+    cursor: pointer;
+    margin-right: 10px;
 
+}
 @media screen and (max-width: 768px){
     .container_info_book_body_image_title_box{
         flex-direction: column;
@@ -577,6 +616,10 @@
         padding: 0;
         margin: 0;
     }
+    .container_info_book_body_description_right_maybe_like_body li{
+        padding:0;
+    }
+
     .box_item_info_maybe_like{
         flex-direction: column;
     }

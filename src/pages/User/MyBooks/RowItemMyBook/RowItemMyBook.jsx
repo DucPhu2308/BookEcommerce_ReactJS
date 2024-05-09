@@ -1,17 +1,17 @@
-import { useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import "./RowItemMyBook.css";
 import BookApi from "../../../../API/User/BookApi";
 import RatingApi from "../../../../API/User/RatingApi";
 import CommentApi from "../../../../API/User/CommentApi";
 
-import {ToastContainer, toast} from 'react-toastify'
+import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import { Link } from "react-router-dom";
 
 const RowItemMyBook = ({ book, book_id, listBooks }) => {
   const [click, setClick] = useState(false);
   const [listBook, setListBook] = useState(listBooks);
-  const [numberComment, setNumberComment] = useState(0);
+  
   const [avg_rating, setAvg_rating] = useState(0);
   useEffect(() => {
     const fetchRating = async () => {
@@ -21,10 +21,10 @@ const RowItemMyBook = ({ book, book_id, listBooks }) => {
         response.data.data.map((rating) => {
           sum += rating.star;
         })
-        if(response.data.data.length > 0){
-          setAvg_rating((sum/response.data.data.length).toFixed(1));
+        if (response.data.data.length > 0) {
+          setAvg_rating((sum / response.data.data.length).toFixed(1));
         }
-        
+
       } catch (error) {
         console.log("Failed to fetch rating: ", error);
       }
@@ -32,18 +32,6 @@ const RowItemMyBook = ({ book, book_id, listBooks }) => {
     fetchRating();
   }, [book_id])
 
-  useEffect(() => {
-    const fetchComment = async () => {
-      try {
-        const response = await CommentApi.getCommentByBookId(book_id);
-        setNumberComment(response.data.data.length);
-      } catch (error) {
-        console.log("Failed to fetch comment: ", error);
-      }
-    }
-    fetchComment();
-  }, [book_id])
-  
   const handleClick = () => {
     setClick(!click);
   }
@@ -51,21 +39,21 @@ const RowItemMyBook = ({ book, book_id, listBooks }) => {
     window.location.href = `/book/${book_id}/chapter/add`;
 
   }
-  
+
   const renderStateListChapter = (data) => {
-    if(data != null){
+    if (data != null) {
       return (
         data.map((chapter) => (
           data.sort((a, b) => a.index - b.index),
-          <Link to={`/book/${book_id}/chapter/${chapter.id}`} style={{textDecoration:"none"}}>
+          <Link to={`/book/${book_id}/chapter/${chapter.id}`} style={{ textDecoration: "none" }}>
             <li key={chapter.id}>Chương {chapter.index}: {chapter.title}</li>
           </Link>
         ))
       )
     }
-    else{
+    else {
       return (
-        <span style={{fontSize:"16px", fontWeight:"600", fontFamily:"San-serif"}}>Chưa có chương nào</span>
+        <span style={{ fontSize: "16px", fontWeight: "600", fontFamily: "San-serif" }}>Chưa có chương nào</span>
       )
     }
   }
@@ -76,9 +64,9 @@ const RowItemMyBook = ({ book, book_id, listBooks }) => {
 
   const handleDeleteBook = (id) => {
     const confirm = window.confirm("Bạn có chắc chắn muốn xóa truyện này không?");
-    if(confirm){
+    if (confirm) {
       BookApi.deleteBook(id).then((response) => {
-        if(response.status === 200){
+        if (response.status === 200) {
           const newListBook = listBook.filter((book) => book.id !== id);
           setListBook(newListBook);
           toast.success('Xóa truyện thành công')
@@ -92,10 +80,10 @@ const RowItemMyBook = ({ book, book_id, listBooks }) => {
   }
 
   const numberChapter = (data) => {
-    if(data != null){
+    if (data != null) {
       return data.length;
     }
-    else{
+    else {
       return 0;
     }
   }
@@ -124,10 +112,10 @@ const RowItemMyBook = ({ book, book_id, listBooks }) => {
   }
   const handleContinueWrite = () => {
     const idChapter = book.chapters[book.chapters.length - 1].id;
-    window.location.href = `/edit-chapter/${idChapter}`;
+    window.location.href = `/book/${book_id}/chapter/${idChapter}/edit`;
   }
   return (
-    
+
     <div className="container_mybooks_content_body_box_item">
       <ToastContainer />
       <div className="container_mybooks_content_body_box_item_img">
@@ -152,16 +140,26 @@ const RowItemMyBook = ({ book, book_id, listBooks }) => {
             </div>
             <div className="btn_action">
               <button className="body_box_item_action_update_btn" onClick={handleClickUpdate}>Sửa</button>
-              <button className="body_box_item_action_delete_btn" onClick={()=>handleDeleteBook(book.id)}>Xóa</button>
+              <button className="body_box_item_action_delete_btn" onClick={() => handleDeleteBook(book.id)}>Xóa</button>
             </div>
 
           </div>
         </div>
         <div className="container_mybooks_content_body_box_item_info_nav_desc">
-          <span>Đánh giá: {avg_rating}
-            <i className="fas fa-star"></i>
+          <span>Đánh giá: {
+            avg_rating == 0 ?
+              <>
+                <span style={{fontSize:10,fontWeight:"bold", marginRight:0}}>Chưa có đánh giá</span>
+              </>
+              :
+              <>
+                {avg_rating}
+                <i className="fas fa-star"></i>
+              </>
+          }
+
           </span>
-          <span>Lượt bình luận:{numberComment} </span>
+          <span>Lượt đánh giá:{book.ratings.length} </span>
           <span>Lượt xem: {book.views}</span>
         </div>
       </div>

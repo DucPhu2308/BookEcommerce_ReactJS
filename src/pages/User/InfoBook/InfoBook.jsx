@@ -25,6 +25,10 @@ const InfoBook = () => {
     const [valueRating, setValueRating] = useState(0);
     const [valueContent, setValueContent] = useState("");
     const [checkRating, setCheckRating] = useState(false);
+    const [checkUpdateRating, setCheckUpdateRating] = useState(false);
+    const [valueUpdateRating, setValueUpdateRating] = useState(0);
+    const [valueUpdateContent, setValueUpdateContent] = useState("");
+    const [objectRating, setObjectRating] = useState({});
     const [checkFollow, setCheckFollow] = useState(false);
     const [view, setView] = useState(0);
     const [avg_rating, setAvg_rating] = useState(0);
@@ -110,35 +114,24 @@ const InfoBook = () => {
         fetchChapter();
     }, [idBook, listChapter]);
 
-    useEffect(() => {
-        const fetchRating = async () => {
-            try {
-                const response = await RatingApi.getRatingByBook(idBook);
-                setListRating(response.data.data);
-            }
-            catch (error) {
-                console.log("Failed to fetch rating: ", error);
-            }
-        }
-        fetchRating();
-    }, []);
+
 
     useEffect(() => {
         const fetchRating = async () => {
             try {
                 const response = await RatingApi.getRatingByBook(idBook);
+                setListRating(response.data.data);
                 let sum = 0;
                 response.data.data.map((rating) => {
                     sum += rating.star;
                 })
                 setAvg_rating(sum / response.data.data.length);
-                console.log(avg_rating);
             } catch (error) {
                 console.log("Failed to fetch rating: ", error);
             }
         }
         fetchRating();
-    }, [idBook])
+    }, [idBook, listRating, avg_rating]);
 
     const renderNumberFollowBook = () => {
         if (listFollowBook.length > 0) {
@@ -224,6 +217,17 @@ const InfoBook = () => {
     }
 
     const handleBoxRating = () => {
+        const user = JSON.parse(localStorage.getItem("user"));
+        for (let i = 0; i < listRating.length; i++) {
+            console.log(listRating)
+            if (listRating[i].user.id === user.id) {
+                setCheckUpdateRating(true);
+                setObjectRating(listRating[i]);
+                setValueUpdateContent(listRating[i].content);
+                setValueUpdateRating(listRating[i].star);
+                return;
+            }
+        }
         setCheckRating(true);
     }
     const handlePostRating = () => {
@@ -261,7 +265,7 @@ const InfoBook = () => {
                                         <span>{item.user?.displayName}</span>
                                         <Rating
                                             name="read-only"
-                                            value={avg_rating}
+                                            value={item.star}
                                             readOnly
                                         />
                                     </div>
@@ -270,54 +274,117 @@ const InfoBook = () => {
                                     </div>
 
                                 </div>
-                                <span>{item.createdAt}</span>
+                                <div className="title_right">
+                                    {item.user.id === JSON.parse(localStorage.getItem("user")).id ? renderButtonDeleteRating(item.id) : ""}
+                                    <span>{
+                                        item.updateAt ? new Date(item.updateAt).toLocaleDateString() : new Date(item.createdAt).toLocaleDateString()
+                                    }</span>
+                                </div>
+
                             </div>
                         </div>
                     </div>
                 )
             })
         }
+        else {
+            return (
+                <span className="notice_list_empty">Chưa có đánh giá nào</span>
+            )
+        }
+    }
+    
+    const handleUpdateRating = (id) => {
+        const data = {
+            content: valueUpdateContent,
+            star: valueUpdateRating,
+            book: book.id
+        }
+        RatingApi.updateRating(data, id)
+            .then(() => {
+                toast.success("Cập nhật đánh giá thành công");
+                setCheckUpdateRating(false);
+                setValueContent("");
+                setValueRating(0);
+                const newRating = [...listRating];
+                for (let i = 0; i < newRating.length; i++) {
+                    if (newRating[i].id === id) {
+                        newRating[i] = { user: JSON.parse(localStorage.getItem("user")), content: valueContent, star: valueRating, createAt: new Date().toLocaleDateString() };
+                        break;
+                    }
+                }
+                setListRating(newRating);
+            })
+            .catch(() => {
+                toast.error("Cập nhật đánh giá thất bại");
+            });
     }
 
+    const handleChangeUpdateContent = (event) => {
+        setValueUpdateContent(event.target.value);
+    }
+
+    const handleDeleteRating = (id) => {
+        RatingApi.deleteRating(id)
+            .then(() => {
+                toast.success("Xóa đánh giá thành công");
+                const newRating = listRating.filter((item) => item.id !== id);
+                setListRating(newRating);
+            })
+            .catch(() => {
+                toast.error("Xóa đánh giá thất bại");
+            });
+    }
+
+    const renderRatingSection = (title, value, handleChangeRating, content, handleChangeContent, handleAction, actionLabel, handleCancel, cancelButtonLabel) => {
+        return (
+            <>
+
+                <div className="container_info_book_body_description_left_rating_body">
+                    <div className="container_info_book_body_description_left_rating_title">
+                        <span>{title}</span>
+                    </div>
+                    <Rating
+                        name="simple-controlled"
+                        value={value}
+                        onChange={handleChangeRating}
+                    />
+                    <div className="container_info_book_body_description_left_rating_body_textarea">
+                        <textarea placeholder="Nhập đánh giá của bạn" value={content} onChange={handleChangeContent} />
+                    </div>
+                </div>
+                <div className="container_info_book_body_description_left_rating_buttonAction">
+                    <button className="btn_cancel_rating" onClick={handleCancel}>{cancelButtonLabel}</button>
+                    <button className="btn_rating" onClick={handleAction}>{actionLabel}</button>
+                </div>
+            </>
+
+        )
+    }
 
     const renderBoxRating = () => {
         if (checkRating) {
+            return renderRatingSection("Đánh giá", valueRating, (event, newValue) => {
+                setValueRating(newValue);
+            }, valueContent, handleChangeContent, handlePostRating, "Đánh giá", () => setCheckRating(false), "Hủy");
+        } else if (checkUpdateRating) {
+            return renderRatingSection("Cập nhật đánh giá", valueUpdateRating, (event, newValue) => {
+                setValueUpdateRating(newValue);
+            }, valueUpdateContent, handleChangeUpdateContent, () => handleUpdateRating(objectRating.id), "Cập nhật", () => setCheckUpdateRating(false), "Hủy");
+        } else {
             return (
-                <>
-
-                    <div className="container_info_book_body_description_left_rating_body">
-                        <div className="container_info_book_body_description_left_rating_title">
-                            <span>Đánh giá</span>
-                        </div>
-                        <Rating
-                            name="simple-controlled"
-                            value={valueRating}
-                            precision={0.5}
-                            onChange={(event, newValue) => {
-                                setValueRating(newValue);
-                            }}
-                        />
-                        <div className="container_info_book_body_description_left_rating_body_textarea">
-                            <textarea placeholder="Nhập đánh giá của bạn" value={valueContent} onChange={handleChangeContent} />
-                        </div>
-                    </div>
-                    <div className="container_info_book_body_description_left_rating_buttonAction">
-                        <button className="btn_cancel_rating" onClick={() => setCheckRating(false)}>Hủy</button>
-                        <button className="btn_rating" onClick={handlePostRating}>Gửi</button>
-                    </div>
-
-                </>
-            )
+                <div className="container_info_book_body_description_left_rating_button">
+                    <button className="btn_rating" onClick={handleBoxRating}>Đánh giá</button>
+                </div>
+            );
         }
-        else {
-            return (
-                <button onClick={handleBoxRating}>
-                    <i className="fas fa-star"></i>Đánh giá
-                </button>
-            )
-        }
+    };
+
+    const renderButtonDeleteRating = (id) => {
+        return (
+            <button className="btn_delete_rating" onClick={() => handleDeleteRating(id)}>Xóa</button>
+        );
     }
-
     return (
         <DefaultLayout>
             <div className="container_info_book">
@@ -327,13 +394,13 @@ const InfoBook = () => {
                             <span className="title_bold">{book.title}</span>
                             <span>Lượt xem:{view}</span>
                             <span>Rate:
-                                {book.avg_rating === null ? "Chưa có đánh giá" :
+                                {isNaN(avg_rating) ? "Chưa có đánh giá" :
 
                                     <>
                                         <Rating
-                                            name="half-rating-read"
+                                            name="read-only"
                                             value={avg_rating}
-                                            precision={0.5}
+                                            precious={0.5}
                                             readOnly
                                         />
                                         {avg_rating}
@@ -407,10 +474,10 @@ const InfoBook = () => {
                             </div>
                             <div className="container_info_book_body_description_right_maybe_like">
                                 <div className="container_info_book_body_description_right_maybe_like_title">
-                                    <span>Có thể bạn thích</span>
+                                    <span>Truyện cùng tác giả</span>
                                 </div>
                                 <div className="container_info_book_body_description_right_maybe_like_body">
-                                    <ItemListLoveBook listBook={listBook} userOwn={book.userOwn?.id} />
+                                    <ItemListLoveBook listBook={listBook} book={book}/>
                                 </div>
                             </div>
                         </div>

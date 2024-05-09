@@ -139,10 +139,6 @@ const ItemUserSuccessLogin = () => {
                                 <i className="fas fa-user"></i>
                                 Trang cá nhân</span></Link></li>
                         <li>
-                            <span>
-                                <i className="fas fa-cog"></i>
-                                Cài đặt</span></li>
-                        <li>
                             <span onClick={handleLogout}>
                                 <i className="fas fa-sign-out-alt"></i>
                                 Đăng xuất</span></li>

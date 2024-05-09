@@ -10,6 +10,14 @@ class RatingApi {
         const url=`/rating/book/${id}`;
         return axiosClient.get(url);
     }
+    updateRating=(data,id) =>{
+        const url=`/rating/${id}`;
+        return axiosPrivate.put(url,data);
+    }
+    deleteRating=(id) =>{
+        const url=`/rating/${id}`;
+        return axiosPrivate.delete(url);
+    }
 }
 
 export default new RatingApi();
