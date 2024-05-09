@@ -20,6 +20,7 @@ import AddChapter from './pages/User/AddChapter/AddChapter'
 import UpdateBook from './pages/User/UpdateBook/UpdateBook'
 import SuccessPayment from './pages/Bank/SuccessPayment'
 import EnterCode from './pages/common/EnterCode'
+import ProfileUser from './pages/User/ProfileUser/ProfileUser'
 
 const ROLES = {
   'USER': 'USER',
@@ -35,7 +36,9 @@ function App() {
         <Route path="/" element={<UserHome />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/confirm-email" element={<EnterCode />} />
         <Route path="/newbook" element={<NewBookPage />} />
+        <Route path="/profile/:idUser" element={<ProfileUser />} />
 
         <Route path="/book">
           <Route path=":idBook">
@@ -62,9 +65,6 @@ function App() {
             <Route path="add" element={<AddBook />} />
           </Route>
         </Route>
-
-        <Route path="/confirm-email" element={<EnterCode />} />
-        
 
         <Route element={<RequireAuth allowedRoles={[ROLES.USER, ROLES.ADMIN]} />}>
           <Route path="/admin" element={<AdminHome />} />
