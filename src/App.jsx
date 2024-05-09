@@ -21,6 +21,7 @@ import UpdateBook from './pages/User/UpdateBook/UpdateBook'
 import SuccessPayment from './pages/Bank/SuccessPayment'
 import EnterCode from './pages/common/EnterCode'
 import ProfileUser from './pages/User/ProfileUser/ProfileUser'
+import SearchPage from './pages/User/BookPage/SearchPage'
 
 const ROLES = {
   'USER': 'USER',
@@ -34,6 +35,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<UserHome />} />
+        <Route path="/search" element={<SearchPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/confirm-email" element={<EnterCode />} />
