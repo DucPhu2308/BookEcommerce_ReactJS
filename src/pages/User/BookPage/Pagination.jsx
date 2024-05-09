@@ -22,14 +22,14 @@ const Pagination = ({ list, colNumber, recordsPerPage }) => {
     };
 
     return (
-        <>
+        <div className="book_page_pagination_container">
             <table>
                 {records.map((book, index) => (
                     index % colNumber === 0 && (
                         <tr key={index / colNumber}>
                             {records.slice(index, index + colNumber).map((bookInRow, indexInRow) => (
                                 <td key={indexInRow}>
-                                    <Link to={`/book/${book.id}`}>
+                                    <Link to={`/book/${bookInRow.id}`}>
                                         <Reveal>
                                             <BookItem book={bookInRow} />
                                         </Reveal>
@@ -57,7 +57,7 @@ const Pagination = ({ list, colNumber, recordsPerPage }) => {
                     </li>
                 </ul>
             </nav>
-        </>
+        </div>
     );
 };
 
