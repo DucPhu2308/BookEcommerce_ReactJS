@@ -53,6 +53,7 @@ const DetailBook = () => {
         setBook(response.data.data);
       } catch (error) {
         console.log("Failed to fetch data", error);
+        navigate("/not-found");
       }
     };
     fetchData();
@@ -78,6 +79,7 @@ const DetailBook = () => {
         setListParagraph(response.data.data);
       } catch (error) {
         console.log("Failed to fetch data", error);
+        navigate("/not-found");
       }
     };
     fetchData();
@@ -387,7 +389,7 @@ const DetailBook = () => {
         </div>
         <div className="container_bookDetail_nav_1">
           <div className="container_bookDetail_nav_1_author">
-            <div className="container_bookDetail_nav_1_author_info">
+            <div onClick={() => navigate(`/profile/${book.userOwn?.id}`)} className="container_bookDetail_nav_1_author_info">
               <img src={book.userOwn?.avatar} alt="account" />
               <span>{book.userOwn?.displayName}</span>
             </div>

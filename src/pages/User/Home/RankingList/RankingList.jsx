@@ -1,6 +1,7 @@
 import "./RankingList.css";
 import RankItem from "./RankItem";
 import goldmedal from "@/assets/images/goldmedal.svg";
+import BookPlaceholder from "@/assets/images/book-placeholder.png";
 import Reveal from "../../../../components/utils/Reveal";
 
 import { useNavigate } from "react-router";
@@ -22,7 +23,7 @@ const RankingList = ({ title, list }) => {
                 <div onClick={() => handleBookClick(list[0])} className="rank-1">
                     <img className="medal-icon" src={goldmedal} alt="goldmedal" />
                     {/* TODO: change img src */}
-                    <img className="item-image" src={list[0].coverImage} alt={list[0].title} />
+                    <img className="item-image" src={list[0].coverImage || BookPlaceholder} alt={list[0].title} />
                     <div className="rank-1-info">
                         <div className="item-title">{list[0].title}</div>
                         <div className="view-number">{list[0].views} lượt xem</div>

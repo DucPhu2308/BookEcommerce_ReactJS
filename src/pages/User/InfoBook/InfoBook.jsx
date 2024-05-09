@@ -1,5 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import DefaultLayout from "../../../layouts/DefaultLayout/DefaultLayout";
 import "./InfoBook.css";
@@ -14,6 +16,7 @@ import RatingApi from "../../../API/User/RatingApi";
 import Rating from "@mui/material/Rating";
 
 const InfoBook = () => {
+    const navigate = useNavigate();
     const [book, setBook] = useState({});
     const { idBook } = useParams();
     const [listChapter, setListChapter] = useState([]);
@@ -62,8 +65,6 @@ const InfoBook = () => {
     }, []);
 
 
-    localStorage.setItem("idBook", idBook);
-
     // fetch book by id
     useEffect(() => {
         const fetchBook = async () => {
@@ -109,6 +110,7 @@ const InfoBook = () => {
                 setListChapter(response.data.data);
             } catch (error) {
                 console.log("Failed to fetch chapter: ", error);
+                navigate("/not-found");
             }
         };
         fetchChapter();
@@ -416,7 +418,7 @@ const InfoBook = () => {
                         <div className="container_info_book_body_image_title_right">
                             <div className="container_info_book_body_image_title_right_author">
                                 <span>
-                                    Tác giả: {book.userOwn?.displayName}
+                                    Tác giả: <Link to={`/profile/${book.userOwn?.id}`} >{book.userOwn?.displayName}</Link> 
                                 </span>
                             </div>
                             <div className="container_info_book_body_image_title_right_list_genre">

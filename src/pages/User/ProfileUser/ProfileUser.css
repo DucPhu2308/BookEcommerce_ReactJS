@@ -1,0 +1,23 @@
+.container_user-info {
+    width: 100%;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    padding: 20px 0;
+}
+
+.image-box {
+    margin: 0 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.round-image {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    display: block;
+}
+
+.profile-box {
+    display: flex;
+    flex-direction: row;
+}
