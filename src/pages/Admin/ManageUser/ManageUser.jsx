@@ -46,19 +46,6 @@ const ManageUser = () => {
                 const response = await UserApi.getAll();
                 setUsers(response.data.data);
                 for(let i = 0; i < response.data.data.length; i++){
-                    if(response.data.data[i].displayName === null){
-                        response.data.data[i].displayName = "New User";
-                        UserApi.updateUser({
-                            displayName: response.data.data[i].displayName,
-                            introduction: response.data.data[i].introduction,
-                            coin: response.data.data[i].coin,
-                            active: response.data.data[i].active,
-                        },response.data.data[i].id).then(() => {
-                            console.log('Cập nhật thành công');
-                        }).catch((err) => {
-                            console.log(err);
-                        })
-                    }
                     if(admin.id === response.data.data[i].id){
                         response.data.data.splice(i,1);
                     }
