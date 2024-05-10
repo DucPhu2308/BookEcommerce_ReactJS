@@ -142,6 +142,7 @@
     background-color: #f9f9f9;
     min-width: 160px;
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    border: 2px solid #d3cccc;
     z-index: 100;
 }
 
@@ -153,7 +154,7 @@
 }
 
 .book_page_list_dropdown_content label:hover {
-    background-color: #f1f1f1;
+    background-color: #CEC2C2;
 }
 
 .book_page_list_dropdown:hover .book_page_list_dropdown_content {

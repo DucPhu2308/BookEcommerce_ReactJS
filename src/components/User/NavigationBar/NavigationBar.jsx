@@ -1,11 +1,20 @@
 import "./NavigationBar.css";
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from "react";
 import GenreApi from "../../../API/Admin/GenreApi";
 
 const Dropdown = ({ genre }) => {
   const numCols = 4;
   const numRows = genre ? Math.ceil(genre.length / numCols) : 0;
+  const navigate = useNavigate();
+
+  const handleGenreClick = (genreId) => {
+    if (genreId) {
+      navigate(`/search?genre=${genreId}`);
+    } else {
+      navigate('/search');
+    }
+  };
 
   const renderGrid = () => {
     return Array(numRows)
@@ -13,8 +22,10 @@ const Dropdown = ({ genre }) => {
       .map((_, rowIndex) => (
         <div className="dropdown-row" key={rowIndex}>
           {genre.slice(rowIndex * numCols, (rowIndex + 1) * numCols).map((genre, colIndex) => (
-            <div key={colIndex} className="dropdown-item">
-              {genre.name}
+            <div onClick={() => handleGenreClick(genre.id)}>
+              <div key={colIndex} className="dropdown-item">
+                {genre.name}
+              </div>
             </div>
           ))}
         </div>
