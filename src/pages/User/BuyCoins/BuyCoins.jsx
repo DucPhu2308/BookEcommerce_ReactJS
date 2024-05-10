@@ -65,11 +65,11 @@ const BuyCoins = () => {
         <Card>
           <CardContent>
             <Typography variant="h4" component="div">
-              Buy Coins
+              Mua xu
             </Typography>
             <form>
               <Typography marginTop={3} variant="body1" component="div" >
-                Select the amount of Coins
+                Chọn số lượng xu bạn muốn mua
               </Typography>
               <Stack
                 sx={{ marginY: "10px" }}
@@ -80,7 +80,7 @@ const BuyCoins = () => {
               >
                 <TextField
                   id="outlined-basic"
-                  label="Amount"
+                  label="Số lượng"
                   variant="outlined"
                   type="number"
                   value={amount}
@@ -93,14 +93,15 @@ const BuyCoins = () => {
                 <DoubleArrow sx={{ alignSelf: "center" }} />
                 <TextField
                   id="outlined-basic"
-                  label="Price"
+                  label="Giá"
                   variant="outlined"
                   // read-only input
                   InputProps={{ readOnly: true, shrink: true }}
                   value={price}
                 />
               </Stack>
-              <Typography marginTop={3} variant="body1" component="div">
+              
+              {/* <Typography marginTop={3} variant="body1" component="div">
                 Select the payment method
               </Typography>
               <RadioGroup value={selectedMethod} onChange={handleMethodChange}>
@@ -149,7 +150,7 @@ const BuyCoins = () => {
                     />
                   ))}
                 </Stack>
-              </RadioGroup>
+              </RadioGroup> */}
               <Button sx={{ marginY: "10px" }} variant="contained" onClick={handleBuy}>
                 Buy
               </Button>
