@@ -61,12 +61,10 @@
 .dropdown {
     position: absolute;
     top: 100%;
-    left: 0;
+    left: -150%;
     z-index: 1000;
     float: left;
     min-width: 160px;
-    padding: 5px 0;
-    margin: 2px 0 0;
     text-align: left;
     background-color: #fff;
     border: 1px solid #ccc;
@@ -76,6 +74,7 @@
     box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
     -webkit-background-clip: padding-box;
     background-clip: padding-box;
+        border: 2px solid #d3cccc;
   }
   
 
@@ -88,6 +87,7 @@
     padding: 20px;
     text-align: center;
     cursor: pointer;
+    width: 100px;
   }
   
   .dropdown-item:hover {
