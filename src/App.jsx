@@ -75,7 +75,7 @@ function App() {
           </Route>
         </Route>
 
-        <Route element={<RequireAuth allowedRoles={[ROLES.USER, ROLES.ADMIN]} />}>
+        <Route element={<RequireAuth allowedRoles={[ROLES.ADMIN]} />}>
           <Route path="/admin" element={<AdminHome />} >
             <Route path=":manage-book" element={<ManageBook />} />
             <Route path=":manage-user" element={<ManageUser />} >

@@ -1,6 +1,6 @@
 import GenreApi from '../../../API/Admin/GenreApi';
 import './ManageGenre.css'
-import { useEffect, useState } from 'react';
+import { useEffect, useState ,useRef} from 'react';
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -12,6 +12,31 @@ const ManageGenre = () => {
     const [genre, setGenre] = useState([]);
     const [editingGenre, setEditingGenre] = useState(null);
     const [addInputValue, setAddInputValue] = useState('');
+    const inputSearch = useRef(true);
+
+    useEffect(() => {
+        const inputSearchRef = inputSearch.current;
+        const handleSearch = () => {
+            const value = inputSearchRef.value.toLowerCase();
+            const searchItems = document.querySelectorAll('.container_admin_option_content_table table tr');
+            searchItems.forEach((item) => {
+                const text = item.textContent.toLowerCase();
+                if (text.indexOf(value) === -1) {
+                    item.style.display = 'none';
+                } else {
+                    item.style.display = '';
+                }
+            });
+        }
+        if (inputSearchRef) {
+            inputSearchRef.addEventListener('keyup', handleSearch);
+        }
+        return () => {
+            if (inputSearchRef) {
+                inputSearchRef.removeEventListener('keyup', handleSearch);
+            }
+        }
+    }, [inputSearch]);
 
     useEffect(() => {
         const fetchGenre = async () => {
@@ -131,16 +156,6 @@ const ManageGenre = () => {
         }
     }
 
-    useEffect(() => {
-        const script = document.createElement("script");
-        script.src = "/src/pages/Admin/ManageGenre/script.jsx";
-        script.async = true;
-        document.body.appendChild(script);
-        return () => {
-            document.body.removeChild(script);
-        };
-    }, [genre]);
-
     return (
         <>
             <ToastContainer />
@@ -151,7 +166,7 @@ const ManageGenre = () => {
                             <span>Quản lý thể loại</span>
                         </div>
                         <div className="container_admin_option_title_search">
-                            <input id="inputFilter" type="text" placeholder="Tìm kiếm" />
+                            <input id="inputFilter" type="text" placeholder="Tìm kiếm" ref={inputSearch}/>
                             <button>
                                 <i className="fas fa-search"></i>
                             </button>

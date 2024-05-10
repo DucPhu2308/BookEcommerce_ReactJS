@@ -103,40 +103,35 @@ const ItemUserSuccessLogin = () => {
     };
 
 
-
-
     return (
         <>
             <li>
-                <div className="header_nav_select">
-                    <div className="header_nav_select_title" ref={selectWriteRef}>
-                        <span>Viết</span>
-                        <i className="fas fa-chevron-down" ref={selectIconRef}></i>
-                    </div>
+                {JSON.parse(localStorage.getItem("roles")).includes("ADMIN") ? <Link to="/admin">
+                    <span>Admin</span>
+                </Link> :
+                    <div className="header_nav_select">
+                        <div className="header_nav_select_title" ref={selectWriteRef}>
+                            <span>Viết</span>
+                            <i className="fas fa-chevron-down" ref={selectIconRef}></i>
+                        </div>
 
-                    <div className="header_nav_select_body" ref={selectBoxRef}>
-                        <div className="header_nav_select_rect"></div>
-                        <div className="header_nav_select_box">
-                            <ul>
-                                <li><Link to="/book/add">Viết truyện</Link></li>
-                                <li><Link to="/my-books">Quản lý truyện</Link></li>
-                            </ul>
+                        <div className="header_nav_select_body" ref={selectBoxRef}>
+                            <div className="header_nav_select_rect"></div>
+                            <div className="header_nav_select_box">
+                                <ul>
+                                    <li><Link to="/book/add">Viết truyện</Link></li>
+                                    <li><Link to="/my-books">Quản lý truyện</Link></li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                </div>
+                }
             </li>
             <li className="header_li">
-
                 <div className="header_nav_coin">
-                    {JSON.parse(localStorage.getItem("roles")).includes("ADMIN") ?
-                        <Link to="/admin">
-                            <span>Admin</span>
-                        </Link>
-                        :
-                        <span>Xu:{user.coin}
-                            <i className="fas fa-coins"></i>
-                        </span>
-                    }
+                    <span>Xu:{user.coin}
+                        <i className="fas fa-coins"></i>
+                    </span>
                 </div>
                 <div className="header_nav_user" ref={selectInfoUserRef}>
                     <img src={user.avatar || accountImage} alt="user" />
