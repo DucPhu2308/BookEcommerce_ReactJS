@@ -1,6 +1,5 @@
 import DefaultLayout from "@/layouts/DefaultLayout/DefaultLayout";
 import NavigationBar from "@/components/User/NavigationBar/NavigationBar";
-import SeenBookList from "../Home/UpdateBook_SeenBookList/SeenBookList/SeenBookList";
 import './BookPage.css'
 import { useState, useEffect } from "react";
 import BookApi from "../../../API/User/BookApi";
@@ -12,9 +11,10 @@ const recordsPerPage = 15;
 
 const SearchPage = () => {
     const [searchText, setSearchText] = useState('');
-    const [selectedGenres, setSelectedGenres] = useState('');
+    const [selectedGenres, setSelectedGenres] = useState([]);
     const [genres, setGenres] = useState([]);
     const [searchResults, setSearchResults] = useState([]);
+    const [selectedGenreNames, setSelectedGenreNames] = useState([]);
 
     useEffect(() => {
         async function fetchgenre() {
@@ -35,10 +35,15 @@ const SearchPage = () => {
 
     const handleGenreChange = (event) => {
         const { value } = event.target;
-        if (selectedGenres.includes(value)) {
+        const isSelected = selectedGenres.includes(value);
+
+        if (isSelected) {
             setSelectedGenres(selectedGenres.filter(genreId => genreId !== value));
-        } else {
+            setSelectedGenreNames(selectedGenreNames.filter(genreName => genreName !== genres.find(genre => genre.id === parseInt(value)).name));
+        }
+        else {
             setSelectedGenres([...selectedGenres, value]);
+            setSelectedGenreNames([...selectedGenreNames, genres.find(genre => genre.id === parseInt(value)).name]);
         }
     };
 
@@ -46,11 +51,37 @@ const SearchPage = () => {
         event.preventDefault();
         try {
             console.log('searchText:', searchText, ', selectedGenres:', selectedGenres);
-            const response = await BookApi.AdvancedSearch(searchText, selectedGenres.length > 0 ? selectedGenres : []);
+            const response = await BookApi.AdvancedSearch(searchText, selectedGenres);
             setSearchResults(response.data.data);
         } catch (error) {
             console.error('Error searching:', error);
         }
+    };
+
+    const renderGrid = () => {
+        const numCols = 4;
+        const numRows = Math.ceil(genres.length / numCols);
+
+        const grid = [];
+
+        for (let i = 0; i < numRows; i++) {
+            const row = [];
+            for (let j = 0; j < numCols; j++) {
+                const index = i * numCols + j;
+                if (index < genres.length) {
+                    const genre = genres[index];
+                    row.push(
+                        <label key={genre.id}>
+                            <input type="checkbox" value={genre.id} onChange={handleGenreChange} />
+                            {genre.name}
+                        </label>
+                    );
+                }
+            }
+            grid.push(<div className="dropdown-row" key={i}>{row}</div>);
+        }
+
+        return grid;
     };
 
     return (
@@ -65,16 +96,18 @@ const SearchPage = () => {
                             </div>
                             <form onSubmit={handleSubmit}>
                                 <input
+                                    className="book_page_list_search_box"
                                     type="text"
                                     value={searchText}
                                     onChange={handleSearchChange}
                                     placeholder="Nhập từ khóa tìm kiếm"
                                 />
-                                <select multiple value={selectedGenres} onChange={handleGenreChange}>
-                                    {genres.map(genre => (
-                                        <option key={genre.id} value={genre.id}>{genre.name}</option>
-                                    ))}
-                                </select>
+                                <div className="book_page_list_dropdown">
+                                    <button>Chọn thể loại</button>
+                                    <div className="book_page_list_dropdown_content">
+                                        {renderGrid()}
+                                    </div>
+                                </div>
                                 <button type="submit">Tìm kiếm</button>
                             </form>
                             <div className="book_page_list_title">

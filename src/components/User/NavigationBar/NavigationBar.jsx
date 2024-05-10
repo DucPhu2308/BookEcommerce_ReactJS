@@ -12,9 +12,9 @@ const Dropdown = ({ genre }) => {
       .fill()
       .map((_, rowIndex) => (
         <div className="dropdown-row" key={rowIndex}>
-          {genre.slice(rowIndex * numCols, (rowIndex + 1) * numCols).map((category, colIndex) => (
+          {genre.slice(rowIndex * numCols, (rowIndex + 1) * numCols).map((genre, colIndex) => (
             <div key={colIndex} className="dropdown-item">
-              {category.name}
+              {genre.name}
             </div>
           ))}
         </div>

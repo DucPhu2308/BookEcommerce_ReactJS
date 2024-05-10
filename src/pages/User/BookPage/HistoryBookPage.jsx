@@ -29,7 +29,7 @@ const HistoryBookPage = () => {
                     <div className="container_nav_2">
                         <div className="book_page_list">
                             <div className="book_page_list_title">
-                                Truyện đang theo dõi
+                                Truyện đã đọc
                             </div>
                             {listBooks.length === 0 && (
                                 <div className="book_page_list_notice">
