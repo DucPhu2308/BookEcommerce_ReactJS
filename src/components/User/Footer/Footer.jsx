@@ -14,7 +14,9 @@ function Footer() {
                     </li>
                     <li>
                         <div className="footer_container_item">
-                            <span>Copyright @ 2024</span>
+                            <span>Copyright 
+                                <i className="fas fa-copyright"></i>
+                                2024</span>
                         </div>
                     </li>
                     <li>

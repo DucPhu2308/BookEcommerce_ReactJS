@@ -1,7 +1,7 @@
 .header_search_keybox_item{
     height:100%;
     width:100%;
-    background-color: #efe7efc6;
+    background-color: #f4f0f1f1;
     border:2px solid #ada2a2;
     cursor: pointer;
     margin-top:10px;
@@ -36,6 +36,10 @@
     color: #000;
     font-weight: bold;
     font-family: sans-serif;
+    width:360px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     margin: 0;
 }
 .header_search_keybox_item_info span{
