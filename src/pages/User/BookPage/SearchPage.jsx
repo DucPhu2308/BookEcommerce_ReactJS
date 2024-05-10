@@ -39,7 +39,7 @@ const SearchPage = () => {
 
     useEffect(() => {
         handleSubmit();
-    }, [location.search]);
+    }, [selectedGenres, searchText]);
 
     const handleSearchChange = (event) => {
         setSearchText(event.target.value);
@@ -59,7 +59,10 @@ const SearchPage = () => {
         }
     };
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (event) => {
+        if (event) {
+            event.preventDefault();
+        }
         try {
             const response = await BookApi.AdvancedSearch(searchText, selectedGenres);
             setSearchResults(response.data.data);
@@ -117,14 +120,13 @@ const SearchPage = () => {
                                     {renderGrid()}
                                 </div>
                             </div>
-                            <button type="submit">Tìm kiếm</button>
                         </form>
                         <div className="book_page_list_title">
                             Kết quả tìm kiếm
                         </div>
                         {searchResults.length === 0 ? (
                             <div className="book_page_list_notice">
-                                Không tìm thấy truyện
+                                Không tìm thấy truyện nào phù hợp
                             </div>
                         ) : (
                             <Pagination
