@@ -1,7 +1,8 @@
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import DefaultLayout from "@/layouts/DefaultLayout/DefaultLayout";
 import NavigationBar from "@/components/User/NavigationBar/NavigationBar";
-import './BookPage.css'
-import { useState, useEffect } from "react";
+import './BookPage.css';
 import BookApi from "../../../API/User/BookApi";
 import Pagination from './Pagination';
 import GenreApi from "../../../API/Admin/GenreApi";
@@ -10,24 +11,35 @@ const colNumber = 3;
 const recordsPerPage = 15;
 
 const SearchPage = () => {
+    const location = useLocation();
+    const searchParams = new URLSearchParams(location.search);
+    const initialGenreId = searchParams.get("genre");
+
     const [searchText, setSearchText] = useState('');
-    const [selectedGenres, setSelectedGenres] = useState([]);
+    const [selectedGenres, setSelectedGenres] = useState(initialGenreId ? [initialGenreId] : []);
     const [genres, setGenres] = useState([]);
     const [searchResults, setSearchResults] = useState([]);
     const [selectedGenreNames, setSelectedGenreNames] = useState([]);
 
     useEffect(() => {
-        async function fetchgenre() {
+        async function fetchData() {
             try {
                 const response = await GenreApi.getAll();
                 setGenres(response.data.data);
             } catch (error) {
-                console.error("Error fetching genre:", error);
+                console.error("Error fetching data:", error);
             }
         }
-
-        fetchgenre();
+        fetchData();
     }, []);
+
+    useEffect(() => {
+        setSelectedGenres(initialGenreId ? [initialGenreId] : []);
+    }, [initialGenreId]);
+
+    useEffect(() => {
+        handleSubmit();
+    }, [selectedGenres, searchText]);
 
     const handleSearchChange = (event) => {
         setSearchText(event.target.value);
@@ -48,9 +60,10 @@ const SearchPage = () => {
     };
 
     const handleSubmit = async (event) => {
-        event.preventDefault();
+        if (event) {
+            event.preventDefault();
+        }
         try {
-            console.log('searchText:', searchText, ', selectedGenres:', selectedGenres);
             const response = await BookApi.AdvancedSearch(searchText, selectedGenres);
             setSearchResults(response.data.data);
         } catch (error) {
@@ -72,7 +85,7 @@ const SearchPage = () => {
                     const genre = genres[index];
                     row.push(
                         <label key={genre.id}>
-                            <input type="checkbox" value={genre.id} onChange={handleGenreChange} />
+                            <input type="checkbox" value={genre.id} onChange={handleGenreChange} checked={selectedGenres.includes(String(genre.id))} />
                             {genre.name}
                         </label>
                     );
@@ -85,50 +98,47 @@ const SearchPage = () => {
     };
 
     return (
-        <>
-            <DefaultLayout>
-                <div className="container_body">
-                    <NavigationBar />
-                    <div className="container_nav_2">
-                        <div className="book_page_list">
-                            <div className="book_page_list_title">
-                                Tìm kiếm nâng cao
-                            </div>
-                            <form onSubmit={handleSubmit}>
-                                <input
-                                    className="book_page_list_search_box"
-                                    type="text"
-                                    value={searchText}
-                                    onChange={handleSearchChange}
-                                    placeholder="Nhập từ khóa tìm kiếm"
-                                />
-                                <div className="book_page_list_dropdown">
-                                    <button>Chọn thể loại</button>
-                                    <div className="book_page_list_dropdown_content">
-                                        {renderGrid()}
-                                    </div>
-                                </div>
-                                <button type="submit">Tìm kiếm</button>
-                            </form>
-                            <div className="book_page_list_title">
-                                Kết quả tìm kiếm
-                            </div>
-                            {searchResults.length === 0 ? (
-                                <div className="book_page_list_notice">
-                                    Không tìm thấy truyện
-                                </div>
-                            ) : (
-                                <Pagination
-                                    list={searchResults}
-                                    colNumber={colNumber}
-                                    recordsPerPage={recordsPerPage}
-                                />
-                            )}
+        <DefaultLayout>
+            <div className="container_body">
+                <NavigationBar genres={genres} />
+                <div className="container_nav_2">
+                    <div className="book_page_list">
+                        <div className="book_page_list_title">
+                            Tìm kiếm nâng cao
                         </div>
+                        <form onSubmit={handleSubmit}>
+                            <input
+                                className="book_page_list_search_box"
+                                type="text"
+                                value={searchText}
+                                onChange={handleSearchChange}
+                                placeholder="Nhập từ khóa tìm kiếm"
+                            />
+                            <div className="book_page_list_dropdown">
+                                <button>Chọn thể loại</button>
+                                <div className="book_page_list_dropdown_content">
+                                    {renderGrid()}
+                                </div>
+                            </div>
+                        </form>
+                        <div className="book_page_list_title">
+                            Kết quả tìm kiếm
+                        </div>
+                        {searchResults.length === 0 ? (
+                            <div className="book_page_list_notice">
+                                Không tìm thấy truyện nào phù hợp
+                            </div>
+                        ) : (
+                            <Pagination
+                                list={searchResults}
+                                colNumber={colNumber}
+                                recordsPerPage={recordsPerPage}
+                            />
+                        )}
                     </div>
                 </div>
-            </DefaultLayout>
-        </>
+            </div>
+        </DefaultLayout>
     );
 }
 

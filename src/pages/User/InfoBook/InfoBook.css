@@ -103,7 +103,10 @@
     justify-content: center;
     align-items: center;
 }
-
+.box_item_info_genre a{
+    text-decoration: none;
+    color: #000;
+}
 
 .container_info_book_body_description{
     width: 100%;
