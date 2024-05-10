@@ -1,6 +1,6 @@
 import DetailUser from './DetailUser/DetailUser';
 import './ManageUser.css';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import UserApi from '../../../API/User/UserApi';
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
@@ -8,6 +8,38 @@ const ManageUser = () => {
     const [users, setUsers] = useState([]);
     const [objectUser, setObjectUser] = useState({});
     const [detailUser, setDetailUser] = useState(false);
+    const admin = JSON.parse(localStorage.getItem('user'));
+    const inputSearch = useRef(true);
+
+
+    useEffect(() => {
+        const inputSearchRef = inputSearch.current;
+        const handleSearch = () => {
+            const value = inputSearchRef.value.toLowerCase();
+            
+            const searchItems = document.querySelectorAll('.container_admin_manage_users_body_content_box table tr');
+            searchItems.forEach((item) => {
+                const text = item.textContent.toLowerCase();
+                if (text.indexOf(value) === -1) {
+                    item.style.display = 'none';
+                } else {
+                    item.style.display = '';
+                }
+            });
+        }
+        if (inputSearchRef) {
+            inputSearchRef.addEventListener('keyup', handleSearch);
+        }
+        return () => {
+            if (inputSearchRef) {
+                inputSearchRef.removeEventListener('keyup', handleSearch);
+            }
+        }
+    }, [inputSearch]);
+
+            
+
+
     useEffect(() => {
         const fetchUsers = async () => {
             try {
@@ -26,6 +58,9 @@ const ManageUser = () => {
                         }).catch((err) => {
                             console.log(err);
                         })
+                    }
+                    if(admin.id === response.data.data[i].id){
+                        response.data.data.splice(i,1);
                     }
                 }
             } catch (error) {
@@ -102,7 +137,7 @@ const ManageUser = () => {
                         <span>Quản lý khách hàng</span>
                     </div>
                     <div className="container_admin_manage_users_body_title_search">
-                        <input type="text" placeholder="Tìm kiếm" />
+                        <input type="text" placeholder="Tìm kiếm" ref={inputSearch} />
                         <button>
                             <i className="fas fa-search"></i>
                         </button>
@@ -116,7 +151,7 @@ const ManageUser = () => {
                                 <tr key={user.id}>
                                     <th className="width_check_tick">
                                         <div className="check_tick ">
-                                            {user.active ? <i className="fas fa-check"></i> : <i className="fas fa-times"></i>}
+                                            {user.active ? <i className="fas fa-check"></i> : <i className="fas fa-times" style={{color:"red"}}></i>}
                                         </div>
                                     </th>
                                     <th>

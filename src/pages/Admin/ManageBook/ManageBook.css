@@ -81,6 +81,7 @@
     border: none;
     border-radius: 5px;
     margin-left:3px;
+    cursor: pointer;
 }
 .container_admin_manage_book_body_table table tr td button:hover{
     background-color: #555;
@@ -90,4 +91,55 @@
 }
 .col_1_1{
     width: 5%;
+}
+.container_admin_manage_book_body_title_search{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height:35px;
+}
+.container_admin_manage_book_body_title_search input{
+    width: 90%;
+    height:100%;
+    padding: 0;
+    border:none;
+    padding:0 10px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    font-family:sans-serif;
+    background-color: #f2f2f2;
+    z-index: 6;
+}
+.container_admin_manage_book_body_title_search input:focus{
+    outline: none;
+}
+.container_admin_manage_book_body_title_search input ::placeholder{
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    font-family:sans-serif;
+}
+.container_admin_manage_book_body_title_search button{
+    width: 15%;
+    height: 100%;
+    background-color: #9f9696;
+    color: #fff;
+    border-radius:5px;
+    cursor: pointer;
+    border:none;
+    font-size: 16px;
+    font-weight: bold;
+    font-family:sans-serif;
+    position: relative;
+    right:8px;
+    z-index: 5;
+}
+.container_admin_manage_book_body_title_search button:hover{
+    background-color: #333;
+}
+.container_admin_manage_book_body_title_search button i{
+    margin-left:5px;
 }

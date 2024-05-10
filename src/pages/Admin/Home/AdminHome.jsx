@@ -4,7 +4,6 @@ import ManageUser from "../ManageUser/ManageUser";
 import { useState } from 'react';
 import ManageGenre from "../ManageGenre/ManageGenre";
 import DashBoard from "../DashBoard/DashBoard";
-import ManageComment from "../ManageComment/ManageComment";
 import ManageBook from "../ManageBook/ManageBook";
 
 const Form = ({ selectItem }) => {

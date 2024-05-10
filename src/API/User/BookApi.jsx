@@ -59,5 +59,13 @@ class BookApi {
         const url = `book/advanced-search?title=${title}&genre=${genreId}`;
         return axiosClient.get(url);
     }
+    hideBook = (id) =>{
+        const url= `book/${id}/hide`;
+        return axiosPrivate.put(url);
+    }
+    restoreBook = (id) =>{
+        const url= `book/${id}/restore`;
+        return axiosPrivate.put(url);
+    }
 }
 export default new BookApi();
