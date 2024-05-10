@@ -36,6 +36,10 @@ class UserApi {
         const url = `/user/follow/${userId}/user`;
         return axiosPrivate.post(url);
     }
+    changePassword = (password) => {
+        const url = '/user/change-password';
+        return axiosPrivate.put(url, null, { params: { password } });
+    }
 }
 
 export default new UserApi();
