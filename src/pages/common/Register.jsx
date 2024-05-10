@@ -10,10 +10,10 @@ import AuthApi from "../../API/Auth/AuthApi";
 const Register = () => {
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
-  const [userName, setUserName] = useState("PhuDepTrai");
-  const [email, setEmail] = useState("Teo16@gmail.com");
-  const [password, setPassword] = useState("123456");
-  const [confirmPassword, setConfirmPassword] = useState("123456");
+  const [userName, setUserName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 

@@ -80,7 +80,7 @@ function NavigationBar() {
           </NavLink>
         </li>
         <li>
-          <NavLink to="/Search" activeClassName="active">
+          <NavLink to="/search" activeClassName="active">
             Tìm kiếm
           </NavLink>
         </li>

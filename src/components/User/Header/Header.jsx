@@ -1,6 +1,7 @@
 import { useState, useEffect,useRef, useContext } from "react";
 import "./Header.css";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import logo from "@/assets/images/logo.png";
 import ItemUserSuccessLogin from "./ItemUserSuccessLogin/ItemUserSuccessLogin";
 import BookApi from "../../../API/User/BookApi";
@@ -10,6 +11,7 @@ import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 
 const Header = () => {
+  const navigate = useNavigate();
   const { user } = useContext(UserContext);
   const [books, setBooks] = useState([]);
   
@@ -69,7 +71,12 @@ const Header = () => {
     window.location.href = `/book/${id}`;
   }
 
-  
+  const handleSearchBoxKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      let params = `?title=${inputSearch.current.value}`;
+      navigate(`/search${params}`);
+    }
+  }
 
 
   return (
@@ -85,7 +92,7 @@ const Header = () => {
           </li>
           <li>
             <div className="header_search">
-              <input type="text" name="search" placeholder="Search..." ref={inputSearch}/>
+              <input onKeyDown={handleSearchBoxKeyDown} type="text" name="search" placeholder="Search..." ref={inputSearch}/>
               <div className="header_search_icon">
                 <button>
                   <i className="fas fa-search"></i>

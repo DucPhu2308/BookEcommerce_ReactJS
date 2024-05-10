@@ -14,9 +14,10 @@ const SearchPage = () => {
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
     const initialGenreId = searchParams.get("genre");
+    const initialSearchText = searchParams.get("title");
 
-    const [searchText, setSearchText] = useState('');
-    const [selectedGenres, setSelectedGenres] = useState(initialGenreId ? [initialGenreId] : []);
+    const [searchText, setSearchText] = useState(initialSearchText || '');
+    const [selectedGenres, setSelectedGenres] = useState(initialGenreId ? initialGenreId.split(',') : []);
     const [genres, setGenres] = useState([]);
     const [searchResults, setSearchResults] = useState([]);
     const [selectedGenreNames, setSelectedGenreNames] = useState([]);
@@ -34,15 +35,23 @@ const SearchPage = () => {
     }, []);
 
     useEffect(() => {
-        setSelectedGenres(initialGenreId ? [initialGenreId] : []);
+        setSelectedGenres(initialGenreId ? initialGenreId.split(',')  : []);
     }, [initialGenreId]);
 
     useEffect(() => {
         handleSubmit();
-    }, [selectedGenres, searchText]);
+    }, [selectedGenres]);
 
     const handleSearchChange = (event) => {
         setSearchText(event.target.value);
+    };
+
+    // Handle search when user press Enter
+    const handleSearchBoxKeyDown = (event) => {
+        if (event.key === 'Enter') {
+            
+            handleSubmit();
+        }
     };
 
     const handleGenreChange = (event) => {
@@ -66,6 +75,11 @@ const SearchPage = () => {
         try {
             const response = await BookApi.AdvancedSearch(searchText, selectedGenres);
             setSearchResults(response.data.data);
+            let params = `?title=${searchText}&`;
+            if (selectedGenres.length > 0) {
+                params += `genre=${selectedGenres.join(',')}`;
+            }
+            window.history.pushState({}, '', `/search${params}`);
         } catch (error) {
             console.error('Error searching:', error);
         }
@@ -112,6 +126,7 @@ const SearchPage = () => {
                                 type="text"
                                 value={searchText}
                                 onChange={handleSearchChange}
+                                onKeyDown={handleSearchBoxKeyDown}
                                 placeholder="Nhập từ khóa tìm kiếm"
                             />
                             <div className="book_page_list_dropdown">
