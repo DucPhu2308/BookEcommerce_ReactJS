@@ -135,9 +135,8 @@ const ItemUserSuccessLogin = () => {
                 </div>
                 <div className="header_nav_user" ref={selectInfoUserRef}>
                     <img src={user.avatar || accountImage} alt="user" />
-                    <span>{user.displayName}
-                        <i className="fas fa-circle-chevron-down" ref={selectInfoUserIconRef}></i>
-                    </span>
+                    <span>{user.displayName}</span>
+                    <i className="fas fa-circle-chevron-down" ref={selectInfoUserIconRef}></i>
                 </div>
                 <div className="header_nav_user_box" ref={selectInfoUserBoxRef}>
                     <ul>

@@ -87,7 +87,7 @@ function App() {
         </Route>
 
         {/* private routes */}
-        <Route element={<RequireAuth allowedRoles={[ROLES.USER]} />}>
+        <Route element={<RequireAuth allowedRoles={[ROLES.USER,ROLES.ADMIN]} />}>
           <Route path="/subcribebook" element={<SubcribeBookPage />} />
           <Route path="/infoUser" element={<InfoUser />} />
           <Route path="/historybook" element={<HistoryBookPage />} />
