@@ -142,6 +142,10 @@
     font-family: Arial;
     align-self: center;
     text-transform: none;
+    width:100px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .header_nav_select{
@@ -174,6 +178,7 @@
     display: flex;
     justify-content: space-around;
     cursor: pointer;
+    align-items: center;
 }
 .header_nav_user i{
     margin-left:3px;
