@@ -27,6 +27,8 @@ const AddParagraph = () => {
   const navigate = useNavigate();
   const { idChap } = useParams();
 
+  
+
   useEffect(() => {
     const fetchChapter = async () => {
       try {
@@ -37,6 +39,7 @@ const AddParagraph = () => {
       }
     };
     fetchChapter();
+
 
     const fetchParagraphs = async () => {
       try {

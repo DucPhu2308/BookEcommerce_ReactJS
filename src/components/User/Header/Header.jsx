@@ -65,7 +65,7 @@ const Header = () => {
       }
     };
     fetchBooks();
-  }, []);
+  }, [books]);
 
   const handleDirectInfoBook = (id) => {
     window.location.href = `/book/${id}`;

@@ -120,7 +120,7 @@ const InfoBook = () => {
             }
         };
         fetchChapter();
-    }, [idBook, listChapter]);
+    }, [listChapter]);
 
 
 
@@ -253,6 +253,10 @@ const InfoBook = () => {
             toast.error("Bạn cần đăng nhập để thực hiện chức năng này");
             return;
         }
+        if(valueRating === 0 || valueContent === ""){  
+            toast.error("Vui lòng nhập đầy đủ thông tin");
+            return;
+        }
         const data = {
             content: valueContent,
             star: valueRating,
@@ -327,6 +331,10 @@ const InfoBook = () => {
     }
     
     const handleUpdateRating = (id) => {
+        if(valueUpdateRating === 0 || valueUpdateContent === ""){
+            toast.error("Vui lòng nhập đầy đủ thông tin");
+            return;
+        }
         const data = {
             content: valueUpdateContent,
             star: valueUpdateRating,
@@ -464,7 +472,7 @@ const InfoBook = () => {
                     <div className="container_info_book_body_description">
                         <div className="container_info_book_body_description_left">
                             <div className="container_info_book_body_description_left_item_long_desc">
-                                <span>Long desc:</span>
+                                <span>Mô tả:</span>
                                 <pre>{book.description} </pre>
                             </div>
 

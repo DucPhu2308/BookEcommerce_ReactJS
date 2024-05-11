@@ -1,9 +1,9 @@
 import './AddChapter.css'
 import DefaultLayout from '../../../layouts/DefaultLayout/DefaultLayout'
 import { Link } from 'react-router-dom'
-import { useState,useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import ChapterApi from '../../../API/User/ChapterApi'
-import {ToastContainer, toast} from 'react-toastify'
+import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import numeral from 'numeral'
 import BookApi from '../../../API/User/BookApi'
@@ -11,41 +11,37 @@ const AddChapter = () => {
     const [addChapter, setAddChapter] = useState('')
     const [indexChapter, setIndexChapter] = useState('')
     const [priceChapter, setPriceChapter] = useState('')
-    const [listChapter, setListChapter] = useState([])
-    const [submitAddChapter, setSubmitAddChapter] = useState(false)
+    // const [listChapter, setListChapter] = useState([])
+    // const [submitAddChapter, setSubmitAddChapter] = useState(false)
     const [listBook, setListBook] = useState([])
     const [idBook, setIdBook] = useState(localStorage.getItem('idBook'))
-    
 
-    const handleSubmitGenre = () => {
-        setSubmitAddChapter(!submitAddChapter)
 
-    
-        if(addChapter === '' || indexChapter === '' || priceChapter === '' || idBook === null || idBook === '0'){
-            setSubmitAddChapter(false)
-            toast.error('Vui lòng nhập đầy đủ thông tin')
-        }
-        else{
-            const newChapter = {
-                "title": addChapter,
-                "price": priceChapter,
-                "index": indexChapter,
-                "book": idBook
-            }
-            console.log(newChapter)
-            setListChapter([...listChapter, newChapter])
-            setAddChapter('')
-            setIndexChapter('')
-            setPriceChapter('')
-        }
-    }
-    
-    const handleDeleteGenre = (index) => {
-        const newListChapter = listChapter.filter((item, idx) => idx !== index)
-        setListChapter(newListChapter)
-    }
+    // const handleSubmitGenre = () => {
+    //     setSubmitAddChapter(!submitAddChapter)
 
-    
+
+    //     if (addChapter === '' || indexChapter === '' || priceChapter === '' || idBook === null || idBook === '0') {
+    //         setSubmitAddChapter(false)
+    //         toast.error('Vui lòng nhập đầy đủ thông tin')
+    //     }
+    //     else {
+    //         const newChapter = {
+    //             "title": addChapter,
+    //             "price": priceChapter,
+    //             "index": indexChapter,
+    //             "book": idBook
+    //         }
+    //         console.log(newChapter)
+    //         setListChapter([...listChapter, newChapter])
+    //         setAddChapter('')
+    //         setIndexChapter('')
+    //         setPriceChapter('')
+    //     }
+    // }
+
+
+
 
 
     const handleChangeAddChapter = (e) => {
@@ -61,40 +57,41 @@ const AddChapter = () => {
         setIdBook(e.target.value)
     }
 
-    
+
     const handleAddChapterBook = async () => {
 
         const user = localStorage.getItem('user')
-        if(!user){
+        if (!user) {
             toast.error('Vui lòng đăng nhập để thêm chương')
             return;
         }
-        else if(listChapter.length === 0){
-            toast.error('Vui lòng thêm chương')
-            return;
+        if (addChapter === '' || indexChapter === '' || priceChapter === '' || idBook === null || idBook === '0') {
+            // setSubmitAddChapter(false)
+            toast.error('Vui lòng nhập đầy đủ thông tin')
         }
-        
 
-        for(let i=0; i<listChapter.length; i++){
-            const newChapter = {
-                "title": listChapter[i].title,
-                "price": listChapter[i].price,
-                "index": listChapter[i].index,
-                "book": listChapter[i].book
-            }
-            try {
-                ChapterApi.postChapter(newChapter).then((res) => {
-                    console.log(res.data)
-                    toast.success('Thêm chương thành công')
-                })
-                
-            } catch (error) {
-                console.log('Failed to add chapter: ', error)
-                toast.error('Thêm chương thất bại')
-            }
+        const newChapter = {
+            "title": addChapter,
+            "price": priceChapter,
+            "index": indexChapter,
+            "book": idBook
         }
-        setListChapter([])
-        
+
+        try {
+            ChapterApi.postChapter(newChapter).then((res) => {
+                toast.success('Thêm chương thành công')
+                setAddChapter('')
+                setIndexChapter('')
+                setPriceChapter('')
+                window.location.href = '/book/' + idBook + '/chapter/' + res.data.data.id + '/edit'
+            })
+
+        } catch (error) {
+            toast.error('Thêm chương thất bại')
+        }
+
+
+
     }
 
     useEffect(() => {
@@ -109,18 +106,7 @@ const AddChapter = () => {
         }
         fetchData()
     }, [])
-    
-    function checkDataListGenre(listGenre){
-        if(listGenre.length === 0){
-            return (
-                <div >
-                    <span style={{fontSize:'16px', fontFamily:'san-serif', fontWeight:'600'}}>Chưa có chương nào được thêm</span>
-                </div>
-            )
-        }
 
-    }
-    
     return (
         <DefaultLayout>
             <ToastContainer />
@@ -128,7 +114,7 @@ const AddChapter = () => {
                 <div className="container_add_chapter_taskbar">
                     <ul>
                         <li>
-                            
+
                             <span>Thêm chương</span>
                         </li>
                         <li>
@@ -164,7 +150,7 @@ const AddChapter = () => {
                                     {listBook.map((item, index) => (
                                         <option value={item.id} key={index}>{item.title}</option>
                                     ))}
-                                    
+
                                 </select>
                             </div>
                         </div>
@@ -183,33 +169,8 @@ const AddChapter = () => {
 
                             </div>
                         </div>
-                        <div className="container_add_chapter_box_form_button">
-                            <button onClick={handleSubmitGenre}>Thêm chương</button>
-                        </div>
                     </div>
-                    <div className="container_added_chapter_body">
-                        <div className="container_added_chapter_title">
-                            <span>Chương đã thêm</span>
-                        </div>
-                        <div className="container_added_chapter_list">
-                            <div className="container_added_chapter_list_body">
-                                
-                                {checkDataListGenre(listChapter)}
-                                {listChapter.map((item, index) => (
-                                    <div className="container_added_chapter_list_body_item" key={index}>
-                                        <div className="container_added_chapter_list_body_item_info">
-                                            <span>Chương {item.index}: {item.title}</span>
-                                            <span>Giá: {item.price} xu</span>
-                                        </div>
-                                        <div className="container_added_chapter_list_body_item_action">
-                                            <button onClick={()=> handleDeleteGenre(index)}>xóa</button>
-                                        </div>
-                                    </div>
-                                ))}
-                            
-                            </div>
-                        </div>
-                    </div>
+
                 </div>
             </div>
         </DefaultLayout>

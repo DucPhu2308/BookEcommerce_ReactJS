@@ -197,7 +197,7 @@
     outline: 2px solid #5c5959 !important;
 }
 .container_bookDetail_nav_1_displayBook_comment{
-    padding:0 20px;
+    padding: 20px;
     background-color: #f2f2f2;
     margin-top:20px;
     box-shadow: 0 0 10px 5px #b1aeae;
@@ -205,7 +205,6 @@
 
 .container_bookDetail_nav_1_displayBook_comment_title{
     width: 100%;
-    padding-top:10px;
     margin-left:20px;
 }
 .container_bookDetail_nav_1_displayBook_comment_title span{

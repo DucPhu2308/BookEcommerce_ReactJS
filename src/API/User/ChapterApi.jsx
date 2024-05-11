@@ -23,5 +23,10 @@ class ChapterApi {
         const url = `chapter/${id}`;
         return axiosPrivate.put(url, data);
     }
+
+    deleteChapter = (id) => {
+        const url = `chapter/${id}`;
+        return axiosPrivate.delete(url);
+    }
 }
 export default new ChapterApi();

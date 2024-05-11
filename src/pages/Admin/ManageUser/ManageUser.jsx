@@ -16,7 +16,7 @@ const ManageUser = () => {
         const inputSearchRef = inputSearch.current;
         const handleSearch = () => {
             const value = inputSearchRef.value.toLowerCase();
-            
+
             const searchItems = document.querySelectorAll('.container_admin_manage_users_body_content_box table tr');
             searchItems.forEach((item) => {
                 const text = item.textContent.toLowerCase();
@@ -37,7 +37,7 @@ const ManageUser = () => {
         }
     }, [inputSearch]);
 
-            
+
 
 
     useEffect(() => {
@@ -45,9 +45,9 @@ const ManageUser = () => {
             try {
                 const response = await UserApi.getAll();
                 setUsers(response.data.data);
-                for(let i = 0; i < response.data.data.length; i++){
-                    if(admin.id === response.data.data[i].id){
-                        response.data.data.splice(i,1);
+                for (let i = 0; i < response.data.data.length; i++) {
+                    if (admin.id === response.data.data[i].id) {
+                        response.data.data.splice(i, 1);
                     }
                 }
             } catch (error) {
@@ -85,11 +85,11 @@ const ManageUser = () => {
             console.log(err);
         });
     }
-    
+
     const handleClickUpdate = (user) => {
         handleUpdateUser(user, false);
     }
-    
+
     const handleClickChangeUpdate = (user) => {
         handleUpdateUser(user, true);
     }
@@ -117,7 +117,7 @@ const ManageUser = () => {
 
     return (
         <div className="container_admin_manage_users">
-            <ToastContainer/>
+            <ToastContainer />
             <div className="container_admin_manage_users_body">
                 <div className="container_admin_manage_users_body_title">
                     <div className="container_admin_manage_users_body_title_paga">
@@ -133,37 +133,40 @@ const ManageUser = () => {
                 <div className="container_admin_manage_users_body_content">
                     <div className="container_admin_manage_users_body_content_box">
                         <table>
-                            {users.map((user) => (
-                                users.sort((a, b) => a.id - b.id),
-                                <tr key={user.id}>
-                                    <th className="width_check_tick">
-                                        <div className="check_tick ">
-                                            {user.active ? <i className="fas fa-check"></i> : <i className="fas fa-times" style={{color:"red"}}></i>}
-                                        </div>
-                                    </th>
-                                    <th>
-                                        <div className="user_name_image">
-                                            <img src={user.avatar} alt="user" />
-                                        </div>
-                                    </th>
-                                    <th className="width_row">
-                                        <div className="user_name_title">
-                                            <span>{user.displayName}</span>
-                                            <span>ID: {user.id}</span>
-                                        </div>
-                                    </th>
-                                    <th>
-                                        <div className="container_admin_manage_users_body_content_box_actions_btn">
-                                            <button className="detail_user_white" onClick={() => handleClickDetailUser(user)}>
-                                                <i className="fas fa-info-circle" ></i>
-                                            </button>
+                            <tbody>
+                                {users.map((user) => (
+                                    users.sort((a, b) => a.id - b.id),
+                                    <tr key={user.id}>
+                                        <th className="width_check_tick">
+                                            <div className="check_tick ">
+                                                {user.active ? <i className="fas fa-check"></i> : <i className="fas fa-times" style={{ color: "red" }}></i>}
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <div className="user_name_image">
+                                                <img src={user.avatar} alt="user" />
+                                            </div>
+                                        </th>
+                                        <th className="width_row">
+                                            <div className="user_name_title">
+                                                <span>{user.displayName}</span>
+                                                <span>ID: {user.id}</span>
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <div className="container_admin_manage_users_body_content_box_actions_btn">
+                                                <button className="detail_user_white" onClick={() => handleClickDetailUser(user)}>
+                                                    <i className="fas fa-info-circle" ></i>
+                                                </button>
 
-                                            {renderButton(user)}
-                                        </div>
-                                    </th>
-                                </tr>
+                                                {renderButton(user)}
+                                            </div>
+                                        </th>
+                                    </tr>
 
-                            ))}
+                                ))}
+                            </tbody>
+
 
                         </table>
                     </div>

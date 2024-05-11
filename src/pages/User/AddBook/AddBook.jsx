@@ -18,6 +18,9 @@ const AddBook = () => {
     const [addBook, setAddBook] = useState('');
     const [addDescription, setAddDescription] = useState('');
     const [imgSrc, setImgSrc] = useState(PlaceholderImage);
+    
+
+
 
     const handleChangeAddInput = (e) => {
         setAddBook(e.target.value);

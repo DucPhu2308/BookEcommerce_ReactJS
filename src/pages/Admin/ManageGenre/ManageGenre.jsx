@@ -1,9 +1,9 @@
 import GenreApi from '../../../API/Admin/GenreApi';
 import './ManageGenre.css'
-import { useEffect, useState ,useRef} from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
-
+import ConfirmDeleteGenre from './ConfirmDeleteBook';
 
 const ManageGenre = () => {
     const [updateGenre, setUpdateGenre] = useState(false);
@@ -12,6 +12,7 @@ const ManageGenre = () => {
     const [genre, setGenre] = useState([]);
     const [editingGenre, setEditingGenre] = useState(null);
     const [addInputValue, setAddInputValue] = useState('');
+    const [confirmDeleteGenre, setConfirmDeleteGenre] = useState(null);
     const inputSearch = useRef(true);
 
     useEffect(() => {
@@ -95,6 +96,10 @@ const ManageGenre = () => {
     const handleSaveGenre = async (id) => {
         setEditingGenre(null);
         setUpdateGenre(false);
+        if (inputValue === '') {
+            toast.error('Tên thể loại không được để trống');
+            return;
+        }
         const newGenre = {
             name: inputValue,
             color: '#000000'
@@ -122,17 +127,7 @@ const ManageGenre = () => {
     }
 
     const handleDeleteGenre = (id) => {
-        const confirm = window.confirm('Bạn có chắc chắn muốn xóa thể loại này không?');
-        if (!confirm) return;
-        const newGenres = genre.filter((item) => item.id !== id);
-        setGenre(newGenres);
-        try {
-            GenreApi.deleteGenre(id);
-            toast.success('Xóa thể loại thành công');
-        } catch (error) {
-            console.log(error);
-            toast.error('Xóa thể loại thất bại');
-        }
+        setConfirmDeleteGenre(id);
     }
 
 
@@ -166,7 +161,7 @@ const ManageGenre = () => {
                             <span>Quản lý thể loại</span>
                         </div>
                         <div className="container_admin_option_title_search">
-                            <input id="inputFilter" type="text" placeholder="Tìm kiếm" ref={inputSearch}/>
+                            <input id="inputFilter" type="text" placeholder="Tìm kiếm" ref={inputSearch} />
                             <button>
                                 <i className="fas fa-search"></i>
                             </button>
@@ -178,50 +173,60 @@ const ManageGenre = () => {
                         </div>
                         <div className="container_admin_option_content_table">
                             <table>
-                                {renderAddGenre()}
-                                {genre.map((item) => (
-                                    <tr key={item.id}>
-                                        <td>
-                                            {editingGenre === item.id ? (
-                                                <>
-                                                    <input
-                                                        type="text"
-                                                        value={inputValue}
-                                                        onChange={handleChangeInput}
-                                                    />
-                                                </>
+                                <tbody>
+                                    {renderAddGenre()}
+                                    {genre.map((item) => (
+                                        <tr key={item.id}>
+                                            <td>
+                                                {editingGenre === item.id ? (
+                                                    <>
+                                                        <input
+                                                            type="text"
+                                                            value={inputValue}
+                                                            onChange={handleChangeInput}
+                                                        />
+                                                    </>
 
 
-                                            ) : (
-                                                <span>{item.name}</span>
-                                            )}
-                                        </td>
-                                        <td className="option_content_table_btn_action">
-                                            {editingGenre === item.id ? (
-                                                <>
-                                                    <button onClick={() => handleSaveGenre(item.id)}>
-                                                        <i className="fas fa-save"></i>
-                                                    </button>
-                                                    <button onClick={handleCancelSaveGenre}>
-                                                        <i className="fas fa-times"></i>
-                                                    </button>
-                                                </>
+                                                ) : (
+                                                    <span>{item.name}</span>
+                                                )}
+                                            </td>
+                                            <td className="option_content_table_btn_action">
+                                                {editingGenre === item.id ? (
+                                                    <>
+                                                        <button onClick={() => handleSaveGenre(item.id)}>
+                                                            <i className="fas fa-save"></i>
+                                                        </button>
+                                                        <button onClick={handleCancelSaveGenre}>
+                                                            <i className="fas fa-times"></i>
+                                                        </button>
+                                                    </>
 
-                                            ) : (
-                                                <>
-                                                    <button onClick={() => handleUpdateGenre(item.id)}>
-                                                        <i className="fas fa-edit"></i>
-                                                    </button>
-                                                    <button onClick={() => handleDeleteGenre(item.id)}>
-                                                        <i className="fas fa-trash-alt"></i>
-                                                    </button>
-                                                </>
+                                                ) : (
+                                                    <>
+                                                        <button onClick={() => handleUpdateGenre(item.id)}>
+                                                            <i className="fas fa-edit"></i>
+                                                        </button>
+                                                        {confirmDeleteGenre === item.id && (
+                                                            <ConfirmDeleteGenre
+                                                                genre={item}
+                                                                onClose={() => setConfirmDeleteGenre(null)}
+                                                            />
+                                                        )
+                                                        }
+                                                        <button onClick={() => handleDeleteGenre(item.id)}>
+                                                            <i className="fas fa-trash-alt"></i>
+                                                        </button>
+                                                    </>
 
-                                            )}
+                                                )}
 
-                                        </td>
-                                    </tr>
-                                ))}
+                                            </td>
+                                        </tr>
+                                    ))}
+
+                                </tbody>
                             </table>
                         </div>
                     </div>
