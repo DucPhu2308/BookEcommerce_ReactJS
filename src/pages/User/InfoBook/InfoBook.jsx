@@ -13,7 +13,7 @@ import BookApi from "../../../API/User/BookApi";
 import UserApi from "../../../API/User/UserApi";
 import ChapterApi from "../../../API/User/ChapterApi";
 import RatingApi from "../../../API/User/RatingApi";
-import Rating from "@mui/material/Rating";
+import { Switch, Rating, FormControlLabel } from "@mui/material";
 
 const InfoBook = () => {
     const navigate = useNavigate();
@@ -147,7 +147,17 @@ const InfoBook = () => {
         }
         return <span> Follow: 0</span>;
     }
-
+    const handleToggleActiveBook = () => {
+        BookApi.hideBook(idBook)
+            .then(() => {
+                const newBook = { ...book, active: !book.active };
+                setBook(newBook);
+                toast.success("Cập nhật trạng thái sách thành công");
+            })
+            .catch(() => {
+                toast.error("Cập nhật trạng thái sách thất bại");
+            });
+    }
     const renderButton = (check) => {
         if (check) {
             return (
@@ -156,6 +166,9 @@ const InfoBook = () => {
                         <button className="btn_edit_book" onClick={() => { window.location.href = `/book/${idBook}/update` }}>Sửa</button>
                         <button className="btn_add_chapter" onClick={() => { window.location.href = `/book/${idBook}/chapter/add` }}>Thêm chương</button>
                     </div>
+                    <FormControlLabel
+                        control={<Switch onChange={handleToggleActiveBook} 
+                        checked={book.active} />} label="Phát hành" />
                 </>
 
             )

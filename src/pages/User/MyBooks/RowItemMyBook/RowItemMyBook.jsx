@@ -116,7 +116,7 @@ const RowItemMyBook = ({ book, book_id, listBooks }) => {
   }
   return (
 
-    <div className="container_mybooks_content_body_box_item">
+    <div onClick={() => window.location.href = `/book/${book_id}`} className="container_mybooks_content_body_box_item">
       <ToastContainer />
       <div className="container_mybooks_content_body_box_item_img">
         <img src={book.coverImage} alt="book1" />
