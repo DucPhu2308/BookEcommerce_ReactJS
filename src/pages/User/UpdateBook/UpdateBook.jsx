@@ -70,25 +70,27 @@ const UpdateBook = () => {
         genresDto: genres,
       };
 
-      // upload image
-      const file = imgSrc.split(",")[1].slice(0, -2);
-      const byteCharacters = atob(file);
-      const byteNumbers = new Array(byteCharacters.length);
-      for (let i = 0; i < byteCharacters.length; i++) {
-        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      if (imgSrc !== PlaceholderImage && imgSrc.startsWith("data:image")) {
+        // upload image
+        const file = imgSrc.split(",")[1].slice(0, -2);
+        const byteCharacters = atob(file);
+        const byteNumbers = new Array(byteCharacters.length);
+        for (let i = 0; i < byteCharacters.length; i++) {
+          byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
+        const byteArray = new Uint8Array(byteNumbers);
+        const blob = new Blob([byteArray], { type: "image/png" });
+        const fileData = new File([blob], "image.png", { type: "image/png" });
+        const res = await UploadApi.uploadFile(fileData, UploadType.BOOK)
+        if (res.status === 200) {
+          setImgSrc(res.data.data);
+          book.coverImage = res.data.data;
+        } else {
+          toast.error("Upload ảnh thất bại");
+          return;
+        }
       }
-      const byteArray = new Uint8Array(byteNumbers);
-      const blob = new Blob([byteArray], { type: "image/png" });
-      const fileData = new File([blob], "image.png", { type: "image/png" });
-      const res = await UploadApi.uploadFile(fileData, UploadType.BOOK)
-      if (res.status === 200) {
-        setImgSrc(res.data.data);
-        book.coverImage = res.data.data;
-      } else {
-        toast.error("Upload ảnh thất bại");
-        return;
-      }
-      console.log(book)
+      
       BookAPI.updateBook(idBook, book)
         .then((res) => {
           console.log(res.data);
