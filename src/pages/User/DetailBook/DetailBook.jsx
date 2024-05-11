@@ -292,7 +292,7 @@ const DetailBook = () => {
         <>
           <div className="container_bookDetail_nav_1_displayBook_comment_form">
             <div className="container_bookDetail_nav_1_displayBook_comment_form_img">
-              <img src={imageAccount} alt="account" />
+              <img src={user.avatar || imageAccount} alt="account" />
             </div>
             <div className="container_bookDetail_nav_1_displayBook_comment_form_box">
               <form action="">

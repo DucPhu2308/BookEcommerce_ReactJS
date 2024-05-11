@@ -98,7 +98,7 @@ const InfoBook = () => {
     useEffect(() => {
         const fetchBooks = async () => {
             try {
-                const response = await UserApi.getViewUser(user.id);
+                const response = await UserApi.getViewUser(book.userOwn.id);
                 setListBookUser(response.data.data.own);
                 
             } catch (error) {
