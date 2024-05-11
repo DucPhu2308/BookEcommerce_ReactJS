@@ -27,6 +27,9 @@
     height: 55px;
     margin: 0 10px;
 }
+.footer_container_item i{
+    margin: 0 5px;
+}
 .footer_container_item span{
     font-size: 15px;
     color: #000;
@@ -35,8 +38,7 @@
     align-self: center;
 }
 .footer_container_parga{
-    margin: 0 45px;
-    align-self:center;
+    padding:10px 55px;
 }
 .footer_container_parga p{
     margin:0;
@@ -49,5 +51,6 @@
 }
 .footer_container_parga a{
     text-decoration: none;
-    color:rgb(90, 90, 233)
+    color:rgb(90, 90, 233);
+    margin: 0 5px;
 }

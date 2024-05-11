@@ -296,7 +296,7 @@ const InfoBook = () => {
                                     <div className="title_2">
                                         <span>{item.user?.displayName}</span>
                                         <Rating
-                                            name="read-only"
+                                            name="simple-controlled"
                                             value={item.star}
                                             readOnly
                                         />
@@ -430,7 +430,7 @@ const InfoBook = () => {
 
                                     <>
                                         <Rating
-                                            name="read-only"
+                                            name="simple-controlled"
                                             value={avg_rating}
                                             precious={0.5}
                                             readOnly
