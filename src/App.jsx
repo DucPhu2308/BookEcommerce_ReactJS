@@ -41,7 +41,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<UserHome />} />
-        <Route path="/search*" element={<SearchPage />} />
+        <Route path="/search/*" element={<SearchPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/confirm-email" element={<EnterCode />} />
