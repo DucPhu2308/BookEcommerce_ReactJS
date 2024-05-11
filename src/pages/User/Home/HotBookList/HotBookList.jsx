@@ -8,6 +8,17 @@ const HotBookList = ({list}) => {
     const btnRight = useRef(null);
     const lineCircle = useRef(null);
     
+    const [displayList, setDisplayList] = useState([]);
+
+    // Limit the list to 6 items
+    useEffect(() => {
+        if (list && list.length > 0) {
+            list.sort((a, b) => b.view - a.view);
+            const limitedList = list.slice(0, 6);
+            setDisplayList(limitedList);
+        }
+    }, [list]);
+
 
     useEffect(() => {
         const listBook = boxListBooks.current;
@@ -82,7 +93,7 @@ const HotBookList = ({list}) => {
     }, [list]);
 
     const renderLineCircle = () => {
-        let length = list.length;
+        let length = displayList.length;
         let numberCircle = length / 3;
         let html = '';
         for (let i = 0; i < numberCircle; i++) {
@@ -99,7 +110,7 @@ const HotBookList = ({list}) => {
             <div className="container_nav_1_listBooks">
                 <div className="container_nav_1_listBooks_box" ref={boxListBooks}>
                     <ul>
-                        {list.map((book, index) => (
+                        {displayList.map((book, index) => (
                             <li key={index}>
                                 <Link to={`/book/${book.id}`}>
                                     <HotBookItem book={book} />

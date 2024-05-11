@@ -35,10 +35,7 @@ const InfoBook = () => {
     const [checkFollow, setCheckFollow] = useState(false);
     const [view, setView] = useState(0);
     const [avg_rating, setAvg_rating] = useState(0);
-
-
     const inputChapterSearch = useRef(null);
-    const user = JSON.parse(localStorage.getItem('user'));
 
     useEffect(() => {
         const inputChapterSearchRef = inputChapterSearch.current;
@@ -79,7 +76,7 @@ const InfoBook = () => {
                 }
                 setView(response.data.data.views);
                 localStorage.setItem("nameBook", response.data.data.title);
-                const user=JSON.parse(localStorage.getItem("user"));
+                const user = JSON.parse(localStorage.getItem("user"));
                 // Nếu không có user hoặc user không phải là tác giả thì không cho sửa
                 if (!user || user.id !== response.data.data.userOwn.id) {
                     setCheckEdit(false);
@@ -87,7 +84,7 @@ const InfoBook = () => {
                 else {
                     setCheckEdit(true);
                 }
-                
+
             } catch (error) {
                 console.log("Failed to fetch book: ", error);
             }
@@ -98,15 +95,20 @@ const InfoBook = () => {
     useEffect(() => {
         const fetchBooks = async () => {
             try {
-                const response = await UserApi.getViewUser(book.userOwn.id);
-                setListBookUser(response.data.data.own);
-                
+                // Check if book and book.userOwn exist before accessing book.userOwn.id
+                if (book && book.userOwn && book.userOwn.id) {
+                    const response = await UserApi.getViewUser(book.userOwn.id);
+                    setListBookUser(response.data.data.own);
+                } else {
+                    console.log("Failed to fetch book list: book or book.userOwn is undefined");
+                }
             } catch (error) {
                 console.log("Failed to fetch book list: ", error);
             }
         };
+
         fetchBooks();
-    }, [idBook, user.id]);
+    }, [book]);
 
     // fetch chapter by book id
     useEffect(() => {
@@ -167,8 +169,8 @@ const InfoBook = () => {
                         <button className="btn_add_chapter" onClick={() => { window.location.href = `/book/${idBook}/chapter/add` }}>Thêm chương</button>
                     </div>
                     <FormControlLabel
-                        control={<Switch onChange={handleToggleActiveBook} 
-                        checked={book.active} />} label="Phát hành" />
+                        control={<Switch onChange={handleToggleActiveBook}
+                            checked={book.active} />} label="Phát hành" />
                 </>
 
             )
@@ -266,7 +268,7 @@ const InfoBook = () => {
             toast.error("Bạn cần đăng nhập để thực hiện chức năng này");
             return;
         }
-        if(valueRating === 0 || valueContent === ""){  
+        if (valueRating === 0 || valueContent === "") {
             toast.error("Vui lòng nhập đầy đủ thông tin");
             return;
         }
@@ -287,9 +289,9 @@ const InfoBook = () => {
                 toast.error("Đánh giá thất bại");
             });
     }
-    const renderDeleteRating = (id) =>{
+    const renderDeleteRating = (id) => {
         const user = JSON.parse(localStorage.getItem("user"));
-        if(!user){
+        if (!user) {
             return;
         }
         for (let i = 0; i < listRating.length; i++) {
@@ -342,9 +344,9 @@ const InfoBook = () => {
             )
         }
     }
-    
+
     const handleUpdateRating = (id) => {
-        if(valueUpdateRating === 0 || valueUpdateContent === ""){
+        if (valueUpdateRating === 0 || valueUpdateContent === "") {
             toast.error("Vui lòng nhập đầy đủ thông tin");
             return;
         }
@@ -469,7 +471,7 @@ const InfoBook = () => {
                         <div className="container_info_book_body_image_title_right">
                             <div className="container_info_book_body_image_title_right_author">
                                 <span>
-                                    Tác giả: <Link to={`/profile/${book.userOwn?.id}`} >{book.userOwn?.displayName}</Link> 
+                                    Tác giả: <Link to={`/profile/${book.userOwn?.id}`} >{book.userOwn?.displayName}</Link>
                                 </span>
                             </div>
                             <div className="container_info_book_body_image_title_right_list_genre">
@@ -530,7 +532,7 @@ const InfoBook = () => {
                                     <span>Truyện cùng tác giả</span>
                                 </div>
                                 <div className="container_info_book_body_description_right_maybe_like_body">
-                                    <ItemListLoveBook listBook={listBookUser} book={book}/>
+                                    <ItemListLoveBook listBook={listBookUser} book={book} />
                                 </div>
                             </div>
                         </div>

@@ -11,34 +11,11 @@ const AddChapter = () => {
     const [addChapter, setAddChapter] = useState('')
     const [indexChapter, setIndexChapter] = useState('')
     const [priceChapter, setPriceChapter] = useState('')
-    // const [listChapter, setListChapter] = useState([])
-    // const [submitAddChapter, setSubmitAddChapter] = useState(false)
     const [listBook, setListBook] = useState([])
     const [idBook, setIdBook] = useState(localStorage.getItem('idBook'))
 
 
-    // const handleSubmitGenre = () => {
-    //     setSubmitAddChapter(!submitAddChapter)
 
-
-    //     if (addChapter === '' || indexChapter === '' || priceChapter === '' || idBook === null || idBook === '0') {
-    //         setSubmitAddChapter(false)
-    //         toast.error('Vui lòng nhập đầy đủ thông tin')
-    //     }
-    //     else {
-    //         const newChapter = {
-    //             "title": addChapter,
-    //             "price": priceChapter,
-    //             "index": indexChapter,
-    //             "book": idBook
-    //         }
-    //         console.log(newChapter)
-    //         setListChapter([...listChapter, newChapter])
-    //         setAddChapter('')
-    //         setIndexChapter('')
-    //         setPriceChapter('')
-    //     }
-    // }
 
 
 
