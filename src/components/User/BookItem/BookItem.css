@@ -5,9 +5,8 @@
     display: flex;
     padding:0 10px;
     cursor: pointer;
-    border:1px solid #d3cccc;
     box-shadow: 0 0 10px #d3cccc;
-    
+    margin:10px;
 }
 .container_nav_2_listBooks_item h2{
     overflow: hidden;
