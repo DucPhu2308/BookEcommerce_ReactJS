@@ -21,7 +21,7 @@ const ItemListChapter = ({ list, checkEdit, onToggleActiveChapter, onBuyChapter 
 
     useEffect(() => {
         updateChapterList();
-    }, [idBook]);
+    }, [list]);
 
     const handleBtnBuyClick = (chapter) => {
         if (!user) {
