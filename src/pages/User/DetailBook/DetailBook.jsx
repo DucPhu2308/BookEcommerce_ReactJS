@@ -331,7 +331,7 @@ const DetailBook = () => {
         <div className="container_bookDetail_nav_1_comment_reply" key={reply.id}>
           <div className="container_bookDetail_nav_1_comment_reply_box">
             <div className="container_bookDetail_nav_1_comment_reply_box_img">
-              <img src={imageAccount} alt="account" />
+              <img src={reply.user?.avater || imageAccount} alt="account" />
             </div>
             <div className="container_bookDetail_nav_1_comment_reply_box_content">
               <span className="author">{reply.user?.displayName}</span>
@@ -390,7 +390,7 @@ const DetailBook = () => {
         <div className="container_bookDetail_nav_1">
           <div className="container_bookDetail_nav_1_author">
             <div onClick={() => navigate(`/profile/${book.userOwn?.id}`)} className="container_bookDetail_nav_1_author_info">
-              <img src={book.userOwn?.avatar} alt="account" />
+              <img src={book.userOwn?.avatar || imageAccount} alt="account" />
               <span>{book.userOwn?.displayName}</span>
             </div>
           </div>
@@ -453,7 +453,7 @@ const DetailBook = () => {
               </div>
               <div className="container_bookDetail_nav_1_displayBook_comment_form">
                 <div className="container_bookDetail_nav_1_displayBook_comment_form_img">
-                  <img src={imageAccount} alt="account" />
+                  <img src={user.avatar || imageAccount} alt="account" />
                 </div>
                 <div className="container_bookDetail_nav_1_displayBook_comment_form_box">
                   <form action="">
@@ -474,7 +474,7 @@ const DetailBook = () => {
                   <div key={comment.id}>
                     <div className="container_bookDetail_nav_1_displayBook_comment_form_listComments_item">
                       <div className="container_bookDetail_nav_1_displayBook_comment_form_listComments_item_img">
-                        <img src={imageAccount} alt="account" />
+                        <img src={comment.user?.avatar || imageAccount} alt="account" />
                       </div>
                       <div className="container_bookDetail_nav_1_displayBook_comment_form_listComments_item_content">
                         <span className="author">{comment.user?.displayName}</span>
