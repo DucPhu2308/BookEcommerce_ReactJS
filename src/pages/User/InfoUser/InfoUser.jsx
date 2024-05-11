@@ -33,20 +33,6 @@ const Menu = ({ onSelect }) => {
     return (
         <ul>
             <li>
-                <button className='activeButton' onClick={() => onSelect("Lịch sử nạp")}>
-                    <i className="fas fa-history"></i>
-                    Lịch sử nạp
-                </button>
-            </li>
-
-            <li>
-                <button onClick={() => onSelect("Lịch sử mua")}>
-                    <i className="fas fa-history"></i>
-                    Lịch sử mua
-                </button>
-            </li>
-
-            <li>
                 <button onClick={() => onSelect("Thông tin cá nhân")}>
                     <i className="fas fa-user"></i>
                     Thông tin cá nhân
@@ -66,7 +52,19 @@ const Menu = ({ onSelect }) => {
                     Truyện đã đăng
                 </button>
             </li>
+            <li>
+                <button className='activeButton' onClick={() => onSelect("Lịch sử nạp")}>
+                    <i className="fas fa-history"></i>
+                    Lịch sử nạp
+                </button>
+            </li>
 
+            <li>
+                <button onClick={() => onSelect("Lịch sử mua")}>
+                    <i className="fas fa-history"></i>
+                    Lịch sử mua
+                </button>
+            </li>
             <li>
                 <button onClick={() => onSelect("Bình luận")}>
                     <i className="fa fa-comment"></i>
@@ -102,10 +100,10 @@ const Form = ({ selectedItem }) => {
     let form;
     const { logout } = useContext(UserContext);
     const navigate = useNavigate();
-    
+
     switch (selectedItem) {
         case "Thông tin cá nhân":
-            form = <ChangeInfo  />;
+            form = <ChangeInfo />;
             break;
         case "Đổi mật khẩu":
             form = <ChangePassword />;
@@ -148,7 +146,7 @@ const InfoUser = () => {
     const [loading, setLoading] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
     const { user, updateUser } = useContext(UserContext);
-    
+
     useEffect(() => {
         updateUser(JSON.parse(localStorage.getItem('user')));
     }, []);
@@ -182,16 +180,16 @@ const InfoUser = () => {
         };
         input.click();
     };
-    
+
     return (
         <DefaultLayout>
             <ToastContainer />
             {loading && (
                 <Backdrop
-                sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-                open
+                    sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                    open
                 >
-                <CircularProgress color="inherit" />
+                    <CircularProgress color="inherit" />
                 </Backdrop>
             )}
             <div className="container_user_page">
