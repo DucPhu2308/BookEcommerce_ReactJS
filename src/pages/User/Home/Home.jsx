@@ -24,7 +24,7 @@ const UserHome = () => {
 
   // load books
   useEffect(() => {
-    BookApi.getTopNBooksSortByDate(10).then((res) => {
+    BookApi.getTopNBooksSortByDate(9).then((res) => {
       setListNewBooks(res.data.data);
       setPost(res.data.data);
     });
@@ -76,7 +76,7 @@ const UserHome = () => {
             <UpdateBookList list={listNewBooks} />
 
             {/* Truyện đã xem */}
-            <SeenBookList list={listSeenBooks} max={4} />
+            <SeenBookList list={listSeenBooks} max={9} />
           </div>
           <div className="container_nav_3">
 
