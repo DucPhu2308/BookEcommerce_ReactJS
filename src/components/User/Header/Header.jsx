@@ -16,6 +16,7 @@ const Header = () => {
   const [books, setBooks] = useState([]);
   const [showSearchBox, setShowSearchBox] = useState(false);
   const inputSearch = useRef(null);
+  const [noSearchResults, setNoSearchResults] = useState(false);
 
   useEffect(() => {
     const fetchBooks = async () => {
@@ -41,15 +42,27 @@ const Header = () => {
   };
 
   const handleSearchInputChange = (e) => {
+    
     const searchValue = e.target.value.toLowerCase();
     const searchItems = document.querySelectorAll(".header_search_keybox li");
+    let found = false;
+
     searchItems.forEach((item) => {
       if (item.textContent.toLowerCase().indexOf(searchValue) > -1) {
         item.style.display = "block";
+        found = true;
+
       } else {
         item.style.display = "none";
+
       }
+
     });
+    if (!found) {
+      setNoSearchResults(true);
+    } else {
+      setNoSearchResults(false);
+    }
   };
 
   const handleSearchBoxFocus = () => {
@@ -59,6 +72,10 @@ const Header = () => {
   const handleSearchBoxBlur = () => {
     setShowSearchBox(false);
   };
+
+
+
+
 
   return (
     <nav className="header">
@@ -96,7 +113,13 @@ const Header = () => {
                     <li key={book.id} onClick={() => handleDirectInfoBook(book.id)}>
                       <ItemBoxSearchName key={book.id} book={book} />
                     </li>
-                  ))}
+                  ))
+                  }
+                  {noSearchResults && (
+                    <li>
+                      <p>Không thấy kết quả</p>
+                    </li>
+                  )}
                 </ul>
               </div>
             )}

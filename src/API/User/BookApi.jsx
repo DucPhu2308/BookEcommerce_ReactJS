@@ -67,5 +67,9 @@ class BookApi {
         const url= `book/${id}/restore`;
         return axiosPrivate.put(url);
     }
+    searchKeyWord = (keyword) =>{
+        const url= `book/search`;
+        return axiosClient.get(url, {params: {keyword}});
+    }
 }
 export default new BookApi();

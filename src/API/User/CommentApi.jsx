@@ -15,12 +15,12 @@ class CommentApi {
 
     update = (data) => {
         const url = `/comment/${data.id}`
-        return axiosClient.put(url, data)
+        return axiosPrivate.put(url, data)
     }
 
     remove = (id) => {
         const url = `/comment/${id}`
-        return axiosClient.delete(url)
+        return axiosPrivate.delete(url)
     }
 }
 
