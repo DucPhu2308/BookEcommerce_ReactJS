@@ -164,7 +164,6 @@ const InfoUser = () => {
                 .then((res) => {
                     const newUser = { ...user };
                     newUser.avatar = res.data.data;
-                    console.log(newUser);
                     UserApi.updateUserInfo(newUser)
                         .then((res) => {
                             updateUser(newUser); // updateUser = setUser + update local storage
