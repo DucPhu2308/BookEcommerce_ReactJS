@@ -45,7 +45,7 @@ const RowItemMyBook = ({ book, book_id, listBooks }) => {
       return (
         data.map((chapter) => (
           data.sort((a, b) => a.index - b.index),
-          <Link to={`/book/${book_id}/chapter/${chapter.id}`} style={{ textDecoration: "none" }}>
+          <Link to={`/book/${book_id}/chapter/${chapter.id}/edit`} style={{ textDecoration: "none" }}>
             <li key={chapter.id}>Chương {chapter.index}: {chapter.title}</li>
           </Link>
         ))
@@ -118,7 +118,7 @@ const RowItemMyBook = ({ book, book_id, listBooks }) => {
 
     <div className="container_mybooks_content_body_box_item">
       <ToastContainer />
-      <div className="container_mybooks_content_body_box_item_img">
+      <div onClick={() => window.location.href = `/book/${book_id}`} className="container_mybooks_content_body_box_item_img">
         <img src={book.coverImage} alt="book1" />
       </div>
       <div className="container_mybooks_content_body_box_item_info">

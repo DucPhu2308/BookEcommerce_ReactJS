@@ -11,6 +11,11 @@
     padding:0 20px 0 30px;
 }
 
+.container_mybooks_content_body_box_item_img:hover{
+    background-color: #f2f2f2;
+    cursor: pointer;
+}
+
 .container_mybooks_content_body_box_item_img img{
     width: 100%;
     height: 100%;

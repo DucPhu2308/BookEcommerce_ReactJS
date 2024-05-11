@@ -169,10 +169,11 @@
     font-family: sans-serif;
 }
 .container_bookDetail_nav_1_display_paragraph{
-    width:100%;
+    width:99%;
     height:100%;
-    background-color: #cdcccc44;
+    background-color: white;
     overflow-y: scroll;
+    padding-left: 10px;
 }
 
 .container_bookDetail_nav_1_displayBook_body_button{
