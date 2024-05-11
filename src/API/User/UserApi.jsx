@@ -40,6 +40,11 @@ class UserApi {
         const url = '/user/change-password';
         return axiosPrivate.put(url, null, { params: { password } });
     }
+
+    getPurchaseHistory = () => {
+        const url = '/purchased-history/all';
+        return axiosPrivate.get(url);
+    }
 }
 
 export default new UserApi();
