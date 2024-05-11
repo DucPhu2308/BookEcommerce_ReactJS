@@ -16,7 +16,7 @@ function SeenBookItem({ book }) {
           <div className="container_nav_2_seenBooks_item_discuss_listChapter">
             {book.chapters.slice(0, 3).map((chapter, index) => (
               book.chapters.sort((a, b) => b.index - a.index),
-              <span key={index}>Chương:{chapter.index} {chapter.title}</span>
+              <span key={index}>Chương {chapter.index}: {chapter.title}</span>
 
             ))}
           </div>

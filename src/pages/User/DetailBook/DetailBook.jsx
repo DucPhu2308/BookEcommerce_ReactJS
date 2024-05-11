@@ -48,8 +48,6 @@ const DetailBook = () => {
     const fetchData = async () => {
       try {
         const response = await BookApi.getBookById(idBook);
-        console.log(response.data.data.userOwn.id);
-        console.log(user.id);
         setBook(response.data.data);
       } catch (error) {
         console.log("Failed to fetch data", error);
@@ -57,7 +55,7 @@ const DetailBook = () => {
       }
     };
     fetchData();
-  }, [idBook]);
+  }, [idBook, navigate]);
 
   // fetch chapter list
   useEffect(() => {
@@ -83,7 +81,7 @@ const DetailBook = () => {
       }
     };
     fetchData();
-  }, [idChapter]);
+  }, [idChapter, navigate]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -243,7 +241,6 @@ const DetailBook = () => {
   const handleReply = (id) => {
     setBoxReply(!boxReply);
     setIdReply(id);
-    console.log(idReply)
   }
   const handleChangeTextReply = (e) => {
     setTextReply(e.target.value);
@@ -331,7 +328,7 @@ const DetailBook = () => {
         <div className="container_bookDetail_nav_1_comment_reply" key={reply.id}>
           <div className="container_bookDetail_nav_1_comment_reply_box">
             <div className="container_bookDetail_nav_1_comment_reply_box_img">
-              <img src={reply.user?.avater || imageAccount} alt="account" />
+              <img src={reply.user?.avatar || imageAccount} alt="account" />
             </div>
             <div className="container_bookDetail_nav_1_comment_reply_box_content">
               <span className="author">{reply.user?.displayName}</span>
