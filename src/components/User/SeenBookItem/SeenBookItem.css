@@ -5,6 +5,7 @@
     padding:0 20px;
     margin-bottom: 20px;
     box-shadow: 0 0 10px #d3cccc;
+    margin: 5px 10px;
 }
 .container_nav_2_seenBooks_item:hover {
     background-color: #f5f5f5;
