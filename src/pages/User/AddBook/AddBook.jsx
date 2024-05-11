@@ -70,12 +70,13 @@ const AddBook = () => {
             
             BookApi.postBook(book)
                 .then((res) => {
-                    setAddBook('');
-                    setAddDescription('');
-                    setListGenreAdded([]);
-                    setImgSrc(PlaceholderImage);
-                    console.log(res.data);
+                    // setAddBook('');
+                    // setAddDescription('');
+                    // setListGenreAdded([]);
+                    // setImgSrc(PlaceholderImage);
+                    // console.log(res.data);
                     toast.success('Thêm truyện thành công');
+                    window.location.href = '/my-books';
                 })
                 .catch((err) => {
                     console.log(err.response.data.message);
