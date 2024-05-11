@@ -19,9 +19,7 @@ const ItemListChapter = ({ list, checkEdit, onToggleActiveChapter, onBuyChapter 
     const { idBook } = useParams();
     const [listChapter, setListChapter] = useState([]);
 
-    useEffect(() => {
-        updateChapterList();
-    }, [list]);
+    
 
     const handleBtnBuyClick = (chapter) => {
         if (!user) {
@@ -33,25 +31,22 @@ const ItemListChapter = ({ list, checkEdit, onToggleActiveChapter, onBuyChapter 
             setBuy(chapter);
         }
     }
-    const updateChapterList = async () => {
-        try {
-            const response = await ChapterApi.getChapterByBook(idBook);
-            setListChapter(response.data.data);
-        } catch (error) {
-            console.log(error);
-        }
-    }
+    useEffect(() => {
+        setListChapter(list);
+    }, [list]);
     const handleDeleteChapter = async (id) => {
         try {
             await ChapterApi.deleteChapter(id);
             toast.success('Xóa chương thành công');
-            updateChapterList();
+            setListChapter(listChapter.filter((chapter) => chapter.id !== id));
+            
         } catch (error) {
             console.log(error);
             toast.error('Xóa chương thất bại');
         }
     }
     const renderButton = (chapter) => {
+        
         if (checkEdit) { // book owner
             return (
                 <>

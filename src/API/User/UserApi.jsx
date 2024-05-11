@@ -14,6 +14,10 @@ class UserApi {
         const url = `/user/updateUser/${id}`;
         return axiosPrivate.put(url, data);
     }
+    getViewUser = (id) => {
+        const url = `/user/${id}/view`;
+        return axiosPrivate.get(url);
+    }
     followBook =(id) => {
         const url = `/user/follow/${id}/book`;
         return axiosPrivate.post(url);

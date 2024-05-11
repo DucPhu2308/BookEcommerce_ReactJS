@@ -1,4 +1,4 @@
-import { useState, useEffect,useRef, useContext } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import "./Header.css";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -14,46 +14,8 @@ const Header = () => {
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
   const [books, setBooks] = useState([]);
-  
+  const [showSearchBox, setShowSearchBox] = useState(false);
   const inputSearch = useRef(null);
-  const keyBox = useRef(null);
-
-  useEffect(() => {
-    const inputSearchRef = inputSearch.current;
-    const keyBoxRef = keyBox.current;
-    const handleFocus = () => {
-      keyBoxRef.style.display = "block";
-    };
-    const handleBlur = () => {
-      keyBoxRef.style.display = "none";
-    }
-    const handleKeyUp = (e) => {
-      const searchValue = e.target.value.toLowerCase();
-      const searchItems = document.querySelectorAll(".header_search_keybox li");
-      searchItems.forEach((item) => {
-          if (item.textContent.toLowerCase().indexOf(searchValue) > -1) {
-              item.style.display = "block";
-          } else {
-              item.style.display = "none";
-          }
-      }
-
-      );
-    }
-    if (inputSearchRef) {
-      inputSearchRef.addEventListener("focus", handleFocus);
-      inputSearchRef.addEventListener("blur", handleBlur);
-      inputSearchRef.addEventListener("keyup", handleKeyUp);
-    }
-    return () => {
-      if (inputSearchRef) {
-        inputSearchRef.removeEventListener("focus", handleFocus);
-        inputSearchRef.removeEventListener("blur", handleBlur);
-        inputSearchRef.removeEventListener("keyup", handleKeyUp);
-      }
-    }
-  }, []);
-
 
   useEffect(() => {
     const fetchBooks = async () => {
@@ -65,19 +27,38 @@ const Header = () => {
       }
     };
     fetchBooks();
-  }, [books]);
+  }, []);
 
   const handleDirectInfoBook = (id) => {
-    window.location.href = `/book/${id}`;
-  }
+    navigate(`/book/${id}`);
+  };
 
   const handleSearchBoxKeyDown = (event) => {
-    if (event.key === 'Enter') {
+    if (event.key === "Enter") {
       let params = `?title=${inputSearch.current.value}`;
       navigate(`/search${params}`);
     }
-  }
+  };
 
+  const handleSearchInputChange = (e) => {
+    const searchValue = e.target.value.toLowerCase();
+    const searchItems = document.querySelectorAll(".header_search_keybox li");
+    searchItems.forEach((item) => {
+      if (item.textContent.toLowerCase().indexOf(searchValue) > -1) {
+        item.style.display = "block";
+      } else {
+        item.style.display = "none";
+      }
+    });
+  };
+
+  const handleSearchBoxFocus = () => {
+    setShowSearchBox(true);
+  };
+
+  const handleSearchBoxBlur = () => {
+    setShowSearchBox(false);
+  };
 
   return (
     <nav className="header">
@@ -92,31 +73,33 @@ const Header = () => {
           </li>
           <li>
             <div className="header_search">
-              <input onKeyDown={handleSearchBoxKeyDown} type="text" name="search" placeholder="Search..." ref={inputSearch}/>
+              <input
+                onKeyDown={handleSearchBoxKeyDown}
+                onChange={handleSearchInputChange}
+                onFocus={handleSearchBoxFocus}
+                onBlur={handleSearchBoxBlur}
+                type="text"
+                name="search"
+                placeholder="Search..."
+                ref={inputSearch}
+              />
               <div className="header_search_icon">
                 <button>
                   <i className="fas fa-search"></i>
                 </button>
               </div>
-              <div className="header_search_keybox" ref={keyBox}>
+            </div>
+            {showSearchBox && (
+              <div className="header_search_keybox">
                 <ul>
-                  {books.length === 0 ? (
-                    <Backdrop
-                      sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
-                      open
-                    >
-                      <CircularProgress color="inherit" />
-                    </Backdrop>
-                  ) : null}
                   {books.map((book) => (
-                    <li onClick={() => handleDirectInfoBook(book.id)} key={book.id}>
+                    <li key={book.id} onClick={() => handleDirectInfoBook(book.id)}>
                       <ItemBoxSearchName key={book.id} book={book} />
                     </li>
                   ))}
                 </ul>
               </div>
-
-            </div>
+            )}
           </li>
           {user ? (
             <ItemUserSuccessLogin />
@@ -138,6 +121,6 @@ const Header = () => {
       </div>
     </nav>
   );
-}
+};
 
 export default Header;
