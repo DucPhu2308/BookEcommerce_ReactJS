@@ -27,6 +27,7 @@
     width: 20%;
     height: 100px;
     margin-right: 20px;
+    border-radius: 4px;
 }
 .rank-1-info .item-title {
     font-size: 20px;

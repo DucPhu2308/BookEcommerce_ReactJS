@@ -285,8 +285,8 @@ const InfoBook = () => {
                 setValueRating(0);
                 setListRating([...listRating, { user: JSON.parse(localStorage.getItem("user")), content: valueContent, star: valueRating, createdAt: new Date().toLocaleDateString() }]);
             })
-            .catch(() => {
-                toast.error("Đánh giá thất bại");
+            .catch((err) => {
+                toast.error("Đánh giá thất bại: " + err.response.data.message);
             });
     }
     const renderDeleteRating = (id) => {
