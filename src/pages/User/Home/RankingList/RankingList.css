@@ -48,6 +48,7 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
 }
 
 .rank-1:hover, .rank-item:hover {
@@ -57,14 +58,14 @@
 .rank-number {
     font-size: 20px;
     font-weight: bold;
-    margin-right: 22px;
+    margin-right: 20px;
+    margin-left: 4px;
 }
 .rank-item .view-number {
-    float: right;
     font-style: italic;
     font-size: smaller;
-    align-items: center;
-    display: flex;
+    text-align: right;
+    width: 20%;
 }
 .rank-1 .medal-icon {
     /* make it stick to top */
