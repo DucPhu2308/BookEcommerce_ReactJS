@@ -33,7 +33,7 @@ const Menu = ({ onSelect }) => {
     return (
         <ul>
             <li>
-                <button onClick={() => onSelect("Thông tin cá nhân")}>
+                <button className='activeButton' onClick={() => onSelect("Thông tin cá nhân")}>
                     <i className="fas fa-user"></i>
                     Thông tin cá nhân
                 </button>
@@ -53,7 +53,7 @@ const Menu = ({ onSelect }) => {
             </li>
 
             <li>
-                <button className='activeButton' onClick={() => onSelect("Lịch sử nạp")}>
+                <button onClick={() => onSelect("Lịch sử nạp")}>
                     <i className="fas fa-history"></i>
                     Lịch sử nạp
                 </button>

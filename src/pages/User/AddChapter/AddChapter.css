@@ -41,7 +41,8 @@
 .dark_btn_next:hover{
     background-color: #fff;
     color: #333;
-    border: 2px solid #333;
+    outline: 2px solid #333;
+    
 }
 .container_add_chapter_box_body{
     padding:10px 25%;
