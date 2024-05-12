@@ -6,9 +6,6 @@ import './BookPage.css';
 import { useState, useEffect } from "react";
 import UserApi from "../../../API/User/UserApi";
 
-const colNumber = 3;
-const recordsPerPage = 15;
-
 const SubcribeBookPage = () => {
     const [listBooks, setListBooks] = useState([]);
 
@@ -37,8 +34,6 @@ const SubcribeBookPage = () => {
                             {listBooks.length > 0 && (
                                 <Pagination
                                     list={listBooks}
-                                    colNumber={colNumber}
-                                    recordsPerPage={recordsPerPage}
                                 />
                             )}
                         </div>

@@ -79,8 +79,8 @@
     margin-left: 20px;
 }
 .subcribe_book_img{
-    width: 100px;
-    height: auto;
+    width: 60px;
+    height: 100px;
     margin-right: 20px;
 }
 .subcribe_book_title{
@@ -95,4 +95,8 @@
     color: #000;
     font-family: sans-serif;
     margin-right: 20px;
+}
+.link {
+    text-decoration: none;
+    color: inherit; 
 }

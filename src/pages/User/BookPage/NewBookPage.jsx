@@ -6,8 +6,6 @@ import { useState, useEffect } from "react";
 import BookApi from "../../../API/User/BookApi";
 import Pagination from './Pagination';
 
-const colNumber = 3;
-const recordsPerPage = 15;
 
 const NewBookPage = () => {
     const [listBooks, setListBooks] = useState([]);
@@ -31,8 +29,6 @@ const NewBookPage = () => {
                             </div>
                             <Pagination
                                 list={listBooks}
-                                colNumber={colNumber}
-                                recordsPerPage={recordsPerPage}
                             />
                         </div>
                         <SeenBookList />

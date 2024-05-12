@@ -72,3 +72,8 @@
 .history_buy_col2{
     width: 100px;
 }
+
+.container_user_history_buy_body_table a{
+    text-decoration: none;
+    color: inherit;
+}

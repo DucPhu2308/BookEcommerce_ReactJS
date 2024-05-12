@@ -7,9 +7,6 @@ import BookApi from "../../../API/User/BookApi";
 import Pagination from './Pagination';
 import GenreApi from "../../../API/Admin/GenreApi";
 
-const colNumber = 3;
-const recordsPerPage = 15;
-
 const SearchPage = () => {
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
@@ -35,7 +32,7 @@ const SearchPage = () => {
     }, []);
 
     useEffect(() => {
-        setSelectedGenres(initialGenreId ? initialGenreId.split(',')  : []);
+        setSelectedGenres(initialGenreId ? initialGenreId.split(',') : []);
     }, [initialGenreId]);
 
     useEffect(() => {
@@ -49,7 +46,7 @@ const SearchPage = () => {
     // Handle search when user press Enter
     const handleSearchBoxKeyDown = (event) => {
         if (event.key === 'Enter') {
-            
+
             handleSubmit();
         }
     };
@@ -146,8 +143,6 @@ const SearchPage = () => {
                         ) : (
                             <Pagination
                                 list={searchResults}
-                                colNumber={colNumber}
-                                recordsPerPage={recordsPerPage}
                             />
                         )}
                     </div>
