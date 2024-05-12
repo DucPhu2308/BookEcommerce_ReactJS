@@ -10,6 +10,15 @@ class BankApi {
         const url='/payment/create';
         return axiosPrivate.post(url,data);
     } 
+
+    addPayment=(data) =>{
+        const url='/payment/addPayment';
+        return axiosPrivate.post(url,data);
+    }
+    getAllPaymentByUser=(userId) =>{
+        const url=`/payment/getAllPaymentByUser/${userId}`;
+        return axiosPrivate.get(url,userId);
+    }
 }
 
 export default new BankApi();

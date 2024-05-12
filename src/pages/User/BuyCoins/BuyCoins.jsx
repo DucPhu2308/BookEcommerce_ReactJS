@@ -17,7 +17,7 @@ import { DoubleArrow } from "@mui/icons-material";
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import { useState, useEffect } from "react";
-
+import BankApi from "../../../API/User/BankApi";
 const paymentMethods = [
   { id: 1, name: "Credit Card", image: "https://picsum.photos/200/300" },
   { id: 2, name: "PayPal", image: "https://picsum.photos/200/300" },
@@ -40,8 +40,8 @@ const BuyCoins = () => {
     setSelectedMethod(event.target.value);
   };
   const handleBuy = () => {
-    if(selectedMethod === 'Credit Card') {
-      if(amount <0){
+    if (selectedMethod === 'Credit Card') {
+      if (amount < 0) {
         toast.error('Amount must be greater than 0');
         return;
       }
@@ -49,14 +49,34 @@ const BuyCoins = () => {
       window.location.href = '/bank';
     }
   }
-  
+
   useEffect(() => {
-    if(paySuccess === 'true') {
+    const amountAdd = parseInt(localStorage.getItem('amountAdd'));
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (paySuccess === 'true') {
+      if (amountAdd !== null && amountAdd !== undefined && amountAdd !== 0) {
+
+        const paymentData = {
+          coin: amountAdd,
+          amount: amountAdd * 1000,
+          user: user.id
+        }
+        const addPayment = async () => {
+          try {
+            const response = await BankApi.addPayment(paymentData);
+            console.log(response);
+          } catch (error) {
+            console.error(error);
+          }
+        }
+        addPayment();
+      }
       toast.success('Payment success');
       localStorage.setItem('paySuccess', false);
+      localStorage.removeItem('amountAdd');
       setPaySuccess(false);
     }
-  }, [paySuccess]);
+  }, [paySuccess, amount]);
 
   return (
     <DefaultLayout>
@@ -100,7 +120,7 @@ const BuyCoins = () => {
                   value={price}
                 />
               </Stack>
-              
+
               {/* <Typography marginTop={3} variant="body1" component="div">
                 Select the payment method
               </Typography>

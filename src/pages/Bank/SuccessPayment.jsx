@@ -1,6 +1,5 @@
 import UserApi from '../../API/User/UserApi';
 
-
 const SuccessPayment = () => {
     const amount = localStorage.getItem('amount');
     const user = JSON.parse(localStorage.getItem('user'));
