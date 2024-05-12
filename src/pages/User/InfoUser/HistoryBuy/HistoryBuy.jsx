@@ -27,7 +27,7 @@ const HistoryBuy = () => {
                     <span>Lịch sử mua</span>
                 </div>
             </div >
-            <div class="container_user_history_buy_body_table">
+            <div className="container_user_history_buy_body_table">
                 <table>
                     <thead>
                         <tr>

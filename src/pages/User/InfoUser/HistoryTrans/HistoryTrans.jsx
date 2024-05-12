@@ -1,5 +1,27 @@
 import './HistoryTrans.css';
+import BankApi from '../../../../API/User/BankApi';
+import { useEffect, useState } from 'react';
 const HistoryTrans = () => {
+    const [historyTrans, setHistoryTrans] = useState([]);
+    const userId = JSON.parse(localStorage.getItem('user')).id;
+    useEffect(() => {
+        const fetchHistoryTrans = async () => {
+            try {
+                const response = await BankApi.getAllPaymentByUser(userId);
+                // lọc nếu amount == null thì không hiển thị
+                const data = response.data.data.filter(item => item.amount !== null);
+                setHistoryTrans(data);
+            } catch (error) {
+                console.error(error);
+            }
+        }
+        fetchHistoryTrans();
+    }, [userId]);
+
+    const convertDateTime = (dateTime) => {
+        const date = new Date(dateTime);
+        return date.toLocaleString();
+    }
     return (
         <div>
             <div className="container_user_history_trans_title">
@@ -7,26 +29,33 @@ const HistoryTrans = () => {
                     <span>Lịch sử nạp</span>
                 </div>
             </div >
-            <div class="container_user_history_trans_body_table">
+            <div className="container_user_history_trans_body_table">
                 <table>
-                    <tr>
-                        <th>Mã giao dịch</th>
-                        <th>Số tiền</th>
-                        <th>Số Coin</th>
-                        <th>Thời gian</th>
-                        <th>Xem chi tiết</th>
-                    </tr>
-                    <tr>
-                        <td className="history_trans_col1">123456</td>
-                        <td className="history_trans_col1">10.000</td>
-                        <td className="history_trans_col2">1000</td>
-                        <td className="history_trans_col2">abc</td>
-                        <td className="history_trans_col2">
-                            <button>
-                                <i className="fas fa-eye"></i>
-                            </button>
-                        </td>
-                    </tr>
+                    <thead>
+                        <tr>
+                            <th>Mã giao dịch</th>
+                            <th>Số tiền</th>
+                            <th>Số Coin</th>
+                            <th>Thời gian</th>
+                            <th>Xem chi tiết</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {historyTrans.map((item, index) => (
+                            <tr key={index}>
+                                <td className="history_trans_col1">{item.id}</td>
+                                <td className="history_trans_col1">{item.amount}</td>
+                                <td className="history_trans_col2">{item.coin}</td>
+                                <td className="history_trans_col2">{convertDateTime(item.dateTime)}</td>
+                                <td className="history_trans_col2">
+                                    <button>
+                                        <i className="fas fa-eye"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+
                 </table>
             </div>
         </div>

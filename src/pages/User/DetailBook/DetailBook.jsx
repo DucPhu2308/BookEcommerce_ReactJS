@@ -176,10 +176,12 @@ const DetailBook = () => {
   const handleDeleteComment = async (id) => {
     try {
       await CommentApi.remove(id);
-      const newListComment = listComment.filter((comment) => comment.id !== id);
-      setListComment(newListComment);
+      const response = await CommentApi.getByChapter(idChapter);
+      setListComment(response.data.data);
+      toast.success("Xóa bình luận thành công");
     } catch (error) {
-      console.log("Failed to delete data", error);
+      console.log("Failed to fetch data", error);
+      toast.error("Xóa bình luận thất bại");
     }
   };
   const renderActionEditDelete = (id, userId) => {
@@ -427,10 +429,10 @@ const DetailBook = () => {
                       {listChapter?.map((chapter, index) => (
                         <MenuItem key={index} value={index}>
                           <span style={{
-                            color: chapter.price > 0 && !chapter.bought && user.id !== book.userOwn?.id  ? "red" : "black"
+                            color: chapter.price > 0 && !chapter.bought && user.id !== book.userOwn?.id ? "red" : "black"
                           }}>{chapter.index + ". " + chapter.title}
-                            {chapter.price > 0 && !chapter.bought && user.id !== book.userOwn?.id 
-                            ? ` (${chapter.price} xu)` : ""}
+                            {chapter.price > 0 && !chapter.bought && user.id !== book.userOwn?.id
+                              ? ` (${chapter.price} xu)` : ""}
                           </span>
                         </MenuItem>
                       ))}
