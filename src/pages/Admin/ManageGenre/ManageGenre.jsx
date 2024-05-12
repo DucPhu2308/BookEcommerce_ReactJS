@@ -3,7 +3,6 @@ import './ManageGenre.css'
 import { useEffect, useState, useRef } from 'react';
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
-import ConfirmDeleteGenre from './ConfirmDeleteBook';
 
 const ManageGenre = () => {
     const [updateGenre, setUpdateGenre] = useState(false);
@@ -12,7 +11,6 @@ const ManageGenre = () => {
     const [genre, setGenre] = useState([]);
     const [editingGenre, setEditingGenre] = useState(null);
     const [addInputValue, setAddInputValue] = useState('');
-    const [confirmDeleteGenre, setConfirmDeleteGenre] = useState(null);
     const inputSearch = useRef(true);
 
     useEffect(() => {
@@ -126,10 +124,6 @@ const ManageGenre = () => {
         setInputValue(event.target.value);
     }
 
-    const handleDeleteGenre = (id) => {
-        setConfirmDeleteGenre(id);
-    }
-
 
     const renderAddGenre = () => {
         if (addGenre) {
@@ -148,6 +142,19 @@ const ManageGenre = () => {
                     </td>
                 </tr>
             );
+        }
+    }
+
+    const handleDeleteGenre = async (id) => {
+        try {
+            await GenreApi.deleteGenre(id);
+            toast.success('Xóa thể loại thành công');
+            const newGenres = genre.filter((item) => item.id !== id);
+            setGenre(newGenres);
+            
+        } catch (error) {
+            console.log(error);
+            toast.error('Xóa thể loại thất bại');
         }
     }
 
@@ -208,13 +215,6 @@ const ManageGenre = () => {
                                                         <button onClick={() => handleUpdateGenre(item.id)}>
                                                             <i className="fas fa-edit"></i>
                                                         </button>
-                                                        {confirmDeleteGenre === item.id && (
-                                                            <ConfirmDeleteGenre
-                                                                genre={item}
-                                                                onClose={() => setConfirmDeleteGenre(null)}
-                                                            />
-                                                        )
-                                                        }
                                                         <button onClick={() => handleDeleteGenre(item.id)}>
                                                             <i className="fas fa-trash-alt"></i>
                                                         </button>
