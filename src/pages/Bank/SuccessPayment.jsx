@@ -4,7 +4,7 @@ const SuccessPayment = () => {
     const amount = localStorage.getItem('amount');
     const user = JSON.parse(localStorage.getItem('user'));
     const data = {
-        coin: parseInt(amount),
+        coin: parseInt(amount)+ parseInt(user.coin),
         displayName: user.displayName,
         introduction: user.introduction,
     }
