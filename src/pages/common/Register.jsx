@@ -4,7 +4,7 @@ import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Backdrop, CircularProgress } from "@mui/material";
 import { UserContext } from "../../providers/UserProvider";
-import "./LoginRegister.css" 
+import "./LoginRegister.css"
 import AuthApi from "../../API/Auth/AuthApi";
 
 const Register = () => {
@@ -29,6 +29,10 @@ const Register = () => {
       setError("Password and confirm password must be the same");
       return;
     }
+    if (userName == '') {
+      setError("Username is required");
+      return;
+    }
     setLoading(true);
     AuthApi.register(userName, email, password)
       .then((res) => {
@@ -44,7 +48,7 @@ const Register = () => {
         setError(err.response.data.message);
       })
       .finally(() => setLoading(false));
-      
+
   }
   return (
     <LoginLayout>
@@ -64,26 +68,26 @@ const Register = () => {
           <div className="inputBox">
             <label>Username </label>
             <br />
-            <input value={userName} onChange={(e) => {setUserName(e.target.value)}}
-            type="text" name="userName" required />
+            <input value={userName} onChange={(e) => { setUserName(e.target.value) }}
+              type="text" name="userName" required />
           </div>
           <div className="inputBox">
             <label>Email </label>
             <br />
-            <input value={email} onChange={(e) => {setEmail(e.target.value)}}
-            type="email" name="email" required />
+            <input value={email} onChange={(e) => { setEmail(e.target.value) }}
+              type="email" name="email" required />
           </div>
           <div className="inputBox">
             <label>Password</label>
             <br />
-            <input value={password} onChange={(e) => {setPassword(e.target.value)}}
-            type="password" name="password" required />
+            <input value={password} onChange={(e) => { setPassword(e.target.value) }}
+              type="password" name="password" required />
           </div>
           <div className="inputBox">
             <label>Confirm password</label>
             <br />
-            <input value={confirmPassword} onChange={(e) => {setConfirmPassword(e.target.value)}}
-             type="password" name="confirmPassword" required />
+            <input value={confirmPassword} onChange={(e) => { setConfirmPassword(e.target.value) }}
+              type="password" name="confirmPassword" required />
           </div>
           <div className="inputBoxError">
             <span>{error}</span>

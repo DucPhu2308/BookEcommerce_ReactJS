@@ -158,13 +158,14 @@
     flex-direction: column;
 }
 .container_bookDetail_nav_1_displayBook_body_tittle{
+    font-weight: bold;
     width: 100%;
     text-align: center;
     padding-top:20px;
 }
-.container_bookDetail_nav_1_displayBook_body span{
+.container_bookDetail_nav_1_displayBook_body {
     font-size: 25px;
-    font-weight: bold;
+    font-weight: 500;
     color: #333;
     font-family: sans-serif;
 }
