@@ -17,6 +17,7 @@ const Header = () => {
   const [showSearchBox, setShowSearchBox] = useState(false);
   const inputSearch = useRef(null);
   const [noSearchResults, setNoSearchResults] = useState(false);
+  const [valueSearch, setValueSearch] = useState("");
 
   useEffect(() => {
     const fetchBooks = async () => {
@@ -43,6 +44,7 @@ const Header = () => {
 
   const handleSearchInputChange = (e) => {
     
+    setValueSearch(e.target.value);
     const searchValue = e.target.value.toLowerCase();
     const searchItems = document.querySelectorAll(".header_search_keybox li");
     let found = false;
@@ -73,6 +75,11 @@ const Header = () => {
     setShowSearchBox(false);
   };
 
+  const handleSearchKeyWorld = () => {
+    let params = `?title=${inputSearch.current.value}`;
+    navigate(`/search${params}`);
+  };
+
 
 
 
@@ -97,11 +104,12 @@ const Header = () => {
                 onBlur={handleSearchBoxBlur}
                 type="text"
                 name="search"
-                placeholder="Search..."
+                placeholder="Search..." 
+                value={valueSearch}
                 ref={inputSearch}
               />
               <div className="header_search_icon">
-                <button>
+                <button onClick={handleSearchKeyWorld}>
                   <i className="fas fa-search"></i>
                 </button>
               </div>
