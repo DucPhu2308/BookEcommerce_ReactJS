@@ -45,13 +45,13 @@ const Menu = ({ onSelect }) => {
                     Truyện theo dõi
                 </button>
             </li>
-
             <li>
                 <button onClick={() => onSelect("Truyện đã đăng")}>
                     <i className="fas fa-book"></i>
                     Truyện đã đăng
                 </button>
             </li>
+
             <li>
                 <button className='activeButton' onClick={() => onSelect("Lịch sử nạp")}>
                     <i className="fas fa-history"></i>
@@ -131,7 +131,7 @@ const Form = ({ selectedItem }) => {
             navigate('/');
             break;
         default:
-            form = <HistoryTrans />;
+            form = <ChangeInfo />;
             break;
     }
     return (
