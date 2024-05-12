@@ -37,7 +37,6 @@ const SubcribeBookPage = () => {
                                 />
                             )}
                         </div>
-                        <SeenBookList />
                     </div>
                 </div>
             </DefaultLayout>

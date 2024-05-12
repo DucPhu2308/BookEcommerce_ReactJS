@@ -31,7 +31,6 @@ const NewBookPage = () => {
                                 list={listBooks}
                             />
                         </div>
-                        <SeenBookList />
                     </div>
                 </div>
             </DefaultLayout>

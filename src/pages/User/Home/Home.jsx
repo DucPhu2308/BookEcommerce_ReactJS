@@ -24,7 +24,7 @@ const UserHome = () => {
 
   // load books
   useEffect(() => {
-    BookApi.getTopNBooksSortByDate(9).then((res) => {
+    BookApi.getTopNBooksSortByDate(8).then((res) => {
       setListNewBooks(res.data.data);
       setPost(res.data.data);
     });
@@ -50,7 +50,7 @@ const UserHome = () => {
         setListSeenBooks(res.data.data);
       });
     }
-    
+
   }, []);
   return (
     <>
