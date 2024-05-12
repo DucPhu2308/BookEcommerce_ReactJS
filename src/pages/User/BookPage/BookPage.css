@@ -5,8 +5,8 @@
     border: 3px solid #d3cccc;
     border-radius: 5px;
     box-shadow: 0 0 10px #d3cccc;
-    margin: 20px auto;
-    
+    margin: auto;
+    min-width: 400px;
 }
 
 .book_page_list_title {
@@ -19,47 +19,81 @@
     color: #000;
     font-weight: bold;
     font-family: Arial;
-    margin-bottom: 20px;
     margin-top: 10px;
 }
 
-@media screen and (max-width: 1200px) {
-    .book_page_list {
-        margin-left: 15%;
-    }
-
-    .book_page_list table {
-        margin-left: 25%;
-    }
-
-    table {
-        width: 80%;
-    }
-
-    td {
-        display: block;
-        text-align: right;
-    }
-
-    td:before {
-        content: attr(data-label);
-        float: left;
-        font-weight: bold;
-    }
-}
-
 .book_page_pagination_container {
-    margin-left: 30px;
+    margin: auto;
 }
 
-.book_page_list table td {
-    padding: 30px;
+.book_page_pagination_container table{
+    margin: auto;
     text-align: center;
     font-size: 15px;
     color: #000;
     font-weight: bold;
     font-family: Arial;
+    width: 90%; 
+    border-collapse: collapse; 
 }
+
+.book_page_pagination_container table td{
+    padding: 20px;
+}
+
+@media screen and (max-width: 1600px) {
+    .book_page_list table td {
+        padding: 12px;
+        font-size: 12px;
+    }
+
+    .book_page_pagination_container {
+        padding: 0px
+    }
+
+    .book_page_list form button {
+        padding: 6px 12px;
+        font-size: 12px;
+        height: auto;
+    }
+
+    .book_page_list_notice {
+        font-size: 14px;
+    }
+
+    .book_page_list_search_box {
+        width: 100%;
+        margin: 10px 0;
+    }
+
+    .book_page_list_dropdown {
+        display: block;
+        margin: 10px auto;
+    }
+
+    .book_page_list_dropdown_content {
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+    }
+
+    .book_page_number_container {
+        justify-content: center;
+    }
+}
+
+@media screen and (max-width: 1100px) {
+    .book_page_list form button {
+            font-size: 10px;
+    }
+    .book_page_list_dropdown_content label {
+        padding: 4px;
+        font-size: 15px;
+        width: auto;
+    }
+}
+
+
 
 .book_page_pagination {
     display: flex;
@@ -176,4 +210,13 @@
     height: 45px;
 }
 
+/* Trong file CSS của bạn */
+.book_page_pagination_container {
+    display: flex;
+    flex-direction: column;
+}
 
+/* Xác định chiều rộng tối thiểu của các mục trong bảng */
+.book_page_pagination_container td {
+    min-width: 200px; /* Điều chỉnh kích thước tùy thuộc vào nhu cầu */
+}

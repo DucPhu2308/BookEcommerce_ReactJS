@@ -6,9 +6,6 @@ import './BookPage.css'
 import { useState, useEffect } from "react";
 import BookApi from "../../../API/User/BookApi";
 
-const colNumber = 3;
-const recordsPerPage = 15;
-
 const HistoryBookPage = () => {
 
     const [listBooks, setListBooks] = useState([]);
@@ -39,8 +36,6 @@ const HistoryBookPage = () => {
                             {listBooks.length > 0 && (
                                 <Pagination
                                     list={listBooks}
-                                    colNumber={colNumber}
-                                    recordsPerPage={recordsPerPage}
                                 />
                             )}
                         </div>
