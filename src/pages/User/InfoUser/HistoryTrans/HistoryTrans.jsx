@@ -37,7 +37,6 @@ const HistoryTrans = () => {
                             <th>Số tiền</th>
                             <th>Số Coin</th>
                             <th>Thời gian</th>
-                            <th>Xem chi tiết</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -47,11 +46,6 @@ const HistoryTrans = () => {
                                 <td className="history_trans_col1">{item.amount}</td>
                                 <td className="history_trans_col2">{item.coin}</td>
                                 <td className="history_trans_col2">{convertDateTime(item.dateTime)}</td>
-                                <td className="history_trans_col2">
-                                    <button>
-                                        <i className="fas fa-eye"></i>
-                                    </button>
-                                </td>
                             </tr>
                         ))}
                     </tbody>
