@@ -35,9 +35,19 @@
     margin-bottom: 5px;
 }
 
+.rank-item .item-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 70%;
+}
+
 .rank-item {
     border: rgba(0, 0, 0, 0.1) solid 1px;
     padding: 10px 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 .rank-1:hover, .rank-item:hover {
