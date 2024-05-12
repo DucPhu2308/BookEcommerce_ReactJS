@@ -43,12 +43,14 @@ const OwnBook = () => {
                         {listBook.map((book, index) => (
                             <tr key={index}>
                                 <td className="own_book_col1">
-                                    <div className="own_book_item">
-                                        <img className="own_book_img" src={book.coverImage} alt="book1" />
-                                        <span className="own_book_title">
-                                            <Link className="link" to={`/book/${book.id}`}>{book.title}</Link>
-                                        </span>
-                                    </div>
+                                    <Link className="link" to={`/book/${book.id}`}>
+                                        <div className="own_book_item">
+                                            <img className="own_book_img" src={book.coverImage} alt="book1" />
+                                            <span className="own_book_title">
+                                                {book.title}
+                                            </span>
+                                        </div>
+                                    </Link>
                                 </td>
                                 <td className="own_book_col2">
                                     {book.buys}
@@ -61,7 +63,7 @@ const OwnBook = () => {
                     </tbody>
                 </table>
             </div >
-        </div>
+        </div >
     )
 }
 

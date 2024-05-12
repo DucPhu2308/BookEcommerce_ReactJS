@@ -37,12 +37,14 @@ const SubcribeBook = () => {
                         {listBook.map((book, index) => (
                             <tr key={index}>
                                 <td className="subcribe_book_col1">
-                                    <div className="subcribe_book_item">
-                                        <img className="subcribe_book_img" src={book.coverImage} alt="book1" />
-                                        <span className="subcribe_book_title">
-                                            <Link to="/">{book.title}</Link>
-                                        </span>
-                                    </div>
+                                    <Link className="link" to={`/book/${book.id}`}>
+                                        <div className="subcribe_book_item">
+                                            <img className="subcribe_book_img" src={book.coverImage} alt="book1" />
+                                            <span className="subcribe_book_title">
+                                                {book.title}
+                                            </span>
+                                        </div>
+                                    </Link>
                                 </td>
                                 <td className="subcribe_book_col1">
                                     <Link to="/">Chap 1</Link>
